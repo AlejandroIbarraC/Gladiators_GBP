@@ -1,0 +1,13 @@
+<component name="ArtifactManager">
+  <artifact type="exploded-war" name="Gladiators GBP:war exploded">
+    <output-path>$PROJECT_DIR$/out/artifacts/Gladiators_GBP_war_exploded</output-path>
+    <root id="root">
+      <element id="javaee-facet-resources" facet="Gladiators GBP/web/Web" />
+      <element id="directory" name="WEB-INF">
+        <element id="directory" name="classes">
+          <element id="module-output" name="Gladiators GBP" />
+        </element>
+      </element>
+    </root>
+  </artifact>
+</component>
