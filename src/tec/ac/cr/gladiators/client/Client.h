@@ -6,11 +6,20 @@
 #define GLADIATORS_GBP_CLIENT_H
 
 
+#include <QtCore/QJsonArray>
+
 class Client{
 
 public:
 
-    static void connectTo();
+    static void retrieveGladiators();
+    static void retrieveTowers();
+
+private:
+
+    static QJsonArray getGladiators();
+    static QJsonArray getTowers();
+
 };
 
 
