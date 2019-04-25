@@ -1,13 +1,17 @@
 #include <iostream>
 #include <QtCore/QJsonArray>
 #include <QtCore/QJsonDocument>
+#include <QApplication>
+#include <QTime>
+
 #include "client/Client.h"
 #include "logic/GladiatorsList.h"
 #include "logic/TowersList.h"
+#include "ui/menu.h"
 
 using namespace std;
 
-int main() {
+int main(int argc, char *argv[]) {
 
 /*    GladiatorsList* gladiatorsList = GladiatorsList::getInstance();
     gladiatorsList->addGladiator(1, 1, 1, 1, 1, 1, 1, 1, 1);
@@ -23,17 +27,23 @@ int main() {
 
     gladiatorsList->deserialize(jsonArray);*/
 
-    TowersList* towersList = TowersList::getInstance();
-    towersList->createTowers(3);
-    QJsonArray jsonArray = towersList->serialize();
+//    TowersList* towersList = TowersList::getInstance();
+//    towersList->createTowers(3);
+//    QJsonArray jsonArray = towersList->serialize();
+//
+//    QJsonDocument jsonDocument(jsonArray);
+//    QByteArray byteArray = jsonDocument.toJson();
+//    QString qString = QString(byteArray);
+//    string string = qString.toStdString();
+//    cout << string << endl;
+//
+//    towersList->deserialize(jsonArray);
 
-    QJsonDocument jsonDocument(jsonArray);
-    QByteArray byteArray = jsonDocument.toJson();
-    QString qString = QString(byteArray);
-    string string = qString.toStdString();
-    cout << string << endl;
+    QApplication a(argc, argv);
+    Menu w;
+    w.show();
+    QTime time = QTime::currentTime();
+    qsrand((uint)time.msec());
 
-    towersList->deserialize(jsonArray);
-
-    return 0;
+    return a.exec();
 }

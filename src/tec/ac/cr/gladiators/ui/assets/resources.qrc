@@ -1,0 +1,8 @@
+<RCC>
+    <qresource prefix="/main">
+        <file>stage2.jpg</file>
+        <file>stage1.jpg</file>
+        <file>mainLogo.png</file>
+        <file>mainTheme.mp3</file>
+    </qresource>
+</RCC>
