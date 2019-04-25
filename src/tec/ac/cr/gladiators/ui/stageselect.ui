@@ -17,8 +17,8 @@
    <widget class="QPushButton" name="stage1Button">
     <property name="geometry">
      <rect>
-      <x>210</x>
-      <y>370</y>
+      <x>340</x>
+      <y>380</y>
       <width>82</width>
       <height>27</height>
      </rect>
@@ -30,8 +30,8 @@
    <widget class="QPushButton" name="stage2Button">
     <property name="geometry">
      <rect>
-      <x>430</x>
-      <y>370</y>
+      <x>590</x>
+      <y>380</y>
       <width>82</width>
       <height>27</height>
      </rect>
@@ -40,8 +40,32 @@
      <string>stage 2</string>
     </property>
    </widget>
+   <widget class="QLabel" name="background">
+    <property name="geometry">
+     <rect>
+      <x>-80</x>
+      <y>-60</y>
+      <width>1141</width>
+      <height>800</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="pixmap">
+     <pixmap resource="assets/resources.qrc">:/main/papyrus.png</pixmap>
+    </property>
+    <property name="scaledContents">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <zorder>background</zorder>
+   <zorder>stage1Button</zorder>
+   <zorder>stage2Button</zorder>
   </widget>
  </widget>
- <resources/>
+ <resources>
+  <include location="assets/resources.qrc"/>
+ </resources>
  <connections/>
 </ui>

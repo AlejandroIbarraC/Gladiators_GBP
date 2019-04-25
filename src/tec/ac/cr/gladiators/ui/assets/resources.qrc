@@ -4,5 +4,11 @@
         <file>stage1.jpg</file>
         <file>mainLogo.png</file>
         <file>mainTheme.mp3</file>
+        <file>spear2.png</file>
+        <file>shield.png</file>
+        <file>mat.png</file>
+        <file>papyrus.png</file>
+        <file>playButton_pressed.png</file>
+        <file>playButton.png</file>
     </qresource>
 </RCC>
