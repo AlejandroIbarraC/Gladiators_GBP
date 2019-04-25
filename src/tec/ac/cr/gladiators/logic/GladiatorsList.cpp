@@ -96,7 +96,9 @@ void GladiatorsList::deleteGladiatorByID(int id) {
 }
 
 void GladiatorsList::deleteAll() {
-    if (this->head == nullptr){
+    if (!gladiatorsList){
+        gladiatorsList = new GladiatorsList();
+    }else if (this->head == nullptr){
         cout << "Error, no hay gladiadores por borrar" << endl;
     }else{
         Gladiators* toDel = this->head;

@@ -8,7 +8,7 @@ public class Populations {
 
     @POST
     public void initialize(){
-        System.out.println("Reiniciar");
+        System.out.println("5");
     }
 
 }
