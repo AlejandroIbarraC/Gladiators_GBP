@@ -25,19 +25,21 @@ int main(int argc, char *argv[]) {
     string string = qString.toStdString();
     cout << string << endl;
 
-    gladiatorsList->deserialize(jsonArray);*/
+    gladiatorsList->deserialize(jsonArray);
 
-//    TowersList* towersList = TowersList::getInstance();
-//    towersList->createTowers(3);
-//    QJsonArray jsonArray = towersList->serialize();
-//
-//    QJsonDocument jsonDocument(jsonArray);
-//    QByteArray byteArray = jsonDocument.toJson();
-//    QString qString = QString(byteArray);
-//    string string = qString.toStdString();
-//    cout << string << endl;
-//
-//    towersList->deserialize(jsonArray);
+    TowersList* towersList = TowersList::getInstance();
+    towersList->createTowers(3);
+    QJsonArray jsonArray = towersList->serialize();
+
+    QJsonDocument jsonDocument(jsonArray);
+    QByteArray byteArray = jsonDocument.toJson();
+    QString qString = QString(byteArray);
+    string string = qString.toStdString();
+    cout << string << endl;
+
+    towersList->deserialize(jsonArray);*/
+
+    Client::retrieveGladiators();
 
     QApplication a(argc, argv);
     Menu w;

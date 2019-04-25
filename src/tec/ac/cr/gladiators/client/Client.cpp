@@ -21,7 +21,7 @@ void Client::retrieveGladiators() {
 
 QJsonArray Client::getGladiators() {
 
-    auto response = cpr::Get(cpr::Url{"http://192.168.100.5:9080/Gladiators_GBP_war_exploded/genetics/populations/gladiators"});
+    auto response = cpr::Get(cpr::Url{"http://192.168.100.6:9080/Gladiators_GBP_war_exploded/genetics/populations/gladiators"});
     string jsonString = response.text;
     QJsonDocument jsonDocument = QJsonDocument::fromJson(QByteArray(jsonString.c_str()));
     return jsonDocument.array();
@@ -38,7 +38,7 @@ void Client::retrieveTowers() {
 
 QJsonArray Client::getTowers() {
 
-    auto response = cpr::Get(cpr::Url{"http://192.168.100.5:9080/Gladiators_GBP_war_exploded/genetics/populations/towers"});
+    auto response = cpr::Get(cpr::Url{"http://192.168.100.6:9080/Gladiators_GBP_war_exploded/genetics/populations/towers"});
     string jsonString = response.text;
     QJsonDocument jsonDocument = QJsonDocument::fromJson(QByteArray(jsonString.c_str()));
     return jsonDocument.array();
