@@ -20,6 +20,7 @@ public class Towers {
                     .range(rn.nextInt(5)).build();
             tower.fillGenes();
             return tower;
+
         }
 
     private void fillGenes() {
