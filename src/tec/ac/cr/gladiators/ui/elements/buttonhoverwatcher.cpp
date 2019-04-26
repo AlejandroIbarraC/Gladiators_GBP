@@ -4,8 +4,7 @@ ButtonHoverWatcher::ButtonHoverWatcher(QObject * parent) :
     QObject(parent)
 {}
 
-bool ButtonHoverWatcher::eventFilter(QObject * watched, QEvent * event)
-{
+bool ButtonHoverWatcher::eventFilter(QObject * watched, QEvent * event) {
     QPushButton * button = qobject_cast<QPushButton*>(watched);
     if (!button) {
         return false;
@@ -13,13 +12,13 @@ bool ButtonHoverWatcher::eventFilter(QObject * watched, QEvent * event)
 
     if (event->type() == QEvent::Enter) {
         // The push button is hovered by mouse
-        button->setIcon(QIcon(":/images/start_hov.png"));
+        button->setIcon(QIcon(":/main/playButton_pressed.png"));
         return true;
     }
 
     if (event->type() == QEvent::Leave){
         // The push button is not hovered by mouse
-        button->setIcon(QIcon(":/images/start.png"));
+        button->setIcon(QIcon(":/main/playButton.png"));
         return true;
     }
 

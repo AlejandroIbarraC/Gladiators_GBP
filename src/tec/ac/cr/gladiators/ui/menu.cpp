@@ -6,6 +6,8 @@ Menu::Menu(QWidget *parent) :
     ui(new Ui::Menu)
 {
     ui->setupUi(this);
+    ButtonHoverWatcher * watcher = new ButtonHoverWatcher(this);
+    ui->playButton->installEventFilter(watcher);
 }
 
 void Menu::toStageSelect() {

@@ -39,7 +39,7 @@ int main(int argc, char *argv[]) {
 
     towersList->deserialize(jsonArray);*/
 
-    Client::retrieveGladiators();
+    //Client::retrieveGladiators();
 
     QApplication a(argc, argv);
     Menu w;

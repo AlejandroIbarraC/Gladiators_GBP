@@ -4,6 +4,7 @@
 #include <QMainWindow>
 
 #include "stageselect.h"
+#include "elements/buttonhoverwatcher.h"
 
 namespace Ui {
 class Menu;

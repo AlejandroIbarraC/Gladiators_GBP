@@ -1,7 +1,5 @@
 <RCC>
     <qresource prefix="/main">
-        <file>stage2.jpg</file>
-        <file>stage1.jpg</file>
         <file>mainLogo.png</file>
         <file>mainTheme.mp3</file>
         <file>spear2.png</file>
@@ -10,5 +8,11 @@
         <file>papyrus.png</file>
         <file>playButton_pressed.png</file>
         <file>playButton.png</file>
+        <file>fieldButton_pressed.png</file>
+        <file>fieldButton.png</file>
+        <file>cityButton_pressed.png</file>
+        <file>cityButton.png</file>
+        <file>fieldStage.png</file>
+        <file>cityStage.jpg</file>
     </qresource>
 </RCC>

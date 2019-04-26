@@ -9,9 +9,9 @@ Field::Field(QWidget *parent, int stage) :
 
     // Initialize background stage
     if (stage == 1) {
-        ui->background->setPixmap(QPixmap("://main/stage1.jpg"));
+        ui->background->setPixmap(QPixmap("://main/fieldStage.png"));
     } else {
-        ui->background->setPixmap(QPixmap("://main/stage2.jpg"));
+        ui->background->setPixmap(QPixmap("://main/cityStage.jpg"));
     }
 
     // Plays musica and sets sound effects.
