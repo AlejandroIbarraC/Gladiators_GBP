@@ -4,6 +4,10 @@
 #include <QMainWindow>
 #include <QMediaPlaylist>
 #include <QMediaPlayer>
+#include <QGraphicsView>
+#include <QGraphicsRectItem>
+
+#include "elements/draggablerectitem.h"
 
 namespace Ui {
 class Field;
@@ -19,6 +23,12 @@ public:
 
 private:
     Ui::Field *ui;
+    int columns;
+    int rows;
+    QGraphicsView* view;
+    QGraphicsScene* scene;
+    QVector<QGraphicsRectItem*> allSquares;
+    void initializeField();
 };
 
 #endif // FIELD_H

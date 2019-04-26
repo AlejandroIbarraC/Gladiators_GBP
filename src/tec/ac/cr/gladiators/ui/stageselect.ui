@@ -14,30 +14,50 @@
    <string>Gladiators GBP</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <widget class="QPushButton" name="stage1Button">
+   <widget class="QPushButton" name="fieldButton">
     <property name="geometry">
      <rect>
-      <x>340</x>
-      <y>380</y>
-      <width>82</width>
-      <height>27</height>
+      <x>200</x>
+      <y>200</y>
+      <width>201</width>
+      <height>81</height>
      </rect>
     </property>
     <property name="text">
-     <string>stage 1</string>
+     <string/>
+    </property>
+    <property name="icon">
+     <iconset resource="assets/resources.qrc">
+      <normaloff>:/main/fieldButton.png</normaloff>:/main/fieldButton.png</iconset>
+    </property>
+    <property name="iconSize">
+     <size>
+      <width>200</width>
+      <height>200</height>
+     </size>
     </property>
    </widget>
-   <widget class="QPushButton" name="stage2Button">
+   <widget class="QPushButton" name="cityButton">
     <property name="geometry">
      <rect>
-      <x>590</x>
-      <y>380</y>
-      <width>82</width>
-      <height>27</height>
+      <x>200</x>
+      <y>350</y>
+      <width>201</width>
+      <height>81</height>
      </rect>
     </property>
     <property name="text">
-     <string>stage 2</string>
+     <string/>
+    </property>
+    <property name="icon">
+     <iconset resource="assets/resources.qrc">
+      <normaloff>:/main/cityButton.png</normaloff>:/main/cityButton.png</iconset>
+    </property>
+    <property name="iconSize">
+     <size>
+      <width>200</width>
+      <height>200</height>
+     </size>
     </property>
    </widget>
    <widget class="QLabel" name="background">
@@ -60,8 +80,8 @@
     </property>
    </widget>
    <zorder>background</zorder>
-   <zorder>stage1Button</zorder>
-   <zorder>stage2Button</zorder>
+   <zorder>fieldButton</zorder>
+   <zorder>cityButton</zorder>
   </widget>
  </widget>
  <resources>

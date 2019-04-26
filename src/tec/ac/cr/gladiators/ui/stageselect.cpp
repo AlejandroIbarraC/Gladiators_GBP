@@ -8,12 +8,12 @@ StageSelect::StageSelect(QWidget *parent) :
     ui->setupUi(this);
 }
 
-void StageSelect::on_stage1Button_clicked() {
+void StageSelect::on_fieldButton_clicked() {
     toField(1);
     hide();
 }
 
-void StageSelect::on_stage2Button_clicked() {
+void StageSelect::on_cityButton_clicked() {
     toField(2);
     hide();
 }

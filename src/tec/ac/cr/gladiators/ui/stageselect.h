@@ -23,8 +23,8 @@ private:
     void toField(int stage);
 
 private slots:
-    void on_stage1Button_clicked();
-    void on_stage2Button_clicked();
+    void on_fieldButton_clicked();
+    void on_cityButton_clicked();
 };
 
 #endif // STAGESELECT_H

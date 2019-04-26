@@ -14,5 +14,6 @@
         <file>cityButton.png</file>
         <file>fieldStage.png</file>
         <file>cityStage.jpg</file>
+        <file>plate.png</file>
     </qresource>
 </RCC>
