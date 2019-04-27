@@ -2,8 +2,10 @@
 #define STAGESELECT_H
 
 #include <QMainWindow>
+#include <QFontDatabase>
 
 #include "field.h"
+#include "elements/buttonhoverwatcher.h"
 
 namespace Ui {
 class StageSelect;

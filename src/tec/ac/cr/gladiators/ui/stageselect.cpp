@@ -6,6 +6,11 @@ StageSelect::StageSelect(QWidget *parent) :
     ui(new Ui::StageSelect)
 {
     ui->setupUi(this);
+    ButtonHoverWatcher* fieldWatcher = new ButtonHoverWatcher(this,":/main/fieldButton.png",":/main/fieldButton_pressed.png");
+    ButtonHoverWatcher* cityWatcher = new ButtonHoverWatcher(this,":/main/cityButton.png",":/main/cityButton_pressed.png");
+    ui->fieldButton->installEventFilter(fieldWatcher);
+    ui->cityButton->installEventFilter(cityWatcher);
+    ui->selectLabel->setFont(QFont("Papyrus", 35));
 }
 
 void StageSelect::on_fieldButton_clicked() {

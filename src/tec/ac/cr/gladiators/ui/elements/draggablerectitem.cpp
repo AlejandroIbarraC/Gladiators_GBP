@@ -1,10 +1,20 @@
 #include "draggablerectitem.h"
 #include <iostream>
 
-DraggableRectItem::DraggableRectItem(QGraphicsRectItem* parent):
+DraggableRectItem::DraggableRectItem(QGraphicsRectItem* parent, QString tower):
         QGraphicsRectItem(parent), m_dragged(false) {
     setFlags(QGraphicsRectItem::ItemIsSelectable|
              QGraphicsRectItem::ItemIsMovable);
+
+    // Initializes default attributes.
+    towerType = tower;
+    QString towerdir = ":/towers/towers/" + towerType + "1.png";
+    QString icondir = ":/towers/towers/" + towerType + "icon.png";
+    QPixmap tPix = QPixmap(towerdir);
+    QPixmap iPix = QPixmap(icondir);
+    towerPix = tPix.scaled(40,40);
+    iconPix = iPix.scaled(70, 70);
+    this->setBrush(iconPix);
 }
 
 void DraggableRectItem::setAnchorPoint(const QPointF &anchorPoint) {
@@ -14,10 +24,8 @@ void DraggableRectItem::setAnchorPoint(const QPointF &anchorPoint) {
 void DraggableRectItem::mouseMoveEvent(QGraphicsSceneMouseEvent *event) {
     m_dragged = true;
     QGraphicsRectItem::mouseMoveEvent(event);
-}
-
-int DraggableRectItem::randInt(int low, int high) {
-    return qrand() % ((high + 1) - low) + low;
+    this->setRect(smallRect);
+    this->setBrush(QBrush(towerPix));
 }
 
 void DraggableRectItem::mouseReleaseEvent(QGraphicsSceneMouseEvent *event){
@@ -44,5 +52,12 @@ void DraggableRectItem::mouseReleaseEvent(QGraphicsSceneMouseEvent *event){
         }
         m_dragged = false;
     }
+    this->setPos(anchorPoint);
+    this->setRect(largeRect);
+    this->setBrush(QBrush(iconPix));
     QGraphicsRectItem::mouseReleaseEvent(event);
+}
+
+int DraggableRectItem::randInt(int low, int high) {
+    return qrand() % ((high + 1) - low) + low;
 }

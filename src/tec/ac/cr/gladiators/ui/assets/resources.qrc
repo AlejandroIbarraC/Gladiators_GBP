@@ -16,4 +16,19 @@
         <file>cityStage.jpg</file>
         <file>plate.png</file>
     </qresource>
+    <qresource prefix="/font">
+        <file>Papyrus.ttc</file>
+    </qresource>
+    <qresource prefix="/towers">
+        <file>towers/electric1.png</file>
+        <file>towers/electricarrow.png</file>
+        <file>towers/electricicon.png</file>
+        <file>towers/fire1.png</file>
+        <file>towers/firearrow.png</file>
+        <file>towers/fireicon.png</file>
+        <file>towers/gatling1.png</file>
+        <file>towers/gatling2.png</file>
+        <file>towers/gatlingarrow.png</file>
+        <file>towers/gatlingicon.png</file>
+    </qresource>
 </RCC>

@@ -5,14 +5,15 @@
 #include <QGraphicsSceneMouseEvent>
 #include <QMediaPlayer>
 #include <QDateTime>
+#include <QBrush>
 
 
 class DraggableRectItem : public QGraphicsRectItem {
 
 public:
     QPointF anchorPoint;
-    QString letter;
-    DraggableRectItem(QGraphicsRectItem* parent = 0);
+    QString towerType;
+    DraggableRectItem(QGraphicsRectItem* parent = 0, QString tower = "gatling");
     void setAnchorPoint(const QPointF& anchorPoint);
     int randInt(int low, int high);
 
@@ -22,6 +23,10 @@ protected:
 
 private:
     bool m_dragged;
+    QRectF smallRect = QRectF(0,0,40,40);
+    QRectF largeRect = QRectF(0,0,70,70);
+    QPixmap towerPix;
+    QPixmap iconPix;
 };
 
 #endif // DRAGGABLERECTITEM_H

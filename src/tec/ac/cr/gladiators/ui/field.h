@@ -25,10 +25,14 @@ private:
     Ui::Field *ui;
     int columns;
     int rows;
+    int startingx;
+    int startingy;
+    int currentStage;
     QGraphicsView* view;
     QGraphicsScene* scene;
     QVector<QGraphicsRectItem*> allSquares;
     void initializeField();
+
 };
 
 #endif // FIELD_H

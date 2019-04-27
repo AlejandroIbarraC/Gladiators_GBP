@@ -18,7 +18,7 @@
     <property name="geometry">
      <rect>
       <x>200</x>
-      <y>200</y>
+      <y>230</y>
       <width>201</width>
       <height>81</height>
      </rect>
@@ -41,7 +41,7 @@
     <property name="geometry">
      <rect>
       <x>200</x>
-      <y>350</y>
+      <y>410</y>
       <width>201</width>
       <height>81</height>
      </rect>
@@ -79,9 +79,71 @@
      <bool>true</bool>
     </property>
    </widget>
+   <widget class="QLabel" name="selectLabel">
+    <property name="geometry">
+     <rect>
+      <x>290</x>
+      <y>80</y>
+      <width>391</width>
+      <height>71</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>25</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>STAGE SELECT</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="QLabel" name="fieldPic">
+    <property name="geometry">
+     <rect>
+      <x>520</x>
+      <y>180</y>
+      <width>261</width>
+      <height>171</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="pixmap">
+     <pixmap resource="assets/resources.qrc">:/main/fieldStage.png</pixmap>
+    </property>
+    <property name="scaledContents">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="QLabel" name="fieldPic_2">
+    <property name="geometry">
+     <rect>
+      <x>520</x>
+      <y>380</y>
+      <width>261</width>
+      <height>171</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="pixmap">
+     <pixmap resource="assets/resources.qrc">:/main/cityStage.jpg</pixmap>
+    </property>
+    <property name="scaledContents">
+     <bool>true</bool>
+    </property>
+   </widget>
    <zorder>background</zorder>
    <zorder>fieldButton</zorder>
    <zorder>cityButton</zorder>
+   <zorder>selectLabel</zorder>
+   <zorder>fieldPic</zorder>
+   <zorder>fieldPic_2</zorder>
   </widget>
  </widget>
  <resources>
