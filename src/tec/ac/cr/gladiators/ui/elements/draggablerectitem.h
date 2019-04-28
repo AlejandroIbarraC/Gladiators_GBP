@@ -23,10 +23,13 @@ protected:
 
 private:
     bool m_dragged;
+    bool safeReturn;
     QRectF smallRect = QRectF(0,0,40,40);
     QRectF largeRect = QRectF(0,0,70,70);
     QPixmap towerPix;
     QPixmap iconPix;
+    QGraphicsItem* closestItem;
+    QGraphicsRectItem* closestSquare;
 };
 
 #endif // DRAGGABLERECTITEM_H

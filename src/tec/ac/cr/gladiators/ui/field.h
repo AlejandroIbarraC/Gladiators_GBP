@@ -20,18 +20,23 @@ class Field : public QMainWindow
 public:
     explicit Field(QWidget *parent = nullptr, int stage = 1);
     ~Field();
+    QVector<QGraphicsRectItem*> allSquares;
+    int columns;
+    int rows;
+    static Field* getInstance();
+    void opaqueGrid();
+    void deOpaqueGrid();
+    static void setInstance(Field* nfield);
 
 private:
     Ui::Field *ui;
-    int columns;
-    int rows;
     int startingx;
     int startingy;
     int currentStage;
     QGraphicsView* view;
     QGraphicsScene* scene;
-    QVector<QGraphicsRectItem*> allSquares;
     void initializeField();
+    static Field* field;
 
 };
 

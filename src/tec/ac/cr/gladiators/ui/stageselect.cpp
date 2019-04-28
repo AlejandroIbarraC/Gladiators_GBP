@@ -26,6 +26,7 @@ void StageSelect::on_cityButton_clicked() {
 void StageSelect::toField(int stage) {
     field = new Field(this, stage);
     field->show();
+    field->setInstance(field);
 }
 
 StageSelect::~StageSelect()

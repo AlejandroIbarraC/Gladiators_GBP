@@ -1,6 +1,8 @@
 #include "field.h"
 #include "ui_field.h"
 
+Field* Field::field = nullptr;
+
 Field::Field(QWidget *parent, int stage) :
     QMainWindow(parent),
     ui(new Ui::Field)
@@ -24,8 +26,8 @@ Field::Field(QWidget *parent, int stage) :
         ui->background->setPixmap(QPixmap("://main/fieldStage.png"));
         columns = 19;
         rows = 11;
-        startingx = 3;
-        startingy = 3;
+        startingx = 125;
+        startingy = 75;
     } else {
         ui->background->setPixmap(QPixmap("://main/cityStage.jpg"));
         columns = 17;
@@ -47,26 +49,30 @@ Field::Field(QWidget *parent, int stage) :
     initializeField();
 }
 
-void Field::initializeField() {
+void Field::deOpaqueGrid() {
+    int dimensions = rows * columns;
+    for (int i = 0; i < dimensions; i++) {
+        QGraphicsRectItem* currentSquare = allSquares[i];
+        if (!currentSquare->acceptDrops()) {
+            currentSquare->setBrush(QBrush(QColor(0, 0, 0, 0)));
+        }
+    }
+}
 
+Field* Field::getInstance() {
+    return field;
+}
+
+void Field::initializeField() {
     // Grid icons.
     QRectF rect(0,0,40,40);
     double xpos = startingx;
     double ypos = startingy;
     bool isOpaque = false;
-    QBrush clearBrush = QBrush(QColor(8, 8, 8, 30));
-    QBrush opaqueBrush = QBrush(QColor(80, 80, 80, 120));
 
     for(int i = 0; i < columns; i++) {
         for (int i = 0; i < rows; i++) {
             QGraphicsRectItem *item = new QGraphicsRectItem(rect);
-            if (isOpaque) {
-                item->setBrush(opaqueBrush);
-                isOpaque = false;
-            } else {
-                item->setBrush(clearBrush);
-                isOpaque = true;
-            }
             item->setPen(Qt::NoPen);
             allSquares.append(item);
             scene->addItem(item);
@@ -86,21 +92,47 @@ void Field::initializeField() {
 
     // Draggable tower icons.
     QRectF dRect(0,0,70,70);
-    xpos = 100;
-    ypos = 500;
+    xpos = 200;
+    ypos = 600;
     QStringList* towerTypes = new QStringList;
     towerTypes->append("gatling");
     towerTypes->append("fire");
     towerTypes->append("electric");
 
     for(int i = 0; i < 3; i++) {
-        DraggableRectItem* dItem = new DraggableRectItem(0, towerTypes->at(i));
+        DraggableRectItem* dItem = new DraggableRectItem(nullptr, towerTypes->at(i));
         scene->addItem(dItem);
         dItem->setRect(dRect);
         dItem->setPos(xpos,ypos);
         xpos += 120;
+        dItem->setPen(Qt::NoPen);
         dItem->setAnchorPoint(dItem->pos());
     }
+}
+
+void Field::opaqueGrid() {
+    bool opaque = true;
+    int dimensions = rows * columns;
+    QBrush clearBrush = QBrush(QColor(8, 8, 8, 30));
+    QBrush opaqueBrush = QBrush(QColor(80, 80, 80, 120));
+    QBrush currentBrush;
+    for (int i = 0; i < dimensions; i++) {
+        QGraphicsRectItem* currentSquare = allSquares[i];
+        if (opaque) {
+            currentBrush = opaqueBrush;
+            opaque = false;
+        } else {
+            currentBrush = clearBrush;
+            opaque = true;
+        }
+        if (!currentSquare->acceptDrops()) {
+            currentSquare->setBrush(currentBrush);
+        }
+    }
+}
+
+void Field::setInstance(Field* nfield) {
+    field = nfield;
 }
 
 Field::~Field()
