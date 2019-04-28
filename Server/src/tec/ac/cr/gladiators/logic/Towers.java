@@ -13,15 +13,14 @@ public class Towers {
     }
 
     public static Towers getTower(int identification) {
-            Random rn = new Random();
-            Towers tower = new Builder().setIdentification(identification)
-                    .typeOfAmmo(rn.nextInt(3))
-                    .damageOutput(rn.nextInt(100))
-                    .range(rn.nextInt(5)).build();
-            tower.fillGenes();
-            return tower;
-
-        }
+        Random rn = new Random();
+        Towers tower = new Builder().setIdentification(identification)
+                .typeOfAmmo(rn.nextInt(3))
+                .damageOutput(rn.nextInt(100))
+                .range(rn.nextInt(5)).build();
+        tower.fillGenes();
+        return tower;
+    }
 
     private void fillGenes() {
         int[] genes = new int[3];
@@ -30,7 +29,6 @@ public class Towers {
         genes[2] = this.getRange();
         this.setGenes(genes);
     }
-
 
     private int identification;
     private int typeOfAmmo;
