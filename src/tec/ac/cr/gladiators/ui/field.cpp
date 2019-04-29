@@ -20,6 +20,11 @@ Field::Field(QWidget *parent, int stage) :
     view = ui->graphicsView;
     view->setScene(scene);
     view->setFixedSize(width, height);
+    soldier_scene = new QGraphicsScene(this);
+    soldier_scene->setSceneRect(0,0,width, height);
+    soldier_view = ui->soldierView;
+    soldier_view->setScene(soldier_scene);
+    soldier_view->setFixedSize(width, height);
 
     // Initialize background stage
     if (stage == 1) {
@@ -49,6 +54,24 @@ Field::Field(QWidget *parent, int stage) :
     initializeField();
 }
 
+void Field::animate() {
+    QSize size = QSize(20, 40);
+    QPoint start;
+    QPoint end;
+
+    for (int i = 0; i < 5; i++) {
+        Soldier* player = new Soldier(nullptr);
+        soldier_scene->addItem(player);
+        QPropertyAnimation* animation = new QPropertyAnimation(player, "geometry");
+        animation->setDuration(4000);
+        start = QPoint(100, 100);
+        end = QPoint(600, 100);
+        animation->setStartValue(QRect(start, size));
+        animation->setEndValue(QRect(end, size));
+        animation->start();
+    }
+}
+
 void Field::deOpaqueGrid() {
     int dimensions = rows * columns;
     for (int i = 0; i < dimensions; i++) {
@@ -72,7 +95,7 @@ void Field::initializeField() {
 
     for(int i = 0; i < columns; i++) {
         for (int i = 0; i < rows; i++) {
-            QGraphicsRectItem *item = new QGraphicsRectItem(rect);
+            QGraphicsRectItem* item = new QGraphicsRectItem(rect);
             item->setPen(Qt::NoPen);
             allSquares.append(item);
             scene->addItem(item);
@@ -108,6 +131,13 @@ void Field::initializeField() {
         dItem->setPen(Qt::NoPen);
         dItem->setAnchorPoint(dItem->pos());
     }
+}
+
+void Field::on_playButton_clicked() {
+    update();
+    ++i;
+    if (i<10) QTimer::singleShot(1000, this, SLOT(animate()));
+
 }
 
 void Field::opaqueGrid() {
