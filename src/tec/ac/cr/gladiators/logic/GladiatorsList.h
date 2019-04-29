@@ -25,7 +25,7 @@ public:
     void addCreatedGladiator(Gladiators* gladiators);
     void deleteGladiatorByID(int id);
     void deleteAll();
-    QJsonArray serialize();
+    static QJsonArray serialize();
     static void deserialize(QJsonArray jsonArray);
 
 private:
@@ -35,7 +35,7 @@ private:
     GladiatorsList& operator = (GladiatorsList const&) = default;
 
     static GladiatorsList* gladiatorsList;
-    Gladiators* head = nullptr;
+    static Gladiators* head;
     int lenght = 0;
 
 };

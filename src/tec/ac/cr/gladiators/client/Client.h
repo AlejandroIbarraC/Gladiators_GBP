@@ -14,11 +14,17 @@ public:
 
     static void retrieveGladiators();
     static void retrieveTowers();
+    static void sendGladiatorsData();
+    static void sendTowersData();
+    static void reset();
 
 private:
 
     static QJsonArray getGladiators();
     static QJsonArray getTowers();
+    static void postGladiators();
+    static void postTowers();
+    static void postReset();
 
 };
 
