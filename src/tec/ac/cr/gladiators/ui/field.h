@@ -7,7 +7,11 @@
 #include <QGraphicsView>
 #include <QGraphicsRectItem>
 #include <QPropertyAnimation>
+#include <QParallelAnimationGroup>
 #include <QTimer>
+#include <iostream>
+#include <ctime>
+#include <QThread>
 
 #include "elements/draggablerectitem.h"
 #include "elements/soldier.h"
@@ -27,6 +31,8 @@ public:
     QVector<QGraphicsRectItem*> allSquares;
     int columns;
     int rows;
+    void delay(int millisecondsToWait);
+    void generateArmy(int amount, QList<int>* path);
     static Field* getInstance();
     void opaqueGrid();
     void deOpaqueGrid();
@@ -41,15 +47,13 @@ private:
     QGraphicsView* soldier_view;
     QGraphicsScene* scene;
     QGraphicsScene* soldier_scene;
+    QParallelAnimationGroup group;
 
+    void animateSoldier(Soldier* soldier, QList<int>* path, int speed);
     void initializeField();
     static Field* field;
 
-protected:
-    unsigned int i;
-
 private slots:
-    void animate();
     void on_playButton_clicked();
 
 };
