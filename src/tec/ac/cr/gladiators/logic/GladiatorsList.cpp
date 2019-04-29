@@ -9,6 +9,7 @@
 using namespace std;
 
 GladiatorsList* GladiatorsList::gladiatorsList = nullptr;
+Gladiators* GladiatorsList::head = nullptr;
 
 GladiatorsList* GladiatorsList::getInstance() {
     if (!gladiatorsList){
@@ -115,11 +116,11 @@ void GladiatorsList::deleteAll() {
 }
 
 QJsonArray GladiatorsList::serialize() {
-    if (this->head == nullptr){
+    if (head == nullptr){
         cout << "Error, no hay lista para serializar" << endl;
     }else{
         QJsonArray jsonArray;
-        Gladiators* tmp = this->head;
+        Gladiators* tmp = head;
         while (tmp != nullptr){
             jsonArray.append(tmp->serialize());
             tmp = tmp->getNext();

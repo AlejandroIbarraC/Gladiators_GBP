@@ -9,6 +9,7 @@
 using namespace std;
 
 TowersList* TowersList::towersList = nullptr;
+Towers* TowersList::head = nullptr;
 
 TowersList* TowersList::getInstance() {
     if (!towersList){
@@ -90,11 +91,11 @@ void TowersList::deleteAll() {
 }
 
 QJsonArray TowersList::serialize() {
-    if (this->head == nullptr){
+    if (head == nullptr){
         cout << "Error, no hay lista para serializar" << endl;
     }else{
         QJsonArray jsonArray;
-        Towers* tmp = this->head;
+        Towers* tmp = head;
         while (tmp != nullptr){
             jsonArray.append(tmp->serialize());
             tmp = tmp->getNext();

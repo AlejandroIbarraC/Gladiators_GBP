@@ -23,7 +23,7 @@ public:
     void addTower(int typeOfAmmo, int damageOutput, int range);
     void addCreatedTower(Towers* towers);
     void deleteAll();
-    QJsonArray serialize();
+    static QJsonArray serialize();
     static void deserialize(QJsonArray jsonArray);
 
 private:
@@ -33,7 +33,7 @@ private:
     TowersList& operator = (TowersList const&) = default;
 
     static TowersList* towersList;
-    Towers* head = nullptr;
+    static Towers* head;
     int lenght = 0;
 
 };
