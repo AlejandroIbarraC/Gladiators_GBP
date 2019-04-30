@@ -3,6 +3,7 @@ import java.util.Random;
 
 
 public class Population {
+
     int popSize = 100;
     private Gladiators[] individuals = new Gladiators[100];
     private int fittest = 0;
