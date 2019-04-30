@@ -20,6 +20,11 @@ Field::Field(QWidget *parent, int stage) :
     view = ui->graphicsView;
     view->setScene(scene);
     view->setFixedSize(width, height);
+    soldier_scene = new QGraphicsScene(this);
+    soldier_scene->setSceneRect(0,0,width, height);
+    soldier_view = ui->soldierView;
+    soldier_view->setScene(soldier_scene);
+    soldier_view->setFixedSize(width, height);
 
     // Initialize background stage
     if (stage == 1) {
@@ -49,6 +54,45 @@ Field::Field(QWidget *parent, int stage) :
     initializeField();
 }
 
+/// Animates soldier through path at a specific speed.
+/// @param soldier
+/// @param path QList of path that follows
+/// @param speed
+void Field::animateSoldier(Soldier* soldier, QList<int>* path, int speed) {
+    QSize size = QSize(15, 15);
+    QPoint start = QPoint(100, 350);
+    QPoint end;
+    int duration = speed * 100;
+
+    // Creates animation.
+    QPropertyAnimation* animation = new QPropertyAnimation(soldier, "geometry");
+    animation->setDuration(duration);
+
+    // Controls individual movement of soldier through path.
+    for(int i = 0; i < path->length(); i++) {
+        int currentID = path->at(i);
+        end.setX(allSquares[currentID]->x() + 13);
+        end.setY(allSquares[currentID]->y() + 13);
+        animation->setStartValue(QRect(start, size));
+        animation->setEndValue(QRect(end, size));
+        animation->start();
+        start.setX(end.x());
+        start.setY(end.y());
+        delay(duration + 15);
+    }
+}
+
+/// Delays GUI without stopping thread.
+/// @param ms int miliseconds to delay
+void Field::delay(int ms) {
+    QTime dieTime = QTime::currentTime().addMSecs(ms);
+    while(QTime::currentTime() < dieTime) {
+        QCoreApplication::processEvents(QEventLoop::AllEvents, 100);
+        update();
+    }
+}
+
+/// Deopaques grid
 void Field::deOpaqueGrid() {
     int dimensions = rows * columns;
     for (int i = 0; i < dimensions; i++) {
@@ -59,10 +103,19 @@ void Field::deOpaqueGrid() {
     }
 }
 
+void Field::generateArmy(int amount, QList<int>* path) {
+    for(int i = 0; i < amount; i++) {
+        Soldier* player = new Soldier(nullptr);
+        soldier_scene->addItem(player);
+        animateSoldier(player, path, 20);
+    }
+}
+
 Field* Field::getInstance() {
     return field;
 }
 
+/// Initializes field with default attributes.
 void Field::initializeField() {
     // Grid icons.
     QRectF rect(0,0,40,40);
@@ -70,14 +123,14 @@ void Field::initializeField() {
     double ypos = startingy;
     bool isOpaque = false;
 
-    for(int i = 0; i < columns; i++) {
-        for (int i = 0; i < rows; i++) {
-            QGraphicsRectItem *item = new QGraphicsRectItem(rect);
+    for(int i = 0; i < rows; i++) {
+        for (int i = 0; i < columns; i++) {
+            QGraphicsRectItem* item = new QGraphicsRectItem(rect);
             item->setPen(Qt::NoPen);
             allSquares.append(item);
             scene->addItem(item);
             item->setPos(xpos, ypos);
-            ypos += 42;
+            xpos += 42;
         }
         if (currentStage == 2) {
             if (isOpaque) {
@@ -86,8 +139,8 @@ void Field::initializeField() {
                 isOpaque = true;
             }
         }
-        xpos += 42;
-        ypos = startingy;
+        ypos += 42;
+        xpos = startingx;
     }
 
     // Draggable tower icons.
@@ -110,6 +163,18 @@ void Field::initializeField() {
     }
 }
 
+void Field::on_playButton_clicked() {
+    QList<int>* path = new QList<int>();
+    path->append(10);
+    path->append(21);
+    path->append(30);
+    //generateArmy(20, path);
+    Soldier* soldier = new Soldier();
+    soldier_scene->addItem(soldier);
+    animateSoldier(soldier, path, 5);
+}
+
+/// Opaques grid.
 void Field::opaqueGrid() {
     bool opaque = true;
     int dimensions = rows * columns;
