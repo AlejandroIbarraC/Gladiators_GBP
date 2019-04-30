@@ -18,7 +18,7 @@ public class Gladiators {
         this.resistence = calculatedResistence;
     }
 
-    public static Gladiators getGladiator(int id){
+    public static Gladiators addGladiator(int id){
         Random rn = new Random();
         Gladiators gladiator = new Builder().setId(id).setAge(rn.nextInt(100))
                 .setSurvivalProbability(rn.nextInt(100))
