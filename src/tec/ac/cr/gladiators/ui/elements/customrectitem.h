@@ -10,8 +10,8 @@
 
 class CustomRectItem : public QGraphicsRectItem {
 public:
-    int id;
     CustomRectItem(QGraphicsRectItem* parent = nullptr);
+    int id;
     void setID(int id);
 
 protected:

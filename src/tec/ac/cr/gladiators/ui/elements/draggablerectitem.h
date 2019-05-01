@@ -3,7 +3,6 @@
 
 #include <QGraphicsRectItem>
 #include <QGraphicsSceneMouseEvent>
-#include <QMediaPlayer>
 #include <QDateTime>
 #include <QBrush>
 
@@ -11,9 +10,10 @@
 class DraggableRectItem : public QGraphicsRectItem {
 
 public:
+    DraggableRectItem(QGraphicsRectItem* parent = nullptr, QString tower = "gatling");
     QPointF anchorPoint;
     QString towerType;
-    DraggableRectItem(QGraphicsRectItem* parent = nullptr, QString tower = "gatling");
+
     void setAnchorPoint(const QPointF& anchorPoint);
     int randInt(int low, int high);
 
@@ -22,14 +22,14 @@ protected:
     void mouseReleaseEvent(QGraphicsSceneMouseEvent *event);
 
 private:
-    bool m_dragged;
-    bool safeReturn;
-    QRectF smallRect = QRectF(0,0,40,40);
-    QRectF largeRect = QRectF(0,0,70,70);
-    QPixmap towerPix;
-    QPixmap iconPix;
     QGraphicsItem* closestItem;
     QGraphicsRectItem* closestSquare;
+    QPixmap iconPix;
+    QRectF largeRect = QRectF(0,0,70,70);
+    bool m_dragged;
+    QPixmap towerPix;
+    bool safeReturn;
+    QRectF smallRect = QRectF(0,0,40,40);
 };
 
 #endif // DRAGGABLERECTITEM_H

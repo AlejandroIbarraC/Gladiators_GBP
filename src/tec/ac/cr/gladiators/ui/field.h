@@ -5,16 +5,12 @@
 #include <QMediaPlaylist>
 #include <QMediaPlayer>
 #include <QGraphicsView>
-#include <QPropertyAnimation>
-#include <QParallelAnimationGroup>
-#include <QTimer>
 #include <iostream>
-#include <ctime>
-#include <QThread>
 
 #include "elements/customrectitem.h"
 #include "elements/draggablerectitem.h"
 #include "elements/soldier.h"
+#include "elements/game.h"
 
 namespace Ui {
 class Field;
@@ -31,25 +27,26 @@ public:
     QVector<QGraphicsRectItem*> allSquares;
     int columns;
     int rows;
-    void delay(int millisecondsToWait);
-    void generateArmy(int amount, QList<int>* path);
+
+    void lowerLife();
     static Field* getInstance();
     QGraphicsScene* getScene();
-    QGraphicsView* getView();
+    QGraphicsScene* getSoldierScene();
     void opaqueGrid();
     void deOpaqueGrid();
     static void setInstance(Field* nfield);
 
 private:
-    Ui::Field *ui;
+    int life = 20;
     int startingx;
     int startingy;
     int currentStage;
+    Game* game;
     QGraphicsView* view;
     QGraphicsView* soldier_view;
     QGraphicsScene* scene;
     QGraphicsScene* soldier_scene;
-    QParallelAnimationGroup group;
+    Ui::Field *ui;
 
     void animateSoldier(Soldier* soldier, QList<int>* path, int speed);
     void initializeField();
