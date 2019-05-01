@@ -1,8 +1,8 @@
 package tec.ac.cr.gladiators.server;
 
-import tec.ac.cr.gladiators.logic.Generator;
 import tec.ac.cr.gladiators.logic.Gladiators;
 import tec.ac.cr.gladiators.logic.Holder;
+import tec.ac.cr.gladiators.logic.facade.GladiatorsFacade;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -16,7 +16,7 @@ public class GladiatorsServer {
     public ArrayList<Gladiators> generateGladiators(){
         System.out.println(1);
         if (Holder.gladiatorsArrayList == null){
-            return Generator.generateGladiators(10);
+            Holder.gladiatorsArrayList = GladiatorsFacade.initPopulation();
         }
         return Holder.gladiatorsArrayList;
     }
@@ -26,8 +26,7 @@ public class GladiatorsServer {
     @Consumes(MediaType.APPLICATION_JSON)
     public void getGladiators(ArrayList<Gladiators> gladiatorsArrayList){
         System.out.println(2);
-        //Agregar lo de fitness aqui
-        Holder.gladiatorsArrayList = gladiatorsArrayList;
+        Holder.gladiatorsArrayList = GladiatorsFacade.updatePopulation(gladiatorsArrayList);
     }
 
 }

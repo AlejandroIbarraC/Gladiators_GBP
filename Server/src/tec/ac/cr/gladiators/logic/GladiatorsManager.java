@@ -23,7 +23,7 @@ public class GladiatorsManager {
         Random rn = new Random();
 
         //Select a random crossover point
-        int crossOverPoint = rn.nextInt(population.individuals[0].getGenes().length);
+        int crossOverPoint = rn.nextInt(population.getIndividuals()[0].getGenes().length);
 
         //Swap values among parents
         for (int i = 0; i < crossOverPoint; i++) {
@@ -54,7 +54,7 @@ public class GladiatorsManager {
         int leastFittestIndex = population.getLeastFittestIndex();
 
         //Replace least fittest individual from most fittest offspring
-        population.individuals[leastFittestIndex] = getFittestOffspring();
+        population.getIndividuals()[leastFittestIndex] = getFittestOffspring();
     }
 
     //Mutation
@@ -62,7 +62,7 @@ public class GladiatorsManager {
         Random rn = new Random();
 
         //Select a random mutation point
-        int mutationPoint = rn.nextInt(population.individuals[0].getGenes().length);
+        int mutationPoint = rn.nextInt(population.getIndividuals()[0].getGenes().length);
 
         int mutationValue = rn.nextInt(100);
 
@@ -71,7 +71,7 @@ public class GladiatorsManager {
         }
         fittest.getGenes()[mutationPoint] = mutationValue;
 
-        mutationPoint = rn.nextInt(population.individuals[0].getGenes().length);
+        mutationPoint = rn.nextInt(population.getIndividuals()[0].getGenes().length);
 
         while (secondFittest.getGenes()[mutationPoint] > mutationValue ){
             mutationValue = rn.nextInt(100);
