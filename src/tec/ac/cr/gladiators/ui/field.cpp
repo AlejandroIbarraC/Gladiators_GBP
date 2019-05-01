@@ -60,9 +60,9 @@ Field::Field(QWidget *parent, int stage) :
 /// @param speed
 void Field::animateSoldier(Soldier* soldier, QList<int>* path, int speed) {
     QSize size = QSize(15, 15);
-    QPoint start = QPoint(100, 350);
+    QPoint start = QPoint(-50, 300);
     QPoint end;
-    int duration = speed * 100;
+    int duration = speed * 50;
 
     // Creates animation.
     QPropertyAnimation* animation = new QPropertyAnimation(soldier, "geometry");
@@ -71,14 +71,14 @@ void Field::animateSoldier(Soldier* soldier, QList<int>* path, int speed) {
     // Controls individual movement of soldier through path.
     for(int i = 0; i < path->length(); i++) {
         int currentID = path->at(i);
-        end.setX(allSquares[currentID]->x() + 13);
-        end.setY(allSquares[currentID]->y() + 13);
+        end.setX(static_cast<int>(allSquares[currentID]->x()) + 13);
+        end.setY(static_cast<int>(allSquares[currentID]->y()) + 13);
         animation->setStartValue(QRect(start, size));
         animation->setEndValue(QRect(end, size));
         animation->start();
         start.setX(end.x());
         start.setY(end.y());
-        delay(duration + 15);
+        delay(duration + 20);
     }
 }
 
@@ -87,7 +87,7 @@ void Field::animateSoldier(Soldier* soldier, QList<int>* path, int speed) {
 void Field::delay(int ms) {
     QTime dieTime = QTime::currentTime().addMSecs(ms);
     while(QTime::currentTime() < dieTime) {
-        QCoreApplication::processEvents(QEventLoop::AllEvents, 100);
+        QCoreApplication::processEvents(QEventLoop::AllEvents, 0);
         update();
     }
 }
@@ -115,6 +115,14 @@ Field* Field::getInstance() {
     return field;
 }
 
+QGraphicsScene* Field::getScene() {
+    return this->scene;
+}
+
+QGraphicsView* Field::getView() {
+    return this->view;
+}
+
 /// Initializes field with default attributes.
 void Field::initializeField() {
     // Grid icons.
@@ -125,9 +133,11 @@ void Field::initializeField() {
 
     for(int i = 0; i < rows; i++) {
         for (int i = 0; i < columns; i++) {
-            QGraphicsRectItem* item = new QGraphicsRectItem(rect);
+            CustomRectItem* item = new CustomRectItem();
+            item->setRect(rect);
             item->setPen(Qt::NoPen);
             allSquares.append(item);
+            item->setID(allSquares.length());
             scene->addItem(item);
             item->setPos(xpos, ypos);
             xpos += 42;
@@ -165,13 +175,26 @@ void Field::initializeField() {
 
 void Field::on_playButton_clicked() {
     QList<int>* path = new QList<int>();
-    path->append(10);
-    path->append(21);
-    path->append(30);
+    path->append(95);
+    path->append(96);
+    path->append(97);
+    path->append(98);
+    path->append(117);
+    path->append(136);
+    path->append(155);
+    path->append(174);
+    path->append(175);
+    path->append(176);
+    path->append(177);
+    path->append(178);
+    path->append(179);
+    path->append(160);
+    path->append(141);
+    path->append(122);
     //generateArmy(20, path);
     Soldier* soldier = new Soldier();
     soldier_scene->addItem(soldier);
-    animateSoldier(soldier, path, 5);
+    animateSoldier(soldier, path, 3);
 }
 
 /// Opaques grid.

@@ -13,7 +13,7 @@ class DraggableRectItem : public QGraphicsRectItem {
 public:
     QPointF anchorPoint;
     QString towerType;
-    DraggableRectItem(QGraphicsRectItem* parent = 0, QString tower = "gatling");
+    DraggableRectItem(QGraphicsRectItem* parent = nullptr, QString tower = "gatling");
     void setAnchorPoint(const QPointF& anchorPoint);
     int randInt(int low, int high);
 

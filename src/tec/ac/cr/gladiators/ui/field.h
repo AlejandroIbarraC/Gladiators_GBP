@@ -5,7 +5,6 @@
 #include <QMediaPlaylist>
 #include <QMediaPlayer>
 #include <QGraphicsView>
-#include <QGraphicsRectItem>
 #include <QPropertyAnimation>
 #include <QParallelAnimationGroup>
 #include <QTimer>
@@ -13,6 +12,7 @@
 #include <ctime>
 #include <QThread>
 
+#include "elements/customrectitem.h"
 #include "elements/draggablerectitem.h"
 #include "elements/soldier.h"
 
@@ -34,6 +34,8 @@ public:
     void delay(int millisecondsToWait);
     void generateArmy(int amount, QList<int>* path);
     static Field* getInstance();
+    QGraphicsScene* getScene();
+    QGraphicsView* getView();
     void opaqueGrid();
     void deOpaqueGrid();
     static void setInstance(Field* nfield);
