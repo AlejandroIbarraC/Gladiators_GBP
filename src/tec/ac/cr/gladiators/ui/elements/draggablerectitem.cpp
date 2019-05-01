@@ -34,8 +34,7 @@ void DraggableRectItem::mouseMoveEvent(QGraphicsSceneMouseEvent *event) {
     if(colItems.isEmpty()) {
         field->deOpaqueGrid();
         safeReturn = true;
-    }
-    else {
+    } else {
         closestItem = colItems.at(0);
         qreal shortestDist = 100000;
         foreach(QGraphicsItem* item, colItems){
@@ -49,7 +48,7 @@ void DraggableRectItem::mouseMoveEvent(QGraphicsSceneMouseEvent *event) {
         int dimensions = field->rows * field->columns;
         QPointF closestPos = closestItem->pos();
         for (int i = 0; i < dimensions; i++) {
-            QGraphicsRectItem* currentSquare = field->allSquares.at(i);
+            CustomRectItem* currentSquare = field->allSquares.at(i);
             if (currentSquare->pos() == closestPos) {
                 if (!currentSquare->acceptDrops()) {
                     field->opaqueGrid();
@@ -71,6 +70,7 @@ void DraggableRectItem::mouseReleaseEvent(QGraphicsSceneMouseEvent *event){
     if (!safeReturn) {
         closestSquare->setBrush(towerPix);
         closestSquare->setAcceptDrops(true);
+        closestSquare->initializeArea();
     }
     QGraphicsRectItem::mouseReleaseEvent(event);
 }

@@ -8,6 +8,10 @@ Game::Game() {
     updateTime = 10;
 }
 
+void Game::addArea(QGraphicsItem *area) {
+    allAreas.append(area);
+}
+
 void Game::addSoldier(Soldier *soldier) {
     army->append(soldier);
 }
@@ -45,12 +49,12 @@ void Game::followPath(Soldier* soldier) {
     int IDObjetive = path->at(squareObjective);
 
     // X axis values
-    int XObjective = static_cast<int>(allSquares[IDObjetive]->x());
+    int XObjective = static_cast<int>(allSquares[IDObjetive]->x()) + 15;
     int currentX = static_cast<int>(soldier->x());
     int absXDifference = abs(abs(XObjective) - abs(currentX));
 
     // Y Axis values
-    int YObjective = static_cast<int>(allSquares[IDObjetive]->y());
+    int YObjective = static_cast<int>(allSquares[IDObjetive]->y()) + 15;
     int currentY = static_cast<int>(soldier->y());
     int absYDifference = abs(abs(YObjective) - abs(currentY));
 
@@ -70,8 +74,8 @@ void Game::followPath(Soldier* soldier) {
         }
     } else {
         // Checks if end is reached.
-        int endSquareX = static_cast<int>(allSquares[lastID]->x());
-        int endSquareY = static_cast<int>(allSquares[lastID]->y());
+        int endSquareX = static_cast<int>(allSquares[lastID]->x()) + 15;
+        int endSquareY = static_cast<int>(allSquares[lastID]->y()) + 15;
         int xEndDifference = abs(abs(currentX) - abs(endSquareX));
         int yEndDifference = abs(abs(currentY) - abs(endSquareY));
 
@@ -82,6 +86,10 @@ void Game::followPath(Soldier* soldier) {
         }
     }
     soldier->update();
+}
+
+QList<QGraphicsItem*> Game::getAreas() {
+    return allAreas;
 }
 
 QList<Soldier*>* Game::getArmy() const {
@@ -101,6 +109,11 @@ void Game::setPath(QList<int> *nPath) {
     lastID = path->constLast();
 }
 
+void Game::removeArea(QGraphicsItem *area) {
+    allAreas.removeOne(area);
+}
+
+// Starts game
 void Game::run() {
     timer = new QTimer(this);
     connect(timer, SIGNAL(timeout()), this, SLOT(updateGame()));
@@ -119,6 +132,7 @@ void Game::updateGame() {
             deleteSoldier(currentSoldier);
         } else {
             followPath(currentSoldier);
+            currentSoldier->checkDamage();
         }
     }
 }

@@ -1,9 +1,11 @@
 #ifndef SOLDIER_H
 #define SOLDIER_H
 
+#include <QDebug>
 #include <QObject>
 #include <QGraphicsRectItem>
 #include <QPainter>
+
 
 class Soldier : public QObject, public QGraphicsRectItem {
     Q_OBJECT
@@ -15,6 +17,7 @@ public:
     int done = false;
 
     void advanceSquare();
+    void checkDamage();
     QRect geometry() const;
     void setGeometry(const QRect &value);
     QRectF boundingRect() const;
@@ -22,6 +25,7 @@ public:
 
 private:
     QRect rect;
+    int life = 10;
 };
 
 #endif // SOLDIER_H

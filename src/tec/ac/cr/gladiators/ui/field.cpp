@@ -182,6 +182,10 @@ void Field::setInstance(Field* nfield) {
     field = nfield;
 }
 
+void Field::setSoldierScene(QGraphicsScene* newScene) {
+    soldier_scene = newScene;
+}
+
 Field::~Field()
 {
     delete ui;

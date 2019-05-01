@@ -6,6 +6,8 @@
 #include <QDateTime>
 #include <QBrush>
 
+#include "customrectitem.h"
+
 
 class DraggableRectItem : public QGraphicsRectItem {
 
@@ -23,7 +25,7 @@ protected:
 
 private:
     QGraphicsItem* closestItem;
-    QGraphicsRectItem* closestSquare;
+    CustomRectItem* closestSquare;
     QPixmap iconPix;
     QRectF largeRect = QRectF(0,0,70,70);
     bool m_dragged;

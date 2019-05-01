@@ -24,7 +24,7 @@ public:
     explicit Field(QWidget *parent = nullptr,
                    int stage = 1);
     ~Field();
-    QVector<QGraphicsRectItem*> allSquares;
+    QVector<CustomRectItem*> allSquares;
     int columns;
     int rows;
 
@@ -35,6 +35,7 @@ public:
     void opaqueGrid();
     void deOpaqueGrid();
     static void setInstance(Field* nfield);
+    void setSoldierScene(QGraphicsScene* newScene);
 
 private:
     int life = 20;
