@@ -17,9 +17,12 @@ public:
 
     int solution11x19[11][19];
     int solution8x17[8][17];
+    int ROW;
+    int COL;
 
     bool backTrack11x19(int matrix[11][19]);
     bool backTrack8x17(int matrix[8][17]);
+
 
 private:
 
