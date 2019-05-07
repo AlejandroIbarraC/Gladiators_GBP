@@ -16,7 +16,10 @@ public:
     static GladiatorsList* getInstance();
     static void setInstance(GladiatorsList* gladiatorsList);
 
+    Gladiators soldierToShow;
+
     Gladiators *getHead() const;
+
     void setHead(Gladiators *head);
     int getLenght() const;
     void setLenght(int lenght);

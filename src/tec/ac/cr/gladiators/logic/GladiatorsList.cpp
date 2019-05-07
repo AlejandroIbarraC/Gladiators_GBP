@@ -142,3 +142,5 @@ void GladiatorsList::deserialize(QJsonArray jsonArray) {
         gladiatorsList->head = nullptr;
     }
 }
+
+

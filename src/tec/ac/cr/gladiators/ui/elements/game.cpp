@@ -1,5 +1,6 @@
 #include "game.h"
 #include "../field.h"
+#include "/home/jose/CLionProjects/Gladiators_GBP/src/tec/ac/cr/gladiators/logic/GladiatorsList.h"
 
 Game *Game::instance = new Game();
 
@@ -21,10 +22,13 @@ void Game::addSoldier(Soldier *soldier) {
 void Game::createArmy(int size) {
     Field* field = Field::getInstance();
     QGraphicsScene* scene = field->getSoldierScene();
+    GladiatorsList* gladiatorsList = GladiatorsList::getInstance();
+    size = gladiatorsList->getLenght();
     allSquares = field->allSquares;
     distanceX = -20;
     for(int i = 0; i < size; i++) {
         Soldier* soldier = new Soldier();
+        soldier->id = i;
         addSoldier(soldier);
         soldier->setX(distanceX);
         distanceX = distanceX - 20;
@@ -34,6 +38,9 @@ void Game::createArmy(int size) {
 }
 
 void Game::deleteSoldier(Soldier *soldier) {
+
+    GladiatorsList* gladiatorsList = GladiatorsList::getInstance();
+    gladiatorsList->deleteGladiatorByID(soldier->id);
     army->removeOne(soldier);
     Field* field = Field::getInstance();
     QGraphicsScene* scene = field->getSoldierScene();
@@ -136,3 +143,5 @@ void Game::updateGame() {
         }
     }
 }
+
+

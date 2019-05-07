@@ -5,6 +5,10 @@
 #include <QObject>
 #include <QGraphicsRectItem>
 #include <QPainter>
+#include <QBrush>
+#include <QGraphicsScene>
+#include <QGraphicsSceneMouseEvent>
+#include <QPushButton>
 
 
 class Soldier : public QObject, public QGraphicsRectItem {
@@ -13,6 +17,7 @@ class Soldier : public QObject, public QGraphicsRectItem {
 
 public:
     Soldier(QGraphicsRectItem* parent = nullptr);
+    int id;
     int currentSquare = 0;
     int done = false;
 
@@ -22,6 +27,9 @@ public:
     void setGeometry(const QRect &value);
     QRectF boundingRect() const;
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option,QWidget *widget);
+
+protected:
+    void mousePressEvent(QGraphicsSceneMouseEvent *event);
 
 private:
     QRect rect;

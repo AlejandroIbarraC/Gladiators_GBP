@@ -1,6 +1,9 @@
 #include "soldier.h"
 #include "game.h"
 #include <iostream>
+#include "customrectitem.h"
+#include "/home/jose/CLionProjects/Gladiators_GBP/src/tec/ac/cr/gladiators/logic/GladiatorsList.h"
+
 
 Soldier::Soldier(QGraphicsRectItem* parent) {
     rect = QRect(0, 0, 15, 15);
@@ -63,3 +66,12 @@ void Soldier::setGeometry(const QRect &value) {
         update();
     }
 }
+
+void Soldier::mousePressEvent(QGraphicsSceneMouseEvent *event) {
+    QGraphicsRectItem::mousePressEvent(event);
+    GladiatorsList* gladiatorsList = GladiatorsList::getInstance();
+    //gladiatorsList->soldierToShow = gladiatorsList->
+
+}
+
+
