@@ -143,4 +143,21 @@ void GladiatorsList::deserialize(QJsonArray jsonArray) {
     }
 }
 
+void GladiatorsList::setSoldierToShowByID(int id) {
+    if (this->head == nullptr){
+        cout << "Error, no gladiators in list" << endl;
+    }else if (this->head->getId() == id){
+        this->soldierToShow = this->head;
+    }else{
+        Gladiators* tmp = this->head;
+        while (tmp->getNext() != nullptr){
+            if (tmp->getNext()->getId() == id){
+                this->soldierToShow = tmp->getNext();
+                break;
+            }
+            tmp = tmp->getNext();
+        }
+    }
+}
+
 

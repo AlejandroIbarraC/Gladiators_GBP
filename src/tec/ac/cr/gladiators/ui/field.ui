@@ -128,121 +128,244 @@
      <string>Life: 20</string>
     </property>
    </widget>
-   <widget class="QLabel" name="soldierName">
-    <property name="geometry">
-     <rect>
-      <x>1000</x>
-      <y>0</y>
-      <width>200</width>
-      <height>50</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>TextLabel</string>
-    </property>
-   </widget>
    <widget class="QLabel" name="SoldierAge">
     <property name="geometry">
      <rect>
-      <x>1000</x>
+      <x>1080</x>
       <y>50</y>
       <width>200</width>
       <height>50</height>
      </rect>
     </property>
+    <property name="font">
+     <font>
+      <pointsize>14</pointsize>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
+    </property>
     <property name="text">
-     <string>TextLabel</string>
+     <string>0</string>
     </property>
    </widget>
    <widget class="QLabel" name="SoldierSurvivalProbability">
     <property name="geometry">
      <rect>
-      <x>1000</x>
-      <y>100</y>
-      <width>200</width>
-      <height>50</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>TextLabel</string>
-    </property>
-   </widget>
-   <widget class="QLabel" name="SoldierHowManyGensWillSurvive">
-    <property name="geometry">
-     <rect>
-      <x>1000</x>
+      <x>1080</x>
       <y>150</y>
       <width>200</width>
       <height>50</height>
      </rect>
     </property>
-    <property name="text">
-     <string>TextLabel</string>
-    </property>
-   </widget>
-   <widget class="QLabel" name="SoldierEmotionalInteligence">
-    <property name="geometry">
-     <rect>
-      <x>1000</x>
-      <y>200</y>
-      <width>200</width>
-      <height>50</height>
-     </rect>
+    <property name="font">
+     <font>
+      <pointsize>14</pointsize>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
     </property>
     <property name="text">
-     <string>TextLabel</string>
+     <string>0</string>
     </property>
    </widget>
-   <widget class="QLabel" name="SoldierPhysicalCondition">
+   <widget class="QLabel" name="SoldierHowManyGensWillSurvive">
     <property name="geometry">
      <rect>
-      <x>1000</x>
+      <x>1080</x>
       <y>250</y>
       <width>200</width>
       <height>50</height>
      </rect>
     </property>
-    <property name="text">
-     <string>TextLabel</string>
-    </property>
-   </widget>
-   <widget class="QLabel" name="SoldierStrenghtUT">
-    <property name="geometry">
-     <rect>
-      <x>1000</x>
-      <y>300</y>
-      <width>200</width>
-      <height>50</height>
-     </rect>
+    <property name="font">
+     <font>
+      <pointsize>14</pointsize>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
     </property>
     <property name="text">
-     <string>TextLabel</string>
+     <string>0</string>
     </property>
    </widget>
-   <widget class="QLabel" name="SoldierStrenghtLT">
+   <widget class="QLabel" name="SoldierEmotionalInteligence">
     <property name="geometry">
      <rect>
-      <x>1000</x>
+      <x>1080</x>
       <y>350</y>
       <width>200</width>
       <height>50</height>
      </rect>
     </property>
+    <property name="font">
+     <font>
+      <pointsize>14</pointsize>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
+    </property>
     <property name="text">
-     <string>TextLabel</string>
+     <string>0</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="SoldierPhysicalCondition">
+    <property name="geometry">
+     <rect>
+      <x>1080</x>
+      <y>450</y>
+      <width>200</width>
+      <height>50</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>14</pointsize>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="text">
+     <string>0</string>
     </property>
    </widget>
    <widget class="QLabel" name="SoldierResistence">
     <property name="geometry">
      <rect>
-      <x>1000</x>
+      <x>1080</x>
+      <y>550</y>
+      <width>200</width>
+      <height>50</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>14</pointsize>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="text">
+     <string>0</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="labelAge">
+    <property name="geometry">
+     <rect>
+      <x>1005</x>
+      <y>0</y>
+      <width>201</width>
+      <height>50</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>16</pointsize>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="text">
+     <string>Soldiers Age:</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="labelProb">
+    <property name="geometry">
+     <rect>
+      <x>1005</x>
+      <y>100</y>
+      <width>200</width>
+      <height>50</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>13</pointsize>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="text">
+     <string>Survival Probability:</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="labelSurvive">
+    <property name="geometry">
+     <rect>
+      <x>1005</x>
+      <y>200</y>
+      <width>200</width>
+      <height>50</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>12</pointsize>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="text">
+     <string>Gens He Will Survive:</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="labelEmoInt">
+    <property name="geometry">
+     <rect>
+      <x>1005</x>
+      <y>300</y>
+      <width>200</width>
+      <height>50</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>11</pointsize>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="text">
+     <string>Emotional Intelligence:</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="labelPhysicalCon">
+    <property name="geometry">
+     <rect>
+      <x>1005</x>
       <y>400</y>
       <width>200</width>
       <height>50</height>
      </rect>
     </property>
+    <property name="font">
+     <font>
+      <pointsize>13</pointsize>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
+    </property>
     <property name="text">
-     <string>TextLabel</string>
+     <string>Physical Condition:</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="labelResist">
+    <property name="geometry">
+     <rect>
+      <x>1005</x>
+      <y>500</y>
+      <width>200</width>
+      <height>50</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>13</pointsize>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="text">
+     <string>Soldiers Resistence:</string>
     </property>
    </widget>
    <zorder>background</zorder>
@@ -251,15 +374,18 @@
    <zorder>graphicsView</zorder>
    <zorder>playButton</zorder>
    <zorder>lifeLabel</zorder>
-   <zorder>soldierName</zorder>
    <zorder>SoldierAge</zorder>
    <zorder>SoldierSurvivalProbability</zorder>
    <zorder>SoldierHowManyGensWillSurvive</zorder>
    <zorder>SoldierEmotionalInteligence</zorder>
    <zorder>SoldierPhysicalCondition</zorder>
-   <zorder>SoldierStrenghtUT</zorder>
-   <zorder>SoldierStrenghtLT</zorder>
    <zorder>SoldierResistence</zorder>
+   <zorder>labelAge</zorder>
+   <zorder>labelProb</zorder>
+   <zorder>labelSurvive</zorder>
+   <zorder>labelEmoInt</zorder>
+   <zorder>labelPhysicalCon</zorder>
+   <zorder>labelResist</zorder>
   </widget>
  </widget>
  <resources>

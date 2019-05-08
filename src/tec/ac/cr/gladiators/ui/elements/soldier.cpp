@@ -3,6 +3,7 @@
 #include <iostream>
 #include "customrectitem.h"
 #include "/home/jose/CLionProjects/Gladiators_GBP/src/tec/ac/cr/gladiators/logic/GladiatorsList.h"
+#include "/home/jose/CLionProjects/Gladiators_GBP/src/tec/ac/cr/gladiators/ui/field.h"
 
 
 Soldier::Soldier(QGraphicsRectItem* parent) {
@@ -70,8 +71,9 @@ void Soldier::setGeometry(const QRect &value) {
 void Soldier::mousePressEvent(QGraphicsSceneMouseEvent *event) {
     QGraphicsRectItem::mousePressEvent(event);
     GladiatorsList* gladiatorsList = GladiatorsList::getInstance();
-    //gladiatorsList->soldierToShow = gladiatorsList->
-
+    gladiatorsList->setSoldierToShowByID(this->id);
+    Field* field = Field::getInstance();
+    field->setSoldierLabels();
 }
 
 

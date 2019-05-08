@@ -16,7 +16,7 @@ public:
     static GladiatorsList* getInstance();
     static void setInstance(GladiatorsList* gladiatorsList);
 
-    Gladiators soldierToShow;
+    Gladiators *soldierToShow;
 
     Gladiators *getHead() const;
 
@@ -27,6 +27,7 @@ public:
     void addGladiator(int identification, int ageNumber, int probability, int gensToSurvive, int emotionInteligence, int condition, int strenghtUT, int strenghtLT, int calculatedResistence);
     void addCreatedGladiator(Gladiators* gladiators);
     void deleteGladiatorByID(int id);
+    void setSoldierToShowByID(int id);
     void deleteAll();
     static QJsonArray serialize();
     static void deserialize(QJsonArray jsonArray);

@@ -36,6 +36,7 @@ public:
     void deOpaqueGrid();
     static void setInstance(Field* nfield);
     void setSoldierScene(QGraphicsScene* newScene);
+    void setSoldierLabels();
 
 private:
     int life = 20;

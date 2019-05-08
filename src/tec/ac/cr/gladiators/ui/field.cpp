@@ -1,5 +1,11 @@
 #include "field.h"
 #include "ui_field.h"
+#include "/home/jose/CLionProjects/Gladiators_GBP/src/tec/ac/cr/gladiators/logic/GladiatorsList.h"
+#include "iostream"
+#include <QString>
+
+using namespace std;
+
 
 Field* Field::field = nullptr;
 
@@ -189,4 +195,33 @@ void Field::setSoldierScene(QGraphicsScene* newScene) {
 Field::~Field()
 {
     delete ui;
+}
+
+void Field::setSoldierLabels() {
+
+    GladiatorsList* gladiatorsList = GladiatorsList::getInstance();
+
+    int age = gladiatorsList->soldierToShow->getAge();
+    QString Age = QString::number(age);
+    ui->SoldierAge->setText(Age);
+
+    int probability = gladiatorsList->soldierToShow->getSurvivalProbability();
+    QString Probability = QString::number(probability);
+    ui->SoldierSurvivalProbability->setText(Probability);
+
+    int gensToSurvive = gladiatorsList->soldierToShow->getHowManyGensWillSurvive();
+    QString GensToSurvive = QString::number(gensToSurvive);
+    ui->SoldierHowManyGensWillSurvive->setText(GensToSurvive);
+
+    int emotionInteligence = gladiatorsList->soldierToShow->getEmotionalInteligence();
+    QString EmotionInteligence = QString::number(emotionInteligence);
+    ui->SoldierEmotionalInteligence->setText(EmotionInteligence);
+
+    int physicalCondition = gladiatorsList->soldierToShow->getPhysicalCondition();
+    QString PhysicalCondition = QString::number(physicalCondition);
+    ui->SoldierPhysicalCondition->setText(PhysicalCondition);
+
+    int resistence = gladiatorsList->soldierToShow->getResistence();
+    QString Resistence = QString::number(resistence);
+    ui->SoldierPhysicalCondition->setText(Resistence);
 }
