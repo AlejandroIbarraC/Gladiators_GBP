@@ -25,6 +25,7 @@ public class GladiatorsFacade {
     public static ArrayList<Gladiators> updatePopulation(){
         gladiatorsManager.getPopulation().calculateFitness();
         gladiatorsManager.selection();
+        gladiatorsManager.crossover();
         gladiatorsManager.mutation();
         gladiatorsManager.addFittestOffspring();
         gladiatorsManager.getPopulation().calculateFitness();

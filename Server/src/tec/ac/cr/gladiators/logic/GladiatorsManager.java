@@ -8,7 +8,9 @@ public class GladiatorsManager {
     private Gladiators secondFittest;
     private int generationCount = 0;
 
-    //Selection
+    /**
+     *Select the two best Gladiators of all the population
+     */
     public void selection() {
 
         //Select the most fittest individual
@@ -18,7 +20,9 @@ public class GladiatorsManager {
         secondFittest = population.getSecondFittest();
     }
 
-    //Crossover
+    /**
+     * Make a children between the best Gladiators
+     */
     public void crossover() {
         Random rn = new Random();
 
@@ -34,7 +38,10 @@ public class GladiatorsManager {
         }
     }
 
-    //Get fittest offspring
+    /**
+     * Search the best gladiator of the population
+     * @return Gladiator
+     */
     public Gladiators getFittestOffspring() {
         if (fittest.getFitness() > secondFittest.getFitness()) {
             return fittest;
@@ -43,7 +50,9 @@ public class GladiatorsManager {
     }
 
 
-    //Replace least fittest individual from most fittest offspring
+    /**
+     * Replace least fittest individual from most fittest
+     */
     public void addFittestOffspring() {
 
         //Update fitness values of offspring
@@ -57,7 +66,9 @@ public class GladiatorsManager {
         population.getIndividuals()[leastFittestIndex] = getFittestOffspring();
     }
 
-    //Mutation
+    /**
+     * Try to mutate a random gladiator with a 20% of chance
+     */
     public void mutation() {
         Random rn = new Random();
 
