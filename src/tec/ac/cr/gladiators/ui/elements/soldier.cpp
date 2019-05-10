@@ -19,6 +19,8 @@ QRectF Soldier::boundingRect() const {
     return QRectF(rect);
 }
 
+//! A method use to check soldiers damage
+
 void Soldier::checkDamage() {
     if (life < 1) {
         delete this;
@@ -51,7 +53,10 @@ void Soldier::checkDamage() {
 QRect Soldier::geometry() const {
     return rect;
 }
-
+//! A method to give the soldiers an image
+//! \param painter
+//! \param option
+//! \param widget
 void Soldier::paint(QPainter *painter,
                     const QStyleOptionGraphicsItem *option,
                     QWidget *widget) {
@@ -68,6 +73,7 @@ void Soldier::setGeometry(const QRect &value) {
     }
 }
 
+//! A method that runs specific actions when a soldier is pressed
 void Soldier::mousePressEvent(QGraphicsSceneMouseEvent *event) {
     QGraphicsRectItem::mousePressEvent(event);
     GladiatorsList* gladiatorsList = GladiatorsList::getInstance();

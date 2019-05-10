@@ -20,7 +20,12 @@ struct cell
     // f = g + h
     double f, g, h;
 };
-
+//! A Utility Function to check whether given cell (row, col) is a valid cell or not.
+//! \param row
+//! \param col
+//! \param ROW
+//! \param COL
+//! \return True or False
 // A Utility Function to check whether given cell (row, col)
 // is a valid cell or not.
 bool isValid(int row, int col, int ROW, int COL)
@@ -31,6 +36,11 @@ bool isValid(int row, int col, int ROW, int COL)
            (col >= 0) && (col < COL);
 }
 
+//! A Utility Function to check whether the given cell is blocked or not
+//! \param grid
+//! \param row
+//! \param col
+//! \return True or False
 // A Utility Function to check whether the given cell is
 // blocked or not
 bool isUnBlocked11x19(int grid[11][19], int row, int col)
@@ -42,7 +52,12 @@ bool isUnBlocked11x19(int grid[11][19], int row, int col)
         return (false);
 }
 
-// A Utility Function to check whether destination cell has
+//! A Utility Function to check whether destination cell has been reached or not
+//! \param row
+//! \param col
+//! \param dest
+//! \return True or False
+//A Utility Function to check whether destination cell has
 // been reached or not
 bool isDestination(int row, int col, Pair dest)
 {
@@ -51,7 +66,11 @@ bool isDestination(int row, int col, Pair dest)
     else
         return (false);
 }
-
+//! A Utility Function to calculate the 'h' heuristics.
+//! \param row
+//! \param col
+//! \param dest
+//! \return double value
 // A Utility Function to calculate the 'h' heuristics.
 double calculateHValue(int row, int col, Pair dest)
 {
@@ -60,6 +79,9 @@ double calculateHValue(int row, int col, Pair dest)
                           + (col-dest.second)*(col-dest.second)));
 }
 
+//! A Utility Function to trace the path from the source to destination
+//! \param cellDetails
+//! \param dest
 // A Utility Function to trace the path from the source
 // to destination
 void tracePath11x19(cell cellDetails[][19], Pair dest)
@@ -91,6 +113,10 @@ void tracePath11x19(cell cellDetails[][19], Pair dest)
     return;
 }
 
+//! A method that searchs the way from de initial cell to destination cell
+//! \param grid
+//! \param src
+//! \param dest
 void aStarSearch11x19(int grid[11][19], Pair src, Pair dest)
 {
     int ROW = 11;
@@ -318,6 +344,11 @@ void aStarSearch11x19(int grid[11][19], Pair src, Pair dest)
     return;
 }
 
+//! A Utility Function to check whether the given cell is blocked or not
+//! \param grid
+//! \param row
+//! \param col
+//! \return True or False
 bool isUnBlocked8x17(int grid[8][17], int row, int col)
 {
     // Returns true if the cell is not blocked else false
@@ -327,6 +358,9 @@ bool isUnBlocked8x17(int grid[8][17], int row, int col)
         return (false);
 }
 
+//! A Utility Function to trace the path from the source to destination
+//! \param cellDetails
+//! \param dest
 // A Utility Function to trace the path from the source
 // to destination
 void tracePath8x17(cell cellDetails[][17], Pair dest)
@@ -358,6 +392,10 @@ void tracePath8x17(cell cellDetails[][17], Pair dest)
     return;
 }
 
+//! A method that searchs the way from de initial cell to destination cell
+//! \param grid
+//! \param src
+//! \param dest
 void aStarSearch8x17(int grid[8][17], Pair src, Pair dest)
 {
     int ROW = 8;

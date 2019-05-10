@@ -9,6 +9,9 @@ using namespace std;
 
 Field* Field::field = nullptr;
 
+//! A method that creates the field window
+//! \param parent
+//! \param stage
 Field::Field(QWidget *parent, int stage) :
     QMainWindow(parent),
     ui(new Ui::Field)
@@ -62,6 +65,7 @@ Field::Field(QWidget *parent, int stage) :
     game->run();
 }
 
+//! A method that undulls grid
 /// Deopaques grid
 void Field::deOpaqueGrid() {
     int dimensions = rows * columns;
@@ -73,6 +77,7 @@ void Field::deOpaqueGrid() {
     }
 }
 
+//! A method that reduces player life
 void Field::lowerLife() {
     life --;
     ui->lifeLabel->setText("Life: " + QString::number(life));
@@ -89,8 +94,8 @@ QGraphicsScene* Field::getScene() {
 QGraphicsScene* Field::getSoldierScene() {
     return this->soldier_scene;
 }
+//! A method that Initializes field with default attributes.
 
-/// Initializes field with default attributes.
 void Field::initializeField() {
     // Grid icons.
     QRectF rect(0,0,40,40);
@@ -140,6 +145,7 @@ void Field::initializeField() {
     }
 }
 
+//! A method that is run when play button is clicked
 void Field::on_playButton_clicked() {
     QList<int>* path = new QList<int>();
     path->append(95);
@@ -162,7 +168,7 @@ void Field::on_playButton_clicked() {
     game->setPath(path);
 }
 
-/// Opaques grid.
+//! A method that dulls grid
 void Field::opaqueGrid() {
     bool opaque = true;
     int dimensions = rows * columns;
@@ -197,6 +203,7 @@ Field::~Field()
     delete ui;
 }
 
+//! A method that shows in labels the attributes from the selected soldier
 void Field::setSoldierLabels() {
 
     GladiatorsList* gladiatorsList = GladiatorsList::getInstance();
