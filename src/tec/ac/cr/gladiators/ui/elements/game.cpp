@@ -116,17 +116,20 @@ void Game::setPath(QList<int> *nPath) {
     lastID = path->constLast();
 }
 
+//! A method use to remove Areas
+//! \param area
 void Game::removeArea(QGraphicsItem *area) {
     allAreas.removeOne(area);
 }
 
 // Starts game
+//! A method that runs the game
 void Game::run() {
     timer = new QTimer(this);
     connect(timer, SIGNAL(timeout()), this, SLOT(updateGame()));
     timer->start(updateTime);
 }
-
+//! A method that upadates the game constantly
 /// Main game loop.
 void Game::updateGame() {
     // Updates each soldier in game.

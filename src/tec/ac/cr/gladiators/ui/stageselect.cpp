@@ -1,6 +1,9 @@
 #include "stageselect.h"
 #include "ui_stageselect.h"
 
+//! The main method to create the StageSelect window
+//! \param parent
+
 StageSelect::StageSelect(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::StageSelect)
@@ -13,16 +16,20 @@ StageSelect::StageSelect(QWidget *parent) :
     ui->selectLabel->setFont(QFont("Papyrus", 35));
 }
 
+//! A method that hides the StageSelect window
 void StageSelect::on_fieldButton_clicked() {
     toField(1);
     hide();
 }
 
+//! A method that hides the StageSelect window
 void StageSelect::on_cityButton_clicked() {
     toField(2);
     hide();
 }
 
+//! A method that opens the field selected
+//! \param stage
 void StageSelect::toField(int stage) {
     field = new Field(this, stage);
     field->show();
