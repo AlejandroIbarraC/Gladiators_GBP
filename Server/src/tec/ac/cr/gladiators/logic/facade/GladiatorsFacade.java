@@ -19,11 +19,10 @@ public class GladiatorsFacade {
     }
 
     /**
-     * Update Gladiators List and apply genetics Algorithm
-     * @param list Gladiator list from client
+     * Update Gladiators List with a new generation
      * @return Gladiator List updated
      */
-    public static ArrayList<Gladiators> updatePopulation(ArrayList<Gladiators> list){
+    public static ArrayList<Gladiators> updatePopulation(){
         gladiatorsManager.getPopulation().calculateFitness();
         gladiatorsManager.selection();
         gladiatorsManager.mutation();
@@ -33,10 +32,18 @@ public class GladiatorsFacade {
         return gladiatorsList;
     }
 
+    public static ArrayList<Gladiators> skipGenerations(int i){
+        int y = 0;
+        while (y < i-1){
+            updatePopulation();
+            y++;
+        }
+        return updatePopulation();
+    }
     /**
-     *
-     * @param list Receive the Gladiator Array and translate to an Array List
-     * @return ArrayList of gladiators
+     * Receive the Gladiator Array and translate to an Array Lis
+     * @param list Array
+     * @return ArrayList
      */
     private static ArrayList<Gladiators> ArrayToArrayList(Gladiators[] list){
         ArrayList<Gladiators> gladiatorsList = new ArrayList<>();
