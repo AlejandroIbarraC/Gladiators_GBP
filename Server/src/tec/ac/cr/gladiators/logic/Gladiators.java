@@ -119,6 +119,11 @@ public class Gladiators {
         this.genes = genes;
     }
 
+    /**
+     * Return new Gladiator with random parameters
+     * @param id Position in the population
+     * @return Gladiator
+     */
     public static Gladiators addGladiator(int id){
         Random rn = new Random();
         Gladiators gladiator = new Builder().setId(id).setAge(rn.nextInt(100))
@@ -133,6 +138,9 @@ public class Gladiators {
         return gladiator;
     }
 
+    /**
+     * Fill the Chromosome of genetic information
+     */
     private void fillGenes(){
         int[] genes = new int[8];
         genes[0] = this.getAge();
@@ -144,9 +152,28 @@ public class Gladiators {
         genes[6] = this.getStrenghtInLowerTrunk();
         genes[7] = this.getResistence();
         this.setGenes(genes);
+        this.calcResistance();
     }
 
-    //Calculate fitness
+
+    /**
+     * Calculate the Resistance for each gladiator in 0 to 100 scale
+     */
+    private void calcResistance(){
+        int[] gens = this.genes;
+        int total = 0;
+        int i = 0;
+        while (i<7){
+            total =+ gens[i];
+            i++;
+        }
+        total = (total * 100)/700;
+        this.genes[7] = total;
+        this.setResistence(total);
+    }
+    /**
+     * Calculate the fitness for each Gladiator
+     */
     public void calcFitness() {
         int fit = 0;
         for (int i = 0; i < this.getGenes().length; i++) {
@@ -155,6 +182,9 @@ public class Gladiators {
         this.setFitness(fit);
     }
 
+    /**
+     * Builder of gladiator Class
+     */
     public static class Builder {
 
         private int id;

@@ -61,22 +61,26 @@ public class GladiatorsManager {
     public void mutation() {
         Random rn = new Random();
 
-        //Select a random mutation point
-        int mutationPoint = rn.nextInt(population.getIndividuals()[0].getGenes().length);
+        if (rn.nextInt(100)<= 20){
+            System.out.println("A mutation has occurred to Gladiator: " + this);
+            //Select a random mutation point
+            int mutationPoint = rn.nextInt(population.getIndividuals()[0].getGenes().length);
 
-        int mutationValue = rn.nextInt(100);
+            int mutationValue = rn.nextInt(100);
 
-        while (fittest.getGenes()[mutationPoint] > mutationValue ){
-            mutationValue = rn.nextInt(100);
+            while (fittest.getGenes()[mutationPoint] > mutationValue ){
+                mutationValue = rn.nextInt(100);
+            }
+            fittest.getGenes()[mutationPoint] = mutationValue;
+
+            mutationPoint = rn.nextInt(population.getIndividuals()[0].getGenes().length);
+
+            while (secondFittest.getGenes()[mutationPoint] > mutationValue ){
+                mutationValue = rn.nextInt(100);
+            }
+            secondFittest.getGenes()[mutationPoint] = mutationValue;
+
         }
-        fittest.getGenes()[mutationPoint] = mutationValue;
-
-        mutationPoint = rn.nextInt(population.getIndividuals()[0].getGenes().length);
-
-        while (secondFittest.getGenes()[mutationPoint] > mutationValue ){
-            mutationValue = rn.nextInt(100);
-        }
-        secondFittest.getGenes()[mutationPoint] = mutationValue;
     }
 
 

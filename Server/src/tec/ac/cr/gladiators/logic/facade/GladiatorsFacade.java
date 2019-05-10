@@ -7,6 +7,10 @@ public class GladiatorsFacade {
     private static GladiatorsManager gladiatorsManager = new GladiatorsManager();
     private static ArrayList<Gladiators> gladiatorsList = new ArrayList<>();
 
+    /**
+     * Gets the first population of gladiators
+     * @return Initial Population
+     */
     public static ArrayList<Gladiators> initPopulation(){
         gladiatorsManager.getPopulation().initializePopulation();
         gladiatorsManager.getPopulation().calculateFitness();
@@ -14,6 +18,11 @@ public class GladiatorsFacade {
         return gladiatorsList;
     }
 
+    /**
+     * Update Gladiators List and apply genetics Algorithm
+     * @param list Gladiator list from client
+     * @return Gladiator List updated
+     */
     public static ArrayList<Gladiators> updatePopulation(ArrayList<Gladiators> list){
         gladiatorsManager.getPopulation().calculateFitness();
         gladiatorsManager.selection();
@@ -24,6 +33,11 @@ public class GladiatorsFacade {
         return gladiatorsList;
     }
 
+    /**
+     *
+     * @param list Receive the Gladiator Array and translate to an Array List
+     * @return ArrayList of gladiators
+     */
     private static ArrayList<Gladiators> ArrayToArrayList(Gladiators[] list){
         ArrayList<Gladiators> gladiatorsList = new ArrayList<>();
         int length = list.length;
