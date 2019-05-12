@@ -19,7 +19,8 @@ public:
     PathNode* getHead() const;
     void setHead(PathNode* head);
 
-    void addPath(int location);
+    void createPath11x19(int row, int column);
+    void createPath8x17(int row, int column);
 
 private:
 
@@ -30,7 +31,13 @@ private:
     static PathList* pathList;
 
     int large = 0;
+    int ids11x19[11][19];
+    int ids8x17[8][17];
     PathNode* head = nullptr;
+
+    void initializeIDS();
+    void addPath(int id);
+    void deletePath();
 
 };
 

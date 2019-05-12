@@ -15,6 +15,9 @@ public:
 
     static Pathfinding* getInstance();
 
+    int solution11x19[11][19];
+    int solution8x17[8][17];
+
     bool backTrack11x19(int sRow, int sColumn, int matrix[11][19]);
     bool backTrack8x17(int sRow, int sColumn, int matrix[8][17]);
 
@@ -25,10 +28,6 @@ private:
     Pathfinding& operator = (Pathfinding const&) = default;
 
     static Pathfinding* pathfinding;
-    int solution11x19[11][19];
-    int solution8x17[8][17];
-    int ROW;
-    int COL;
 
     string toString11x19();
     string toString8x17();

@@ -5,6 +5,7 @@
 #include <cstdio>
 #include "Pathfinding.h"
 #include "PathNode.h"
+#include "PathList.h"
 #include <stack>
 #include <cstring>
 #include <iostream>

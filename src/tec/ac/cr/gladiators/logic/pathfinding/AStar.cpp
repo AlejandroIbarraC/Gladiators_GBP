@@ -86,6 +86,7 @@ double calculateHValue(int row, int col, Pair dest)
 // to destination
 void tracePath11x19(cell cellDetails[][19], Pair dest)
 {
+    Pathfinding* pathfinding = Pathfinding::getInstance();
     printf ("\nThe Path is ");
     int row = dest.first;
     int col = dest.second;
@@ -108,6 +109,7 @@ void tracePath11x19(cell cellDetails[][19], Pair dest)
         pair<int,int> p = Path.top();
         Path.pop();
         printf("-> (%d,%d) ",p.first,p.second);
+        pathfinding->solution11x19[p.first][p.second] = 1;
     }
 
     return;
@@ -365,6 +367,7 @@ bool isUnBlocked8x17(int grid[8][17], int row, int col)
 // to destination
 void tracePath8x17(cell cellDetails[][17], Pair dest)
 {
+    Pathfinding* pathfinding = Pathfinding::getInstance();
     printf ("\nThe Path is ");
     int row = dest.first;
     int col = dest.second;
@@ -387,6 +390,7 @@ void tracePath8x17(cell cellDetails[][17], Pair dest)
         pair<int,int> p = Path.top();
         Path.pop();
         printf("-> (%d,%d) ",p.first,p.second);
+        pathfinding->solution8x17[p.first][p.second] = 1;
     }
 
     return;

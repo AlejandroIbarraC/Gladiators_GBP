@@ -1,6 +1,7 @@
 #include "game.h"
 #include "../field.h"
-#include "/home/jose/CLionProjects/Gladiators_GBP/src/tec/ac/cr/gladiators/logic/GladiatorsList.h"
+#include "../../logic/GladiatorsList.h"
+
 
 Game *Game::instance = new Game();
 

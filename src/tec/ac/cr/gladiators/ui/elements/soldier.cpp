@@ -2,8 +2,8 @@
 #include "game.h"
 #include <iostream>
 #include "customrectitem.h"
-#include "/home/jose/CLionProjects/Gladiators_GBP/src/tec/ac/cr/gladiators/logic/GladiatorsList.h"
-#include "/home/jose/CLionProjects/Gladiators_GBP/src/tec/ac/cr/gladiators/ui/field.h"
+#include "../../logic/GladiatorsList.h"
+#include "../field.h"
 
 
 Soldier::Soldier(QGraphicsRectItem* parent) {

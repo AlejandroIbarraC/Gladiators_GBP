@@ -1,7 +1,7 @@
 #include "field.h"
 #include "ui_field.h"
-#include "/home/jose/CLionProjects/Gladiators_GBP/src/tec/ac/cr/gladiators/logic/GladiatorsList.h"
 #include "iostream"
+#include "../logic/GladiatorsList.h"
 #include <QString>
 
 using namespace std;
