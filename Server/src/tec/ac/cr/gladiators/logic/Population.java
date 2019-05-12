@@ -3,19 +3,27 @@ import java.util.Random;
 
 
 public class Population {
-    int popSize = 10;
-    Gladiators[] individuals = new Gladiators[10];
+
+    int popSize = 100;
+    private Gladiators[] individuals = new Gladiators[100];
     private int fittest = 0;
 
 
+    /**
+     * Initialize population with size 100
+     */
     public void initializePopulation() {
         for (int i = 0; i < individuals.length; i++) {
-            individuals[i] = Gladiators.getGladiator(i);
+            individuals[i] = Gladiators.addGladiator(i);
         }
     }
 
     //Get random Gladiator
 
+    /**
+     * Choose a random Gladiator from the population
+     * @return Gladiator
+     */
     public  Gladiators getRandomGladiator(){
         Random rn = new Random();
         //Select a random crossover point
@@ -28,7 +36,10 @@ public class Population {
         }
     }
 
-    //Get the fittest individual
+    /**
+     * Get the best gladiator of the population
+     * @return Gladiator
+     */
     public Gladiators getFittest() {
         int maxFit = 0;
         int maxFitIndex = 0;
@@ -42,7 +53,10 @@ public class Population {
         return individuals[maxFitIndex];
     }
 
-    //Get the second most fittest individual
+    /**
+     * Get the second best gladiator of the population
+     * @return Gladiator
+     */
     public Gladiators getSecondFittest() {
         int maxFit1 = 0;
         int maxFit2 = 0;
@@ -57,7 +71,10 @@ public class Population {
         return individuals[maxFit2];
     }
 
-    //Get index of least fittest individual
+    /**
+     * Get the worst gladiator of the population
+     * @return Gladiator
+     */
     public int getLeastFittestIndex() {
         int minFitVal = Integer.MAX_VALUE;
         int minFitIndex = 0;
@@ -70,7 +87,9 @@ public class Population {
         return minFitIndex;
     }
 
-    //Calculate fitness of each individual
+    /**
+     * Calculate fitness of each individual
+     */
     public void calculateFitness() {
 
         for (int i = 0; i < individuals.length; i++) {
@@ -87,5 +106,13 @@ public class Population {
 
     public int getFittestValue(){
         return  this.fittest;
+    }
+
+    public Gladiators[] getIndividuals() {
+        return individuals;
+    }
+
+    public void setIndividuals(Gladiators[] individuals) {
+        this.individuals = individuals;
     }
 }

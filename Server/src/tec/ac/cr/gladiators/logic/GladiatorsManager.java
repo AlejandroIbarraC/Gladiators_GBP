@@ -8,7 +8,9 @@ public class GladiatorsManager {
     private Gladiators secondFittest;
     private int generationCount = 0;
 
-    //Selection
+    /**
+     *Select the two best Gladiators of all the population
+     */
     public void selection() {
 
         //Select the most fittest individual
@@ -18,12 +20,14 @@ public class GladiatorsManager {
         secondFittest = population.getSecondFittest();
     }
 
-    //Crossover
+    /**
+     * Make a children between the best Gladiators
+     */
     public void crossover() {
         Random rn = new Random();
 
         //Select a random crossover point
-        int crossOverPoint = rn.nextInt(population.individuals[0].getGenes().length);
+        int crossOverPoint = rn.nextInt(population.getIndividuals()[0].getGenes().length);
 
         //Swap values among parents
         for (int i = 0; i < crossOverPoint; i++) {
@@ -34,7 +38,10 @@ public class GladiatorsManager {
         }
     }
 
-    //Get fittest offspring
+    /**
+     * Search the best gladiator of the population
+     * @return Gladiator
+     */
     public Gladiators getFittestOffspring() {
         if (fittest.getFitness() > secondFittest.getFitness()) {
             return fittest;
@@ -43,7 +50,9 @@ public class GladiatorsManager {
     }
 
 
-    //Replace least fittest individual from most fittest offspring
+    /**
+     * Replace least fittest individual from most fittest
+     */
     public void addFittestOffspring() {
 
         //Update fitness values of offspring
@@ -54,29 +63,35 @@ public class GladiatorsManager {
         int leastFittestIndex = population.getLeastFittestIndex();
 
         //Replace least fittest individual from most fittest offspring
-        population.individuals[leastFittestIndex] = getFittestOffspring();
+        population.getIndividuals()[leastFittestIndex] = getFittestOffspring();
     }
 
-    //Mutation
+    /**
+     * Try to mutate a random gladiator with a 20% of chance
+     */
     public void mutation() {
         Random rn = new Random();
 
-        //Select a random mutation point
-        int mutationPoint = rn.nextInt(population.individuals[0].getGenes().length);
+        if (rn.nextInt(100)<= 20){
+            System.out.println("A mutation has occurred to Gladiator: " + this);
+            //Select a random mutation point
+            int mutationPoint = rn.nextInt(population.getIndividuals()[0].getGenes().length);
 
-        int mutationValue = rn.nextInt(100);
+            int mutationValue = rn.nextInt(100);
 
-        while (fittest.getGenes()[mutationPoint] > mutationValue ){
-            mutationValue = rn.nextInt(100);
+            while (fittest.getGenes()[mutationPoint] > mutationValue ){
+                mutationValue = rn.nextInt(100);
+            }
+            fittest.getGenes()[mutationPoint] = mutationValue;
+
+            mutationPoint = rn.nextInt(population.getIndividuals()[0].getGenes().length);
+
+            while (secondFittest.getGenes()[mutationPoint] > mutationValue ){
+                mutationValue = rn.nextInt(100);
+            }
+            secondFittest.getGenes()[mutationPoint] = mutationValue;
+
         }
-        fittest.getGenes()[mutationPoint] = mutationValue;
-
-        mutationPoint = rn.nextInt(population.individuals[0].getGenes().length);
-
-        while (secondFittest.getGenes()[mutationPoint] > mutationValue ){
-            mutationValue = rn.nextInt(100);
-        }
-        secondFittest.getGenes()[mutationPoint] = mutationValue;
     }
 
 

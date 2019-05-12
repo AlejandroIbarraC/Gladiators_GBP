@@ -18,42 +18,6 @@ public class Gladiators {
         this.resistence = calculatedResistence;
     }
 
-    public static Gladiators getGladiator(int id){
-        Random rn = new Random();
-        Gladiators gladiator = new Builder().setId(id).setAge(rn.nextInt(100))
-                .setSurvivalProbability(rn.nextInt(100))
-                .setHowManyGensWillSurvive(rn.nextInt(100))
-                .setEmotionalInteligence(rn.nextInt(100))
-                .setPhysicalCondition(rn.nextInt(100))
-                .setStrenghtInUpperTrunk(rn.nextInt(100))
-                .setStrenghtInLowerTrunk(rn.nextInt(100))
-                .setResistence(rn.nextInt(100)).build();
-        gladiator.fillGenes();
-        return gladiator;
-    }
-
-    private void fillGenes(){
-        int[] genes = new int[8];
-        genes[0] = this.getAge();
-        genes[1] = this.getSurvivalProbability();
-        genes[2] = this.getHowManyGensWillSurvive();
-        genes[3] = this.getEmotionalInteligence();
-        genes[4] = this.getPhysicalCondition();
-        genes[5] = this.getStrenghtInUpperTrunk();
-        genes[6] = this.getStrenghtInLowerTrunk();
-        genes[7] = this.getResistence();
-        this.setGenes(genes);
-    }
-
-    //Calculate fitness
-    public void calcFitness() {
-        int fit = 0;
-        for (int i = 0; i < this.getGenes().length; i++) {
-            fit += genes[i];
-        }
-        this.setFitness(fit);
-    }
-
     private int id;
     private int age;
     private int survivalProbability;
@@ -155,6 +119,72 @@ public class Gladiators {
         this.genes = genes;
     }
 
+    /**
+     * Return new Gladiator with random parameters
+     * @param id Position in the population
+     * @return Gladiator
+     */
+    public static Gladiators addGladiator(int id){
+        Random rn = new Random();
+        Gladiators gladiator = new Builder().setId(id).setAge(rn.nextInt(100))
+                .setSurvivalProbability(rn.nextInt(100))
+                .setHowManyGensWillSurvive(rn.nextInt(100))
+                .setEmotionalInteligence(rn.nextInt(100))
+                .setPhysicalCondition(rn.nextInt(100))
+                .setStrenghtInUpperTrunk(rn.nextInt(100))
+                .setStrenghtInLowerTrunk(rn.nextInt(100))
+                .setResistence(rn.nextInt(100)).build();
+        gladiator.fillGenes();
+        return gladiator;
+    }
+
+    /**
+     * Fill the Chromosome of genetic information
+     */
+    private void fillGenes(){
+        int[] genes = new int[8];
+        genes[0] = this.getAge();
+        genes[1] = this.getSurvivalProbability();
+        genes[2] = this.getHowManyGensWillSurvive();
+        genes[3] = this.getEmotionalInteligence();
+        genes[4] = this.getPhysicalCondition();
+        genes[5] = this.getStrenghtInUpperTrunk();
+        genes[6] = this.getStrenghtInLowerTrunk();
+        genes[7] = this.getResistence();
+        this.setGenes(genes);
+        this.calcResistance();
+    }
+
+
+    /**
+     * Calculate the Resistance for each gladiator in 0 to 100 scale
+     */
+    private void calcResistance(){
+        int[] gens = this.genes;
+        int total = 0;
+        int i = 0;
+        while (i<7){
+            total =+ gens[i];
+            i++;
+        }
+        total = (total * 100)/700;
+        this.genes[7] = total;
+        this.setResistence(total);
+    }
+    /**
+     * Calculate the fitness for each Gladiator
+     */
+    public void calcFitness() {
+        int fit = 0;
+        for (int i = 0; i < this.getGenes().length; i++) {
+            fit += genes[i];
+        }
+        this.setFitness(fit);
+    }
+
+    /**
+     * Builder of gladiator Class
+     */
     public static class Builder {
 
         private int id;

@@ -8,6 +8,7 @@
 #include <stack>
 #include <cstring>
 #include <iostream>
+#include<bits/stdc++.h>
 
 using namespace std;
 

@@ -27,6 +27,8 @@ private:
     static Pathfinding* pathfinding;
     int solution11x19[11][19];
     int solution8x17[8][17];
+    int ROW;
+    int COL;
 
     string toString11x19();
     string toString8x17();
