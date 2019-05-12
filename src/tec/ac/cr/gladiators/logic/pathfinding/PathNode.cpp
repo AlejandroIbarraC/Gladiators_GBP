@@ -4,26 +4,19 @@
 
 #include "PathNode.h"
 
-int PathNode::getX() const {
-    return x;
+
+PathNode *PathNode::getNext() const {
+    return next;
 }
 
-void PathNode::setX(int x) {
-    PathNode::x = x;
+void PathNode::setNext(PathNode *next) {
+    PathNode::next = next;
 }
 
-int PathNode::getY() const {
-    return y;
+int PathNode::getLocation() const {
+    return location;
 }
 
-void PathNode::setY(int y) {
-    PathNode::y = y;
-}
-
-int PathNode::getDir() const {
-    return dir;
-}
-
-void PathNode::setDir(int dir) {
-    PathNode::dir = dir;
+void PathNode::setLocation(int location) {
+    PathNode::location = location;
 }

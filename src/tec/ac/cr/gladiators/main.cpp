@@ -34,8 +34,9 @@ int main(int argc, char *argv[]) {
                           {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
                           {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}};
     Pathfinding* pathfinding = Pathfinding::getInstance();
-    pathfinding->backTrack11x19(matrix1);
-    pathfinding->backTrack8x17(matrix2);
+    pathfinding->backTrack11x19(6, 0, matrix1);
+    pathfinding->backTrack8x17(3, 0, matrix2);
+
 
     QApplication a(argc, argv);
     Menu w;

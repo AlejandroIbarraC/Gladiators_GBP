@@ -10,29 +10,19 @@ class PathNode {
 
 public:
 
-    PathNode(int i, int j){
-        this->x = i;
-        this->y = j;
-        this->dir = 0;
+    PathNode(int path){
+        this->location = path;
     }
 
-    int getX() const;
-
-    void setX(int x);
-
-    int getY() const;
-
-    void setY(int y);
-
-    int getDir() const;
-
-    void setDir(int dir);
+    PathNode* getNext() const;
+    void setNext(PathNode* next);
+    int getLocation() const;
+    void setLocation(int location);
 
 private:
 
-    int x;
-    int y;
-    int dir;
+    PathNode* next;
+    int location;
 
 };
 

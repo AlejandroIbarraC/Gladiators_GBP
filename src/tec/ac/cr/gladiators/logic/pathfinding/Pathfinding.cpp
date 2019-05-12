@@ -20,15 +20,7 @@ Pathfinding* Pathfinding::getInstance() {
     return pathfinding;
 }
 
-bool Pathfinding::backTrack11x19(int matrix[11][19]){
-    return backTrack11x19Aux(6, 0, matrix);
-}
-
-bool Pathfinding::backTrack8x17(int matrix[8][17]){
-    return backTrack8x17Aux(3, 0, matrix);
-}
-
-bool Pathfinding::backTrack11x19Aux(int sRow, int sColumn, int matrix[11][19]){
+bool Pathfinding::backTrack11x19(int sRow, int sColumn, int matrix[11][19]){
     //Base Case 1: Attempted move is outside of grid
     if(sRow < 0 || sRow > 10 || sColumn < 0 || sColumn > 18){
         return false;
@@ -54,26 +46,26 @@ bool Pathfinding::backTrack11x19Aux(int sRow, int sColumn, int matrix[11][19]){
     solution11x19[sRow][sColumn] = 1; //Mark cell as part of the path
 
     //Move right
-    if (backTrack11x19Aux(sRow, sColumn + 1, matrix)){
+    if (backTrack11x19(sRow, sColumn + 1, matrix)){
         return true;
     }
     //Move down
-    if (backTrack11x19Aux(sRow + 1, sColumn, matrix)){
+    if (backTrack11x19(sRow + 1, sColumn, matrix)){
         return true;
     }
     //Move left
-    if (backTrack11x19Aux(sRow, sColumn - 1, matrix)){
+    if (backTrack11x19(sRow, sColumn - 1, matrix)){
         return true;
     }
     //Move up
-    if (backTrack11x19Aux(sRow - 1, sColumn, matrix)){
+    if (backTrack11x19(sRow - 1, sColumn, matrix)){
         return true;
     }
     solution11x19[sRow][sColumn] = 0; //backtracking
     return false;
 }
 
-bool Pathfinding::backTrack8x17Aux(int sRow, int sColumn, int matrix[8][17]){
+bool Pathfinding::backTrack8x17(int sRow, int sColumn, int matrix[8][17]){
     //Base Case 1: Attempted move is outside of grid
     if(sRow < 0 || sRow > 7 || sColumn < 0 || sColumn > 16){
         return false;
@@ -99,19 +91,19 @@ bool Pathfinding::backTrack8x17Aux(int sRow, int sColumn, int matrix[8][17]){
     solution8x17[sRow][sColumn] = 1; //Mark cell as part of the path
 
     //Move right
-    if (backTrack8x17Aux(sRow, sColumn + 1, matrix)){
+    if (backTrack8x17(sRow, sColumn + 1, matrix)){
         return true;
     }
     //Move down
-    if (backTrack8x17Aux(sRow + 1, sColumn, matrix)){
+    if (backTrack8x17(sRow + 1, sColumn, matrix)){
         return true;
     }
     //Move left
-    if (backTrack8x17Aux(sRow, sColumn - 1, matrix)){
+    if (backTrack8x17(sRow, sColumn - 1, matrix)){
         return true;
     }
     //Move up
-    if (backTrack8x17Aux(sRow - 1, sColumn, matrix)){
+    if (backTrack8x17(sRow - 1, sColumn, matrix)){
         return true;
     }
     solution8x17[sRow][sColumn] = 0; //backtracking
