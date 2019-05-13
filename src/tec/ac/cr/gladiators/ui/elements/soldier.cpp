@@ -75,6 +75,7 @@ void Soldier::setGeometry(const QRect &value) {
 
 //! A method that runs specific actions when a soldier is pressed
 void Soldier::mousePressEvent(QGraphicsSceneMouseEvent *event) {
+    printf("holaaaaaaaaaaaaa");
     QGraphicsRectItem::mousePressEvent(event);
     GladiatorsList* gladiatorsList = GladiatorsList::getInstance();
     gladiatorsList->setSoldierToShowByID(this->id);

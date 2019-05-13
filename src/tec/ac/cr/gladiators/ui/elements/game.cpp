@@ -1,6 +1,7 @@
 #include "game.h"
 #include "../field.h"
 #include "../../logic/GladiatorsList.h"
+#include "../../client/Client.h"
 
 
 Game *Game::instance = new Game();
@@ -23,6 +24,7 @@ void Game::addSoldier(Soldier *soldier) {
 void Game::createArmy(int size) {
     Field* field = Field::getInstance();
     QGraphicsScene* scene = field->getSoldierScene();
+    Client::retrieveGladiators();
     GladiatorsList* gladiatorsList = GladiatorsList::getInstance();
     size = gladiatorsList->getLenght();
     allSquares = field->allSquares;
