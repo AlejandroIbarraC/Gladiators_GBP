@@ -2,6 +2,9 @@
 #include "ui_field.h"
 #include "iostream"
 #include "../logic/GladiatorsList.h"
+#include "../client/Client.h"
+#include "../logic/pathfinding/Pathfinding.h"
+#include "../logic/pathfinding/PathList.h"
 #include <QString>
 
 using namespace std;
@@ -147,25 +150,24 @@ void Field::initializeField() {
 
 //! A method that is run when play button is clicked
 void Field::on_playButton_clicked() {
-    QList<int>* path = new QList<int>();
-    path->append(95);
-    path->append(96);
-    path->append(97);
-    path->append(98);
-    path->append(117);
-    path->append(136);
-    path->append(155);
-    path->append(174);
-    path->append(175);
-    path->append(176);
-    path->append(177);
-    path->append(178);
-    path->append(179);
-    path->append(160);
-    path->append(141);
-    path->append(122);
+    Client::retrieveGladiators();
+    int matrix1[11][19] = {{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
+                           {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
+                           {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
+                           {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
+                           {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
+                           {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
+                           {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
+                           {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
+                           {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
+                           {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
+                           {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}};
+    Pathfinding* pathfinding = Pathfinding::getInstance();
+    pathfinding->backTrack11x19(6, 0, matrix1);
+    PathList* pathList = PathList::getInstance();
+    pathList->createPath11x19(6, 0);
     game->createArmy(3);
-    game->setPath(path);
+    game->setPath(pathList->toQList());
 }
 
 //! A method that dulls grid

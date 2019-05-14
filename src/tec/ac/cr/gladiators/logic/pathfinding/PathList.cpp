@@ -34,6 +34,7 @@ void PathList::setHead(PathNode *head) {
 void PathList::addPath(int id) {
     if (this->head == nullptr){
         this->head = new PathNode(id);
+        this->large++;
     }else{
         PathNode* tmp = this->head;
         while (tmp->getNext() != nullptr){
@@ -51,18 +52,30 @@ void PathList::createPath11x19(int row, int column) {
         this->deletePath();
         this->head = nullptr;
     }
+    int down;
+    int up;
+    int right;
+    int left;
     while (true){
         addPath(ids11x19[row][column]);
         currentPath[row][column] = 1;
-        if (!row - 1 < 0 && pathfinding->solution11x19[row - 1][column] == 1 && currentPath[row - 1][column] != 1){
+        down = row + 1;
+        up = row - 1;
+        left = column - 1;
+        right = column + 1;
+        if (row - 1 >= 0 && pathfinding->solution11x19[down][column] == 1 && currentPath[down][column] != 1){
             row--;
-        }else if (!row + 1 > 10 && pathfinding->solution11x19[row + 1][column] == 1 && currentPath[row + 1][column] != 1){
+        }
+        else if (row + 1 <= 10 && pathfinding->solution11x19[up][column] == 1 && currentPath[up][column] != 1){
             row++;
-        }else if (!column - 1 < 0 && pathfinding->solution11x19[row][column - 1] == 1 && currentPath[row][column - 1] != 1){
+        }
+        else if (column - 1 >= 0 && pathfinding->solution11x19[row][left] == 1 && currentPath[row][left] != 1){
             column--;
-        }else if(!column + 1 > 18 && pathfinding->solution11x19[row][column + 1] == 1 && currentPath[row][column + 1]){
+        }
+        else if(column + 1 <= 18 && pathfinding->solution11x19[row][right] == 1 && currentPath[row][right] != 1){
             column++;
-        }else{
+        }
+        else{
             break;
         }
     }
@@ -123,4 +136,14 @@ void PathList::deletePath() {
         delete tmpDel;
         this->large = 0;
     }
+}
+
+QList<int>* PathList::toQList() {
+    QList<int>* path = new QList<int>();
+    PathNode* tmp = this->head;
+    while (tmp != nullptr){
+        path->append(tmp->getLocation());
+        tmp = tmp->getNext();
+    }
+    return path;
 }

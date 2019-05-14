@@ -24,7 +24,6 @@ void Game::addSoldier(Soldier *soldier) {
 void Game::createArmy(int size) {
     Field* field = Field::getInstance();
     QGraphicsScene* scene = field->getSoldierScene();
-    Client::retrieveGladiators();
     GladiatorsList* gladiatorsList = GladiatorsList::getInstance();
     size = gladiatorsList->getLenght();
     allSquares = field->allSquares;

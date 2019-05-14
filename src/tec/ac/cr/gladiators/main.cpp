@@ -17,7 +17,7 @@ using namespace std;
 int main(int argc, char *argv[]) {
 
     GladiatorsList* gladiatorsList = GladiatorsList::getInstance();
-    gladiatorsList->createGladiators(5);
+   // gladiatorsList->createGladiators(5);
 
     int matrix1[11][19] = {{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
                            {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
