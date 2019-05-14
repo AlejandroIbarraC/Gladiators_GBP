@@ -103,7 +103,7 @@ void GladiatorsList::deleteAll() {
         cout << "Error, no hay gladiadores por borrar" << endl;
     }else{
         Gladiators* toDel = this->head;
-        Gladiators* tmp = this->head;
+        Gladiators* tmp = this->head->getNext();
         while (tmp != nullptr){
             delete toDel;
             toDel = tmp;
