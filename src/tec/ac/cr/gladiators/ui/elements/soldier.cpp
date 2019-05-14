@@ -42,9 +42,9 @@ void Soldier::checkDamage() {
 
         int damage = collidingItems().length();
         int size = intersection.size();
-        qDebug() << "Damage:" << damage;
+       // qDebug() << "Damage:" << damage;
         if (size > 0) {
-            qDebug() << "Made it" << size;
+         //   qDebug() << "Made it" << size;
         }
         life = life - damage;
     }

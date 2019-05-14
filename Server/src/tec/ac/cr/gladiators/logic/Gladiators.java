@@ -168,6 +168,9 @@ public class Gladiators {
             i++;
         }
         total = (total * 100)/700;
+        if(total==0){
+            total++;
+        }
         this.genes[7] = total;
         this.setResistence(total);
     }

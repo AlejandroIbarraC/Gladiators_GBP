@@ -21,7 +21,7 @@ public:
 
 private:
 
-    PathNode* next;
+    PathNode* next = nullptr;
     int location;
 
 };
