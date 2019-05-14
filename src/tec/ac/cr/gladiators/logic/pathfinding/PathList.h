@@ -6,6 +6,7 @@
 #define GLADIATORS_GBP_PATHLIST_H
 
 
+#include <QtCore/QList>
 #include "PathNode.h"
 
 class PathList {
@@ -21,6 +22,7 @@ public:
 
     void createPath11x19(int row, int column);
     void createPath8x17(int row, int column);
+    QList<int>* toQList();
 
 private:
 
