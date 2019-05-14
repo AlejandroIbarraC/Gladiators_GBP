@@ -12,7 +12,7 @@ public class Towers {
         this.deaths = deaths;
     }
 
-    public static Towers getTower(int identification) {
+    public static Towers addTowers(int identification) {
         Random rn = new Random();
         Towers tower = new Builder().setIdentification(identification)
                 .typeOfAmmo(rn.nextInt(3))
@@ -30,11 +30,20 @@ public class Towers {
         this.setGenes(genes);
     }
 
+    public void calcFitness() {
+        int fit = 0;
+        for (int i = 0; i < this.getGenes().length; i++) {
+            fit += genes[i];
+        }
+        this.setFitness(fit);
+    }
+
     private int identification;
     private int typeOfAmmo;
     private int damageOutput;
     private int range;
     private int deaths;
+    private int fitness = 0;
     private int[] genes = new int[3];
 
     public int getIdentification () {
@@ -67,6 +76,14 @@ public class Towers {
 
     public void setRange ( int range){
         this.range = range;
+    }
+
+    public int getFitness() {
+        return fitness;
+    }
+
+    public void setFitness(int fitness) {
+        this.fitness = fitness;
     }
 
     public int[] getGenes () {
