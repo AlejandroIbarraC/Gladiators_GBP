@@ -26,7 +26,7 @@ public class GladiatorsServer {
     @Consumes(MediaType.APPLICATION_JSON)
     public void getGladiators(ArrayList<Gladiators> gladiatorsArrayList){
         System.out.println(2);
-        Holder.gladiatorsArrayList = GladiatorsFacade.updatePopulation(gladiatorsArrayList);
+        Holder.gladiatorsArrayList = GladiatorsFacade.updatePopulation();
     }
 
 }
