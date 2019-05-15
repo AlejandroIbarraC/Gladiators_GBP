@@ -1,5 +1,6 @@
 package tec.ac.cr.gladiators.server;
 
+import tec.ac.cr.gladiators.logic.Gladiators;
 import tec.ac.cr.gladiators.logic.Holder;
 import tec.ac.cr.gladiators.logic.facade.GladiatorsFacade;
 import tec.ac.cr.gladiators.logic.facade.TowersFacade;
@@ -22,10 +23,10 @@ public class Populations {
     @POST
     @Path("skip")
     @Consumes(MediaType.APPLICATION_JSON)
-    public void skipGenerations(int num){
+    public void skipGenerations(Gladiators gladiators){
         System.out.println(6);
-        GladiatorsFacade.skipGenerations(num);
-        TowersFacade.skipGenerations(num);
+        GladiatorsFacade.skipGenerations(gladiators.getAge());
+        TowersFacade.skipGenerations(gladiators.getAge());
     }
 
 }
