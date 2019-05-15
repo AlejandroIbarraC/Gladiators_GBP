@@ -24,8 +24,8 @@ void Game::addSoldier(Soldier *soldier) {
 void Game::createArmy(int size) {
     Field* field = Field::getInstance();
     QGraphicsScene* scene = field->getSoldierScene();
-    //GladiatorsList* gladiatorsList = GladiatorsList::getInstance();
-    //size = gladiatorsList->getLenght();
+    GladiatorsList* gladiatorsList = GladiatorsList::getInstance();
+    size = gladiatorsList->getLenght();
     allSquares = field->allSquares;
     distanceX = -20;
     QRect rect = QRect(0, 0, 15, 15);
