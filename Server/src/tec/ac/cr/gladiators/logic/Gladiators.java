@@ -4,6 +4,8 @@ import java.util.Random;
 
 public class Gladiators {
 
+    public Gladiators(){}
+
     Gladiators(int identification, int ageNumber, int probability, int gensToSurvive,
                int emotionInteligence, int condition, int strenghtUT, int strenghtLT,
                int calculatedResistence){
