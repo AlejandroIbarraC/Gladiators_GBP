@@ -9,7 +9,6 @@
 
 using namespace std;
 
-
 Field* Field::field = nullptr;
 
 //! A method that creates the field window
@@ -39,6 +38,7 @@ Field::Field(QWidget *parent, int stage) :
     soldier_view->setFixedSize(width, height);
 
     // Initialize background stage
+
     if (stage == 1) {
         ui->background->setPixmap(QPixmap("://main/fieldStage.png"));
         columns = 19;
@@ -66,6 +66,71 @@ Field::Field(QWidget *parent, int stage) :
     initializeField();
     game = Game::getInstance();
     game->run();
+
+    // Initialize damage matrix.
+    damageMatrix = new QList<int>;
+    for (int i = 0; i < (columns * rows); i++) {
+        damageMatrix->append(0);
+    }
+}
+
+/// Adds tower to pathfinding matrix
+void Field::addTower(int id) {
+    QList<int>* IDCoords = idToCoords(id);
+    int x = IDCoords->at(0);
+    int y = IDCoords->at(1);
+    fieldMatrix[x][y] = 0;
+}
+
+/// Algorithmically assign damage to square in damage matrix when adding a tower
+/// @param int id position in grid
+void Field::assignDamageMatrix(int id) {
+    QList<int>* numbers = new QList<int>;
+    int up = id - columns;
+    int down = id + columns;
+    int left = id - 1;
+    int right = id + 1;
+    int upLeft = up - 1;
+    int upRight = up + 1;
+    int downLeft = down - 1;
+    int downRight = down + 1;
+
+    // Corrects if placed in borders
+    if (left % columns == columns - 1) {
+        left = -1;
+        upLeft = -1;
+        downLeft = -1;
+    } if (right % columns == 0) {
+        right = -1;
+        upRight = -1;
+        downRight = -1;
+    } if (up < 0) {
+        up = -1;
+        upLeft = -1;
+        upRight = -1;
+    } if (down > rows * columns) {
+        down = -1;
+        downLeft = -1;
+        downRight = -1;
+    }
+
+    // Adds to iterated list
+    numbers->append(upLeft);
+    numbers->append(upRight);
+    numbers->append(up);
+    numbers->append(left);
+    numbers->append(right);
+    numbers->append(downLeft);
+    numbers->append(downRight);
+    numbers->append(down);
+
+    // Assigns damage
+    for (int i = 0; i < numbers->length(); i++) {
+        int currentNumber = numbers->at(i);
+        if (currentNumber != -1) {
+            damageMatrix->insert(currentNumber, 1);
+        }
+    }
 }
 
 //! A method that undulls grid
@@ -97,8 +162,37 @@ QGraphicsScene* Field::getScene() {
 QGraphicsScene* Field::getSoldierScene() {
     return this->soldier_scene;
 }
-//! A method that Initializes field with default attributes.
 
+/// Converts ID to x, y coordinates
+/// @param int id to find coordinates
+QList<int>* Field::idToCoords(int id) {
+    QList<int>* result = new QList<int>();
+    int x = 0;
+    int y = 0;
+    bool found = false;
+    int internalID = 0;
+
+    for (int i = 0; i < rows; i++) {
+        for (int j = 0; j < columns; j++) {
+            if (internalID == id) {
+                found = true;
+                break;
+            }
+            internalID++;
+            y++;
+        }
+        if (found) {
+            break;
+        }
+        x++;
+        y = 0;
+    }
+    result->append(x);
+    result->append(y);
+    return result;
+}
+
+//! A method that Initializes field with default attributes.
 void Field::initializeField() {
     // Grid icons.
     QRectF rect(0,0,40,40);
@@ -150,24 +244,39 @@ void Field::initializeField() {
 
 //! A method that is run when play button is clicked
 void Field::on_playButton_clicked() {
-    Client::retrieveGladiators();
-    int matrix1[11][19] = {{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-                           {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-                           {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-                           {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-                           {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-                           {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-                           {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-                           {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-                           {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-                           {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-                           {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}};
-    Pathfinding* pathfinding = Pathfinding::getInstance();
-    pathfinding->backTrack11x19(6, 0, matrix1);
-    PathList* pathList = PathList::getInstance();
-    pathList->createPath11x19(6, 0);
+    // ONLINE DATA
+    //Client::retrieveGladiators();
+    //Pathfinding* pathfinding = Pathfinding::getInstance();
+    //pathfinding->backTrack11x19(6, 0, fieldMatrix);
+    //PathList* pathList = PathList::getInstance();
+    //pathList->createPath11x19(6, 0);
+    //game->setPath(pathList->toQList());
+
+    // OFFLINE TEST DATA. COMMENT IT IF RUNNING ONLINE
     game->createArmy(3);
-    game->setPath(pathList->toQList());
+    QList<int>* path = new QList<int>;
+    path->append(95);
+    path->append(96);
+    path->append(97);
+    path->append(98);
+    path->append(99);
+    path->append(100);
+    path->append(81);
+    path->append(62);
+    path->append(43);
+    path->append(44);
+    path->append(45);
+    path->append(46);
+    path->append(47);
+    path->append(66);
+    path->append(85);
+    path->append(123);
+    path->append(142);
+    game->setPath(path);
+}
+
+void Field::on_skipButton_pressed() {
+    QString text = ui->genEntry->text();
 }
 
 //! A method that dulls grid
@@ -190,6 +299,15 @@ void Field::opaqueGrid() {
             currentSquare->setBrush(currentBrush);
         }
     }
+}
+
+/// Deletes tower in pathfinding matrix
+/// @param int id tower to delete
+void Field::deleteTower(int id) {
+    QList<int>* IDCoords = idToCoords(id);
+    int x = IDCoords->at(0);
+    int y = IDCoords->at(1);
+    fieldMatrix[x][y] = 1;
 }
 
 void Field::setInstance(Field* nfield) {
@@ -233,4 +351,16 @@ void Field::setSoldierLabels() {
     int resistence = gladiatorsList->soldierToShow->getResistence();
     QString Resistence = QString::number(resistence);
     ui->SoldierPhysicalCondition->setText(Resistence);
+}
+
+/// Gets ID of custom rect item square
+/// @param CustomRectItem square
+int Field::squareToID(CustomRectItem* square) {
+    int id = 0;
+    for (int i = 0; i < allSquares.length(); i++) {
+        if (square == allSquares[i]){
+            id = i;
+        }
+    }
+    return id;
 }

@@ -10,12 +10,13 @@ QGraphicsItem* CustomRectItem::getArea(){
     return area;
 }
 
+/// Creates invisible damage circular area of tower
 void CustomRectItem::initializeArea() {
     Field* field = Field::getInstance();
     Game* game = Game::getInstance();
     QGraphicsScene* soldierScene = field->getSoldierScene();
-    area = new QGraphicsRectItem(QRect(0, 0, 120, 120));
-    area->setBrush(Qt::white);
+    area = new QGraphicsEllipseItem(QRect(0, 0, 120, 120));
+    area->setBrush(Qt::transparent);
     area->setX(this->x() - 40);
     area->setY(this->y() - 40);
     area->setVisible(false);
@@ -27,8 +28,9 @@ void CustomRectItem::setID(int id) {
     this->id = id;
 }
 
+/// Executes when tower is pressed to show additional options
 void CustomRectItem::mousePressEvent(QGraphicsSceneMouseEvent *event) {
-    QGraphicsRectItem::mouseMoveEvent(event);
+    QGraphicsRectItem::mousePressEvent(event);
     if (acceptDrops()) {
         if (!area->isVisible()) {
             area->setVisible(true);

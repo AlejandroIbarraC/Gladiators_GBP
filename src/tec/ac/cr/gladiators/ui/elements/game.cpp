@@ -24,12 +24,15 @@ void Game::addSoldier(Soldier *soldier) {
 void Game::createArmy(int size) {
     Field* field = Field::getInstance();
     QGraphicsScene* scene = field->getSoldierScene();
-    GladiatorsList* gladiatorsList = GladiatorsList::getInstance();
-    size = gladiatorsList->getLenght();
+    //GladiatorsList* gladiatorsList = GladiatorsList::getInstance();
+    //size = gladiatorsList->getLenght();
     allSquares = field->allSquares;
     distanceX = -20;
+    QRect rect = QRect(0, 0, 15, 15);
     for(int i = 0; i < size; i++) {
         Soldier* soldier = new Soldier();
+        soldier->setBrush(Qt::red);
+        soldier->setRect(rect);
         soldier->id = i;
         addSoldier(soldier);
         soldier->setX(distanceX);
@@ -39,8 +42,9 @@ void Game::createArmy(int size) {
     }
 }
 
+/// Deletes soldier in army.
+/// @param Soldier* soldier to delete
 void Game::deleteSoldier(Soldier *soldier) {
-
     GladiatorsList* gladiatorsList = GladiatorsList::getInstance();
     gladiatorsList->deleteGladiatorByID(soldier->id);
     army->removeOne(soldier);
@@ -56,6 +60,7 @@ void Game::followPath(Soldier* soldier) {
     // Gets specific current square objective for soldier.
     int squareObjective = soldier->currentSquare;
     int IDObjetive = path->at(squareObjective);
+    soldier->graphicalSquare = IDObjetive;
 
     // X axis values
     int XObjective = static_cast<int>(allSquares[IDObjetive]->x()) + 15;
@@ -124,18 +129,17 @@ void Game::removeArea(QGraphicsItem *area) {
     allAreas.removeOne(area);
 }
 
-// Starts game
 //! A method that runs the game
 void Game::run() {
     timer = new QTimer(this);
     connect(timer, SIGNAL(timeout()), this, SLOT(updateGame()));
     timer->start(updateTime);
 }
+
 //! A method that upadates the game constantly
 /// Main game loop.
 void Game::updateGame() {
     // Updates each soldier in game.
-
     for(int i = 0; i < army->length(); i++) {
         Soldier* currentSoldier = army->at(i);
         if (currentSoldier->done) {
@@ -144,7 +148,7 @@ void Game::updateGame() {
             deleteSoldier(currentSoldier);
         } else {
             followPath(currentSoldier);
-            currentSoldier->checkDamage();
+            currentSoldier->damage();
         }
     }
 }

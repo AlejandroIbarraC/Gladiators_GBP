@@ -19,22 +19,28 @@ DraggableRectItem::DraggableRectItem(QGraphicsRectItem* parent, QString tower):
     this->setBrush(iconPix);
 }
 
+/// Sets point where item will return if dropped elsewhere
 void DraggableRectItem::setAnchorPoint(const QPointF &anchorPoint) {
     this->anchorPoint = anchorPoint;
 }
 
+/// Executes while item is being dragged
 void DraggableRectItem::mouseMoveEvent(QGraphicsSceneMouseEvent *event) {
+    // While being moved, show default tower picture
+    QGraphicsRectItem::mouseMoveEvent(event);
     m_dragged = true;
     Field* field = Field::getInstance();
-    QGraphicsRectItem::mouseMoveEvent(event);
     this->setRect(smallRect);
     this->setBrush(QBrush(towerPix));
 
+    // Calculates closest square to paint it in real time
     QList<QGraphicsItem*> colItems = collidingItems();
+    // If there are no colliding items while drag, don't show grid in checker pattern
     if(colItems.isEmpty()) {
         field->deOpaqueGrid();
         safeReturn = true;
     } else {
+        // Calculates closest square
         closestItem = colItems.at(0);
         qreal shortestDist = 100000;
         foreach(QGraphicsItem* item, colItems){
@@ -45,8 +51,11 @@ void DraggableRectItem::mouseMoveEvent(QGraphicsSceneMouseEvent *event) {
                 closestItem = item;
             }
         }
+
         int dimensions = field->rows * field->columns;
         QPointF closestPos = closestItem->pos();
+
+        // Paints current target square in real time and corrects paint for grid in checker pattern
         for (int i = 0; i < dimensions; i++) {
             CustomRectItem* currentSquare = field->allSquares.at(i);
             if (currentSquare->pos() == closestPos) {
@@ -61,20 +70,30 @@ void DraggableRectItem::mouseMoveEvent(QGraphicsSceneMouseEvent *event) {
     }
 }
 
+/// Executes if item is dropped on square
 void DraggableRectItem::mouseReleaseEvent(QGraphicsSceneMouseEvent *event){
+    // Moves draggable tower to original position in dock
+    QGraphicsRectItem::mouseReleaseEvent(event);
     Field* field = Field::getInstance();
     this->setPos(anchorPoint);
     this->setRect(largeRect);
     this->setBrush(QBrush(iconPix));
     field->deOpaqueGrid();
+
+    // If item is dropped on grid, calculate closest square ID,
+    // assign it to field damage matrix, add tower to pathfinding
+    // data, and paint tower on UI
     if (!safeReturn) {
+        int areaID = field->squareToID(closestSquare);
+        field->assignDamageMatrix(areaID);
         closestSquare->setBrush(towerPix);
         closestSquare->setAcceptDrops(true);
         closestSquare->initializeArea();
+        field->addTower(areaID);
     }
-    QGraphicsRectItem::mouseReleaseEvent(event);
 }
 
+/// Calculates random integer from two limits
 int DraggableRectItem::randInt(int low, int high) {
     return qrand() % ((high + 1) - low) + low;
 }

@@ -7,7 +7,6 @@
 
 
 Soldier::Soldier(QGraphicsRectItem* parent) {
-    rect = QRect(0, 0, 15, 15);
 }
 
 /// Advances square ID in path.
@@ -15,18 +14,13 @@ void Soldier::advanceSquare() {
     this->currentSquare ++;
 }
 
-QRectF Soldier::boundingRect() const {
-    return QRectF(rect);
-}
-
 //! A method use to check soldiers damage
-
 void Soldier::checkDamage() {
     if (life < 1) {
-        delete this;
+        this->setVisible(false);
     } else {
         Game* game = Game::getInstance();
-        QList<QGraphicsItem*> colItems = this->collidingItems();
+        QList<QGraphicsItem*> colItems = collidingItems();
         QList<QGraphicsItem*> areas = game->getAreas();
         QList<QGraphicsItem*> intersection;
 
@@ -42,40 +36,28 @@ void Soldier::checkDamage() {
 
         int damage = collidingItems().length();
         int size = intersection.size();
-       // qDebug() << "Damage:" << damage;
         if (size > 0) {
-         //   qDebug() << "Made it" << size;
+            qDebug() << "Made it" << size;
         }
-        life = life - damage;
+        life-= damage;
     }
 }
 
-QRect Soldier::geometry() const {
-    return rect;
-}
-//! A method to give the soldiers an image
-//! \param painter
-//! \param option
-//! \param widget
-void Soldier::paint(QPainter *painter,
-                    const QStyleOptionGraphicsItem *option,
-                    QWidget *widget) {
-    Q_UNUSED(option)
-    Q_UNUSED(widget)
-    painter->setBrush(QBrush(Qt::red));
-    painter->drawRoundRect(rect);
-}
-
-void Soldier::setGeometry(const QRect &value) {
-    if(rect!=value){
-        rect = value;
-        update();
+/// Sets damage to this soldier in cycle depending on position. Loop it for animated results.
+void Soldier::damage() {
+    if (life < 0) {
+        Game* game = Game::getInstance();
+        game->deleteSoldier(this);
+    } else {
+        Field* field = Field::getInstance();
+        QList<int>* damageMatrix = field->damageMatrix;
+        life -= damageMatrix->at(graphicalSquare);
+        //qDebug() << life;
     }
 }
 
 //! A method that runs specific actions when a soldier is pressed
 void Soldier::mousePressEvent(QGraphicsSceneMouseEvent *event) {
-    printf("holaaaaaaaaaaaaa");
     QGraphicsRectItem::mousePressEvent(event);
     GladiatorsList* gladiatorsList = GladiatorsList::getInstance();
     gladiatorsList->setSoldierToShowByID(this->id);

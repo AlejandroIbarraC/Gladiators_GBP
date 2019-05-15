@@ -26,23 +26,40 @@ public:
     ~Field();
     QVector<CustomRectItem*> allSquares;
     int columns;
+    QList<int>* damageMatrix;
     int rows;
 
+    void addTower(int id);
+    void assignDamageMatrix(int id);
+    void deleteTower(int id);
     void lowerLife();
     static Field* getInstance();
     QGraphicsScene* getScene();
     QGraphicsScene* getSoldierScene();
+    QList<int>* idToCoords(int id);
     void opaqueGrid();
     void deOpaqueGrid();
     static void setInstance(Field* nfield);
     void setSoldierScene(QGraphicsScene* newScene);
     void setSoldierLabels();
+    int squareToID(CustomRectItem* square);
 
 private:
     int life = 20;
     int startingx;
     int startingy;
     int currentStage;
+    int fieldMatrix[11][19] = {{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
+                               {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
+                               {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
+                               {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
+                               {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
+                               {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
+                               {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
+                               {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
+                               {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
+                               {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
+                               {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}};
     Game* game;
     QGraphicsView* view;
     QGraphicsView* soldier_view;
@@ -50,12 +67,12 @@ private:
     QGraphicsScene* soldier_scene;
     Ui::Field *ui;
 
-    void animateSoldier(Soldier* soldier, QList<int>* path, int speed);
     void initializeField();
     static Field* field;
 
 private slots:
     void on_playButton_clicked();
+    void on_skipButton_pressed();
 
 };
 

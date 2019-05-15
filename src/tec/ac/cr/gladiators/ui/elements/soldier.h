@@ -11,29 +11,24 @@
 #include <QPushButton>
 
 
-class Soldier : public QObject, public QGraphicsRectItem {
-    Q_OBJECT
-    Q_PROPERTY(QRect geometry READ geometry WRITE setGeometry)
+class Soldier : public QGraphicsRectItem {
 
 public:
     Soldier(QGraphicsRectItem* parent = nullptr);
     int id;
     int currentSquare = 0;
     int done = false;
+    int graphicalSquare;
 
     void advanceSquare();
+    void damage();
     void checkDamage();
-    QRect geometry() const;
-    void setGeometry(const QRect &value);
-    QRectF boundingRect() const;
-    void paint(QPainter *painter, const QStyleOptionGraphicsItem *option,QWidget *widget);
 
 protected:
     void mousePressEvent(QGraphicsSceneMouseEvent *event);
 
 private:
-    QRect rect;
-    int life = 10;
+    int life = 200;
 };
 
 #endif // SOLDIER_H

@@ -21,7 +21,7 @@ protected:
     void mousePressEvent(QGraphicsSceneMouseEvent *event);
 
 private:
-    QGraphicsRectItem* area;
+    QGraphicsEllipseItem* area;
 
 };
 
