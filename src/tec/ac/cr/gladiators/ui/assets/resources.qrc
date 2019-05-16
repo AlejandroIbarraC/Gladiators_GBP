@@ -16,6 +16,16 @@
         <file>cityStage.jpg</file>
         <file>plate.png</file>
         <file>moneyIcon.png</file>
+        <file>ageIcon.png</file>
+        <file>carbonFiberBackground.jpg</file>
+        <file>genIcon.png</file>
+        <file>intelligenceIcon.png</file>
+        <file>nextButtonIcon.png</file>
+        <file>physicalIcon.png</file>
+        <file>playButtonIcon.png</file>
+        <file>resetButtonIcon.png</file>
+        <file>resistanceIcon.png</file>
+        <file>survivalIcon.png</file>
     </qresource>
     <qresource prefix="/font">
         <file>Papyrus.ttc</file>
