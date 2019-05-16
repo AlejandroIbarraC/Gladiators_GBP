@@ -67,8 +67,9 @@ Field::Field(QWidget *parent, int stage) :
     game = Game::getInstance();
     game->run();
 
-    // Initialize damage matrix.
+    // Initialize damage matrix and tower list.
     damageMatrix = new QList<int>;
+    towerList = new QList<int>;
     for (int i = 0; i < (columns * rows); i++) {
         damageMatrix->append(0);
     }
@@ -79,13 +80,64 @@ void Field::addTower(int id) {
     QList<int>* IDCoords = idToCoords(id);
     int x = IDCoords->at(0);
     int y = IDCoords->at(1);
-    fieldMatrix11x19[x][y] = 0;
+    if (currentStage == 1) {
+        fieldMatrix[x][y] = 0;
+    } else {
+        cityMatrix[x][y] = 0;
+    }
+
+    // Adds tower in internal tower list for rotation in UI
+    towerList->append(id);
+
+    // Pathfinding stuff
+    qDebug() << "Added tower in " << x << y;
+    Pathfinding* pathfinding = Pathfinding::getInstance();
+    pathfinding->backTrack11x19(0,6, fieldMatrix);
+    PathList* pathList = PathList::getInstance();
+    pathList->createPath11x19(0, 6);
+    std::cout << pathfinding->toString11x19();
+    qDebug() << "END";
 }
 
 /// Algorithmically assign damage to square in damage matrix when adding a tower
 /// @param int id position in grid
 void Field::assignDamageMatrix(int id) {
-    QList<int>* numbers = new QList<int>;
+    QList<int>* numbers = findCoverage(id);
+
+    // Assigns damage
+    for (int i = 0; i < numbers->length(); i++) {
+        int currentNumber = numbers->at(i);
+        damageMatrix->insert(currentNumber, damageMatrix->at(currentNumber) + 1);
+    }
+}
+
+//! A method that undulls grid
+/// Deopaques grid
+void Field::deOpaqueGrid() {
+    int dimensions = rows * columns;
+    for (int i = 0; i < dimensions; i++) {
+        QGraphicsRectItem* currentSquare = allSquares[i];
+        if (!currentSquare->acceptDrops()) {
+            currentSquare->setBrush(QBrush(QColor(0, 0, 0, 0)));
+        }
+    }
+}
+
+/// Deletes tower in pathfinding matrix
+/// @param int id tower to delete
+void Field::deleteTower(int id) {
+    QList<int>* IDCoords = idToCoords(id);
+    int x = IDCoords->at(0);
+    int y = IDCoords->at(1);
+    if (currentStage == 1) {
+        fieldMatrix[x][y] = 1;
+    } else {
+        cityMatrix[x][y] = 1;
+    }
+}
+
+QList<int>* Field::findCoverage(int id) {
+    QList<int>* numbers = new QList<int>();
     int up = id - columns;
     int down = id + columns;
     int left = id - 1;
@@ -124,25 +176,15 @@ void Field::assignDamageMatrix(int id) {
     numbers->append(downRight);
     numbers->append(down);
 
-    // Assigns damage
+    // Remove fake ones
     for (int i = 0; i < numbers->length(); i++) {
         int currentNumber = numbers->at(i);
         if (currentNumber != -1) {
-            damageMatrix->insert(currentNumber, 1);
+            numbers->removeOne(i);
         }
     }
-}
 
-//! A method that undulls grid
-/// Deopaques grid
-void Field::deOpaqueGrid() {
-    int dimensions = rows * columns;
-    for (int i = 0; i < dimensions; i++) {
-        QGraphicsRectItem* currentSquare = allSquares[i];
-        if (!currentSquare->acceptDrops()) {
-            currentSquare->setBrush(QBrush(QColor(0, 0, 0, 0)));
-        }
-    }
+    return numbers;
 }
 
 //! A method that reduces player life
@@ -153,6 +195,20 @@ void Field::lowerLife() {
 
 Field* Field::getInstance() {
     return field;
+}
+
+QList<int>* Field::getPath() {
+    Pathfinding* pathfinding = Pathfinding::getInstance();
+    PathList* pathList = PathList::getInstance();
+    if (currentStage == 1) {
+        pathfinding->backTrack11x19(6, 0, fieldMatrix);
+        pathList->createPath11x19(6, 0);
+    } else {
+        pathfinding->backTrack8x17(6, 0, cityMatrix);
+        pathList->createPath8x17(6, 0);
+    }
+    QList<int>* path = pathList->toQList();
+    return path;
 }
 
 QGraphicsScene* Field::getScene() {
@@ -245,16 +301,16 @@ void Field::initializeField() {
 //! A method that is run when play button is clicked
 void Field::on_playButton_clicked() {
     // ONLINE DATA
-    Client::retrieveGladiators();
-    Pathfinding* pathfinding = Pathfinding::getInstance();
-    pathfinding->backTrack11x19(6, 0, fieldMatrix11x19);
-    PathList* pathList = PathList::getInstance();
-    pathList->createPath11x19(6, 0);
-    game->setPath(pathList->toQList());
+    //Client::retrieveGladiators();
+    //Pathfinding* pathfinding = Pathfinding::getInstance();
+    //pathfinding->backTrack11x19(6, 0, fieldMatrix);
+    //PathList* pathList = PathList::getInstance();
+    //pathList->createPath11x19(6, 0);
+    //game->setPath(pathList->toQList());
 
     // OFFLINE TEST DATA. COMMENT IT IF RUNNING ONLINE
     game->createArmy(3);
-    /*QList<int>* path = new QList<int>;
+    QList<int>* path = new QList<int>;
     path->append(95);
     path->append(96);
     path->append(97);
@@ -271,14 +327,12 @@ void Field::on_playButton_clicked() {
     path->append(66);
     path->append(85);
     path->append(123);
-    path->append(142);*/
-    //game->setPath(path);
+    path->append(142);
+    game->setPath(path);
 }
 
 void Field::on_skipButton_pressed() {
     QString text = ui->genEntry->text();
-    Client::skipNumber = text.toInt();
-    Client::skip();
 }
 
 //! A method that dulls grid
@@ -303,13 +357,17 @@ void Field::opaqueGrid() {
     }
 }
 
-/// Deletes tower in pathfinding matrix
-/// @param int id tower to delete
-void Field::deleteTower(int id) {
-    QList<int>* IDCoords = idToCoords(id);
-    int x = IDCoords->at(0);
-    int y = IDCoords->at(1);
-    fieldMatrix11x19[x][y] = 1;
+/// Paints designed path in UI.
+/// @param QList<int> path to paint
+void Field::paintPath(QList<int>* path) {
+    for (int i = 0; i < path->length(); i++) {
+        CustomRectItem* currentSquare = allSquares[path->at(i)];
+        if (currentSquare->acceptDrops()) {
+            // Ignore placed towers.
+        } else {
+            currentSquare->setBrush(QColor(100, 0, 0, 120));
+        }
+    }
 }
 
 void Field::setInstance(Field* nfield) {

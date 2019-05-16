@@ -2,6 +2,7 @@
 #include "../field.h"
 #include "../../logic/GladiatorsList.h"
 #include "../../client/Client.h"
+#include "soldier.h"
 
 
 Game *Game::instance = new Game();
@@ -23,15 +24,31 @@ void Game::addSoldier(Soldier *soldier) {
 /// @param int army size
 void Game::createArmy(int size) {
     Field* field = Field::getInstance();
-    QGraphicsScene* scene = field->getSoldierScene();
+    QGraphicsScene* scene = field->getScene();
     GladiatorsList* gladiatorsList = GladiatorsList::getInstance();
     size = gladiatorsList->getLenght();
     allSquares = field->allSquares;
     distanceX = -20;
+
     QRect rect = QRect(0, 0, 15, 15);
     for(int i = 0; i < size; i++) {
         Soldier* soldier = new Soldier();
-        soldier->setBrush(Qt::red);
+        soldier->id = i;
+
+        int randomBit = rand() % 2;
+        //qDebug() << "Numb: " << randomBit;
+        QString soldierdir = ":/soldier/soldier/soldierFlash.png";
+
+        /*
+        if (randomBit == 0){
+            soldierdir = ":/soldier/soldier/soldierFlash.png";
+        }else{
+            soldierdir = ":/soldier/soldier/soldierKnive.png";
+        }*/
+
+        QPixmap sPix = QPixmap(soldierdir);
+        soldier->soldierPix = sPix.scaled(15,15);
+        soldier->setBrush(soldier->soldierPix);
         soldier->setRect(rect);
         soldier->id = i;
         addSoldier(soldier);
@@ -149,6 +166,7 @@ void Game::updateGame() {
         } else {
             followPath(currentSoldier);
             currentSoldier->damage();
+            currentSoldier->checkRotation();
         }
     }
 }

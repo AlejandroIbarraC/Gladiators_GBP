@@ -21,8 +21,10 @@ public:
     int graphicalSquare;
 
     void advanceSquare();
+    void checkRotation();
     void damage();
     void checkDamage();
+    QPixmap soldierPix;
 
 protected:
     void mousePressEvent(QGraphicsSceneMouseEvent *event);

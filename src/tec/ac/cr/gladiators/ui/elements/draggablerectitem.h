@@ -7,6 +7,8 @@
 #include <QBrush>
 
 #include "customrectitem.h"
+#include "../../logic/pathfinding/Pathfinding.h"
+#include "../../logic/pathfinding/PathList.h"
 
 
 class DraggableRectItem : public QGraphicsRectItem {
