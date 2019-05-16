@@ -6,6 +6,7 @@
 #define GLADIATORS_GBP_PATHFINDING_H
 
 #include <string>
+#include <list>
 
 using namespace std;
 
@@ -28,7 +29,12 @@ private:
     Pathfinding& operator = (Pathfinding const&) = default;
 
     static Pathfinding* pathfinding;
+    int ids11x19[11][19];
+    int ids8x17[8][17];
+    int visited11x19[11][19];
+    int visited8x17[8][17];
 
+    void initializeIDS();
     string toString11x19();
     string toString8x17();
 

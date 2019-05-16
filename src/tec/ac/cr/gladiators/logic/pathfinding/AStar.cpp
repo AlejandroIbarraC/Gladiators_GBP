@@ -84,7 +84,7 @@ double calculateHValue(int row, int col, Pair dest)
 //! \param dest
 // A Utility Function to trace the path from the source
 // to destination
-void tracePath11x19(cell cellDetails[][19], Pair dest)
+bool tracePath11x19(cell cellDetails[][19], Pair dest)
 {
     Pathfinding* pathfinding = Pathfinding::getInstance();
     printf ("\nThe Path is ");
@@ -112,14 +112,14 @@ void tracePath11x19(cell cellDetails[][19], Pair dest)
         pathfinding->solution11x19[p.first][p.second] = 1;
     }
 
-    return;
+    return true;
 }
 
 //! A method that searchs the way from de initial cell to destination cell
 //! \param grid
 //! \param src
 //! \param dest
-void aStarSearch11x19(int grid[11][19], Pair src, Pair dest)
+bool aStarSearch11x19(int grid[11][19], Pair src, Pair dest)
 {
     int ROW = 11;
     int COL = 19;
@@ -127,26 +127,26 @@ void aStarSearch11x19(int grid[11][19], Pair src, Pair dest)
     if (isValid (src.first, src.second, ROW, COL) == false)
     {
         printf ("Source is invalid\n");
-        return;
+        return false;
     }
 
     if (isValid (dest.first, dest.second, ROW, COL) == false)
     {
         printf ("Destination is invalid\n");
-        return;
+        return false;
     }
 
     if (isUnBlocked11x19(grid, src.first, src.second) == false ||
         isUnBlocked11x19(grid, dest.first, dest.second) == false)
     {
         printf ("Source or the destination is blocked\n");
-        return;
+        return false;
     }
 
     if (isDestination(src.first, src.second, dest) == true)
     {
         printf ("We are already at the destination\n");
-        return;
+        return true;
     }
 
     bool closedList[ROW][COL];
@@ -206,7 +206,7 @@ void aStarSearch11x19(int grid[11][19], Pair src, Pair dest)
                 printf ("The destination cell is found\n");
                 tracePath11x19 (cellDetails, dest);
                 foundDest = true;
-                return;
+                return true;
             }
 
             else if (closedList[i-1][j] == false &&
@@ -242,7 +242,7 @@ void aStarSearch11x19(int grid[11][19], Pair src, Pair dest)
                 printf("The destination cell is found\n");
                 tracePath11x19(cellDetails, dest);
                 foundDest = true;
-                return;
+                return true;
             }
 
             else if (closedList[i+1][j] == false &&
@@ -277,7 +277,7 @@ void aStarSearch11x19(int grid[11][19], Pair src, Pair dest)
                 printf("The destination cell is found\n");
                 tracePath11x19(cellDetails, dest);
                 foundDest = true;
-                return;
+                return true;
             }
 
             else if (closedList[i][j+1] == false &&
@@ -314,7 +314,7 @@ void aStarSearch11x19(int grid[11][19], Pair src, Pair dest)
                 printf("The destination cell is found\n");
                 tracePath11x19(cellDetails, dest);
                 foundDest = true;
-                return;
+                return true;
             }
 
             else if (closedList[i][j-1] == false &&
@@ -340,10 +340,11 @@ void aStarSearch11x19(int grid[11][19], Pair src, Pair dest)
         }
     }
 
-    if (foundDest == false)
+    if (foundDest == false) {
         printf("Failed to find the Destination Cell\n");
-
-    return;
+        return false;
+    }
+    return true;
 }
 
 //! A Utility Function to check whether the given cell is blocked or not
@@ -365,7 +366,7 @@ bool isUnBlocked8x17(int grid[8][17], int row, int col)
 //! \param dest
 // A Utility Function to trace the path from the source
 // to destination
-void tracePath8x17(cell cellDetails[][17], Pair dest)
+bool tracePath8x17(cell cellDetails[][17], Pair dest)
 {
     Pathfinding* pathfinding = Pathfinding::getInstance();
     printf ("\nThe Path is ");
@@ -393,40 +394,40 @@ void tracePath8x17(cell cellDetails[][17], Pair dest)
         pathfinding->solution8x17[p.first][p.second] = 1;
     }
 
-    return;
+    return true;
 }
 
 //! A method that searchs the way from de initial cell to destination cell
 //! \param grid
 //! \param src
 //! \param dest
-void aStarSearch8x17(int grid[8][17], Pair src, Pair dest)
+bool aStarSearch8x17(int grid[8][17], Pair src, Pair dest)
 {
     int ROW = 8;
     int COL = 17;
     if (isValid (src.first, src.second, ROW, COL) == false)
     {
         printf ("Source is invalid\n");
-        return;
+        return false;
     }
 
     if (isValid (dest.first, dest.second, ROW, COL) == false)
     {
         printf ("Destination is invalid\n");
-        return;
+        return false;
     }
 
     if (isUnBlocked8x17(grid, src.first, src.second) == false ||
         isUnBlocked8x17(grid, dest.first, dest.second) == false)
     {
         printf ("Source or the destination is blocked\n");
-        return;
+        return false;
     }
 
     if (isDestination(src.first, src.second, dest) == true)
     {
         printf ("We are already at the destination\n");
-        return;
+        return false;
     }
 
     bool closedList[ROW][COL];
@@ -485,7 +486,7 @@ void aStarSearch8x17(int grid[8][17], Pair src, Pair dest)
                 printf ("The destination cell is found\n");
                 tracePath8x17 (cellDetails, dest);
                 foundDest = true;
-                return;
+                return true;
             }
 
             else if (closedList[i-1][j] == false &&
@@ -522,7 +523,7 @@ void aStarSearch8x17(int grid[8][17], Pair src, Pair dest)
                 printf("The destination cell is found\n");
                 tracePath8x17(cellDetails, dest);
                 foundDest = true;
-                return;
+                return true;
             }
 
             else if (closedList[i+1][j] == false &&
@@ -557,7 +558,7 @@ void aStarSearch8x17(int grid[8][17], Pair src, Pair dest)
                 printf("The destination cell is found\n");
                 tracePath8x17(cellDetails, dest);
                 foundDest = true;
-                return;
+                return true;
             }
 
             else if (closedList[i][j+1] == false &&
@@ -594,7 +595,7 @@ void aStarSearch8x17(int grid[8][17], Pair src, Pair dest)
                 printf("The destination cell is found\n");
                 tracePath8x17(cellDetails, dest);
                 foundDest = true;
-                return;
+                return true;
             }
 
             else if (closedList[i][j-1] == false &&
@@ -621,10 +622,11 @@ void aStarSearch8x17(int grid[8][17], Pair src, Pair dest)
         }
     }
 
-    if (foundDest == false)
+    if (foundDest == false) {
         printf("Failed to find the Destination Cell\n");
-
-    return;
+        return false;
+    }
+    return true;
 }
 
 
