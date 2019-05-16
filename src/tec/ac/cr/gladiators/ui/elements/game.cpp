@@ -36,14 +36,11 @@ void Game::createArmy(int size) {
         soldier->id = i;
         soldier->setPen(Qt::NoPen);
 
-        int randomBit = rand() % 2;
-        //qDebug() << "Numb: " << randomBit;
-
         QString soldierdir = ":/soldiers/soldiers/soldierFlashRight.png";
-
         QPixmap sPix = QPixmap(soldierdir);
         soldier->soldierPix = sPix.scaled(15,15);
         soldier->setBrush(soldier->soldierPix);
+
         soldier->setRect(rect);
         soldier->id = i;
         addSoldier(soldier);
@@ -88,16 +85,36 @@ void Game::followPath(Soldier* soldier) {
     if (absXDifference > 1) {
         // Move right or left.
         if (XObjective > currentX) {
+
             soldier->setX(soldier->x() + 1);
+            QString soldierdir = ":/soldiers/soldiers/soldierFlashRight.png";
+            QPixmap sPix = QPixmap(soldierdir);
+            soldier->soldierPix = sPix.scaled(15,15);
+            soldier->setBrush(soldier->soldierPix);
+
         } else {
             soldier->setX(soldier->x() - 1);
+            QString soldierdir = ":/soldiers/soldiers/soldierFlashLeft.png";
+            QPixmap sPix = QPixmap(soldierdir);
+            soldier->soldierPix = sPix.scaled(15,15);
+            soldier->setBrush(soldier->soldierPix);
         }
     } else if (absYDifference > 1) {
         // Move up or down.
         if (YObjective > currentY) {
+
             soldier->setY(soldier->y() + 1);
+            QString soldierdir = ":/soldiers/soldiers/soldierFlashDown.png";
+            QPixmap sPix = QPixmap(soldierdir);
+            soldier->soldierPix = sPix.scaled(15,15);
+            soldier->setBrush(soldier->soldierPix);
+
         } else {
             soldier->setY(soldier->y() - 1);
+            QString soldierdir = ":/soldiers/soldiers/soldierFlashUp.png";
+            QPixmap sPix = QPixmap(soldierdir);
+            soldier->soldierPix = sPix.scaled(15,15);
+            soldier->setBrush(soldier->soldierPix);
         }
     } else {
         // Checks if end is reached.
