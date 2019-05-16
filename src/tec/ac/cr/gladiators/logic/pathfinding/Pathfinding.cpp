@@ -213,3 +213,18 @@ void Pathfinding::initializeIDS() {
         }
     }
 }
+
+void Pathfinding::reset() {
+    for(int i = 0; i < 11; i++){
+        for (int j = 0; j < 19; j++){
+            solution11x19[i][j] = 0;
+            visited11x19[i][j] = 0;
+        }
+    }
+    for(int i = 0; i < 8; i++){
+        for (int j = 0; j < 17; j++){
+            ids8x17[i][j] = 0;
+            visited8x17[i][j] = 0;
+        }
+    }
+}

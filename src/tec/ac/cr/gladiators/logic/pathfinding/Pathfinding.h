@@ -21,6 +21,7 @@ public:
 
     bool backTrack11x19(int sRow, int sColumn, int matrix[11][19]);
     bool backTrack8x17(int sRow, int sColumn, int matrix[8][17]);
+    void reset();
 
 private:
 
