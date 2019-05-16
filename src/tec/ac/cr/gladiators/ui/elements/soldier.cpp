@@ -8,11 +8,7 @@
 
 
 Soldier::Soldier(QGraphicsRectItem* parent) {
-    // Initializes default attributes.
-
-
 }
-
 
 /// Advances square ID in path.
 void Soldier::advanceSquare() {
