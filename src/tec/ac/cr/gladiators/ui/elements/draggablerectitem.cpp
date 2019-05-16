@@ -67,10 +67,6 @@ void DraggableRectItem::mouseMoveEvent(QGraphicsSceneMouseEvent *event) {
             }
         }
 
-        // Gets updated path and paints it
-        QList<int>* path = field->getPath();
-        field->paintPath(path);
-
         safeReturn = false;
     }
 }
@@ -97,6 +93,16 @@ void DraggableRectItem::mouseReleaseEvent(QGraphicsSceneMouseEvent *event){
         field->addTower(areaID);
         closestSquare->towerType = towerType;
     }
+
+    // Gets updated path and paints it
+    QList<int>* path = field->getPath();
+    field->paintPath(path);
+    qDebug() << path->at(0)
+             << path->at(1)
+             << path->at(2)
+             << path->at(3)
+             << path->at(4)
+             << path->at(5);
 }
 
 /// Calculates random integer from two limits
