@@ -34,17 +34,12 @@ void Game::createArmy(int size) {
     for(int i = 0; i < size; i++) {
         Soldier* soldier = new Soldier();
         soldier->id = i;
+        soldier->setPen(Qt::NoPen);
 
         int randomBit = rand() % 2;
         //qDebug() << "Numb: " << randomBit;
-        QString soldierdir = ":/soldier/soldier/soldierFlash.png";
 
-        /*
-        if (randomBit == 0){
-            soldierdir = ":/soldier/soldier/soldierFlash.png";
-        }else{
-            soldierdir = ":/soldier/soldier/soldierKnive.png";
-        }*/
+        QString soldierdir = ":/soldiers/soldiers/soldierFlashRight.png";
 
         QPixmap sPix = QPixmap(soldierdir);
         soldier->soldierPix = sPix.scaled(15,15);
@@ -56,6 +51,7 @@ void Game::createArmy(int size) {
         distanceX = distanceX - 20;
         soldier->setY(350);
         scene->addItem(soldier);
+
     }
 }
 

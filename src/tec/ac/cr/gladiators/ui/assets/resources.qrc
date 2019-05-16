@@ -40,7 +40,9 @@
         <file>towers/gatling1g.png</file>
     </qresource>
     <qresource prefix="/soldiers">
-        <file>soldiers/soldierFlash.png</file>
-        <file>soldiers/soldierKnive.png</file>
+        <file>soldiers/soldierFlashDown.png</file>
+        <file>soldiers/soldierFlashLeft.png</file>
+        <file>soldiers/soldierFlashRight.png</file>
+        <file>soldiers/soldierFlashUp.png</file>
     </qresource>
 </RCC>
