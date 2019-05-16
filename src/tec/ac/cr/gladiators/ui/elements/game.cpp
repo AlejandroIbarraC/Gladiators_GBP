@@ -166,6 +166,7 @@ void Game::updateGame() {
         } else {
             followPath(currentSoldier);
             currentSoldier->damage();
+            currentSoldier->checkRotation();
         }
     }
 }

@@ -102,6 +102,7 @@ void DraggableRectItem::mouseReleaseEvent(QGraphicsSceneMouseEvent *event){
         closestSquare->setAcceptDrops(true);
         closestSquare->initializeArea();
         field->addTower(areaID);
+        closestSquare->towerType = towerType;
     }
 }
 

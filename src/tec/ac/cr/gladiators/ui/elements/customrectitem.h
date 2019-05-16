@@ -12,6 +12,7 @@ class CustomRectItem : public QGraphicsRectItem {
 public:
     CustomRectItem(QGraphicsRectItem* parent = nullptr);
     int id;
+    QString towerType;
 
     QGraphicsItem* getArea();
     void initializeArea();

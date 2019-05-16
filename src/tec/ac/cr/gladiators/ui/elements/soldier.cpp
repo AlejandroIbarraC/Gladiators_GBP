@@ -45,6 +45,72 @@ void Soldier::checkDamage() {
     }
 }
 
+void Soldier::checkRotation() {
+    Field* field = Field::getInstance();
+    QList<int>* towers = field->towerList;
+    QVector<CustomRectItem*> squares = field->allSquares;
+
+    for (int i = 0; i < towers->length(); i++) {
+        int towerID = towers->at(i);
+        CustomRectItem* towerSquare = squares.at(towerID);
+        QString rotationDir;
+        QPixmap rPix;
+        QPixmap rotationPix;
+        QString towerType = towerSquare->towerType;
+
+        int up = towers->at(i) - field->columns;
+        int down = towers->at(i) + field->columns;
+        int right = towers->at(i) + 1;
+        int left = towers->at(i) - 1;
+        int upLeft = up - 1;
+        int upRight = up + 1;
+        int downLeft = down - 1;
+        int downRight = down + 1;
+
+        if (graphicalSquare == up) {
+            rotationDir = ":/towers/towers/" + towerType + "1b.png";
+            rPix = QPixmap(rotationDir);
+            rotationPix = rPix.scaled(40,40);
+            towerSquare->setBrush(rotationPix);
+        } else if (graphicalSquare == down) {
+            rotationDir = ":/towers/towers/" + towerType + "1f.png";
+            rPix = QPixmap(rotationDir);
+            rotationPix = rPix.scaled(40,40);
+            towerSquare->setBrush(rotationPix);
+        } else if (graphicalSquare == right) {
+            rotationDir = ":/towers/towers/" + towerType + "1d.png";
+            rPix = QPixmap(rotationDir);
+            rotationPix = rPix.scaled(40,40);
+            towerSquare->setBrush(rotationPix);
+        } else if (graphicalSquare == left) {
+            rotationDir = ":/towers/towers/" + towerType + "1.png";
+            rPix = QPixmap(rotationDir);
+            rotationPix = rPix.scaled(40,40);
+            towerSquare->setBrush(rotationPix);
+        }else if (graphicalSquare == upLeft) {
+            rotationDir = ":/towers/towers/" + towerType + "1a.png";
+            rPix = QPixmap(rotationDir);
+            rotationPix = rPix.scaled(40,40);
+            towerSquare->setBrush(rotationPix);
+        } else if (graphicalSquare == upRight) {
+            rotationDir = ":/towers/towers/" + towerType + "1c.png";
+            rPix = QPixmap(rotationDir);
+            rotationPix = rPix.scaled(40,40);
+            towerSquare->setBrush(rotationPix);
+        } else if (graphicalSquare == downLeft) {
+            rotationDir = ":/towers/towers/" + towerType + "1g.png";
+            rPix = QPixmap(rotationDir);
+            rotationPix = rPix.scaled(40,40);
+            towerSquare->setBrush(rotationPix);
+        } else if (graphicalSquare == downRight) {
+            rotationDir = ":/towers/towers/" + towerType + "1e.png";
+            rPix = QPixmap(rotationDir);
+            rotationPix = rPix.scaled(40,40);
+            towerSquare->setBrush(rotationPix);
+        }
+    }
+}
+
 /// Sets damage to this soldier in cycle depending on position. Loop it for animated results.
 void Soldier::damage() {
     if (life < 0) {

@@ -47,10 +47,12 @@ public:
                              {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
                              {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}};
     int rows;
+    QList<int>* towerList;
 
     void addTower(int id);
     void assignDamageMatrix(int id);
     void deleteTower(int id);
+    QList<int>* findCoverage(int id);
     void deOpaqueGrid();
     void lowerLife();
     static Field* getInstance();
