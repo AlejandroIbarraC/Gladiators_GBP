@@ -17,7 +17,7 @@ using namespace std;
 int main(int argc, char *argv[]) {
 
     GladiatorsList* gladiatorsList = GladiatorsList::getInstance();
-   // gladiatorsList->createGladiators(5);
+    gladiatorsList->createGladiators(5);
 
     int matrix1[11][19] = {{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
                            {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
@@ -43,8 +43,6 @@ int main(int argc, char *argv[]) {
     Pathfinding* pathfinding = Pathfinding::getInstance();
     pathfinding->backTrack11x19(6, 0, matrix1);
     pathfinding->backTrack8x17(3, 0, matrix2);
-
-
 
     // Inicio y Destino de la matriz 11x19
     Pair src11x19 = make_pair(6, 0);

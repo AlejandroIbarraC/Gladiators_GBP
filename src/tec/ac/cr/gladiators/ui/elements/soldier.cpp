@@ -4,10 +4,15 @@
 #include "customrectitem.h"
 #include "../../logic/GladiatorsList.h"
 #include "../field.h"
+#include <iostream>
 
 
 Soldier::Soldier(QGraphicsRectItem* parent) {
+    // Initializes default attributes.
+
+
 }
+
 
 /// Advances square ID in path.
 void Soldier::advanceSquare() {
@@ -58,6 +63,7 @@ void Soldier::damage() {
 
 //! A method that runs specific actions when a soldier is pressed
 void Soldier::mousePressEvent(QGraphicsSceneMouseEvent *event) {
+
     QGraphicsRectItem::mousePressEvent(event);
     GladiatorsList* gladiatorsList = GladiatorsList::getInstance();
     gladiatorsList->setSoldierToShowByID(this->id);

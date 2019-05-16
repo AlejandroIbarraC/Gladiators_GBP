@@ -23,6 +23,7 @@ public:
     void advanceSquare();
     void damage();
     void checkDamage();
+    QPixmap soldierPix;
 
 protected:
     void mousePressEvent(QGraphicsSceneMouseEvent *event);

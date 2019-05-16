@@ -329,6 +329,7 @@ void Field::setSoldierLabels() {
     GladiatorsList* gladiatorsList = GladiatorsList::getInstance();
 
     int age = gladiatorsList->soldierToShow->getAge();
+    qDebug() << "Edaaaad: "<< age;
     QString Age = QString::number(age);
     ui->SoldierAge->setText(Age);
 

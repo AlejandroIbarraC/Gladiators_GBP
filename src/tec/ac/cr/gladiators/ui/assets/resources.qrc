@@ -32,4 +32,8 @@
         <file>towers/gatlingarrow.png</file>
         <file>towers/gatlingicon.png</file>
     </qresource>
+    <qresource prefix="/soldiers">
+        <file>soldiers/soldierFlash.png</file>
+        <file>soldiers/soldierKnive.png</file>
+    </qresource>
 </RCC>
