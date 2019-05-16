@@ -88,25 +88,18 @@ void Field::addTower(int id) {
 
     // Adds tower in internal tower list for rotation in UI
     towerList->append(id);
-
-    // Pathfinding stuff
-    qDebug() << "Added tower in " << x << y;
-    Pathfinding* pathfinding = Pathfinding::getInstance();
-    pathfinding->backTrack11x19(0,6, fieldMatrix);
-    PathList* pathList = PathList::getInstance();
-    pathList->createPath11x19(0, 6);
-    qDebug() << "END";
 }
 
 /// Algorithmically assign damage to square in damage matrix when adding a tower
 /// @param int id position in grid
 void Field::assignDamageMatrix(int id) {
     QList<int>* numbers = findCoverage(id);
+    int damageIndex = allSquares[id]->damageIndex;
 
     // Assigns damage
     for (int i = 0; i < numbers->length(); i++) {
         int currentNumber = numbers->at(i);
-        damageMatrix->insert(currentNumber, damageMatrix->at(currentNumber) + 1);
+        damageMatrix->insert(currentNumber, damageMatrix->at(currentNumber) + damageIndex);
     }
 }
 
@@ -196,15 +189,13 @@ Field* Field::getInstance() {
     return field;
 }
 
+/// Gets Qlist with square ID in path
 QList<int>* Field::getPath() {
-    Pathfinding* pathfinding = Pathfinding::getInstance();
     PathList* pathList = PathList::getInstance();
     if (currentStage == 1) {
-        pathfinding->backTrack11x19(6, 0, fieldMatrix);
         pathList->createPath11x19(6, 0);
     } else {
-        pathfinding->backTrack8x17(6, 0, cityMatrix);
-        pathList->createPath8x17(6, 0);
+        pathList->createPath8x17(3, 0);
     }
     QList<int>* path = pathList->toQList();
     return path;
@@ -297,19 +288,25 @@ void Field::initializeField() {
     }
 }
 
+void Field::on_nextButton_clicked() {
+
+}
+
 //! A method that is run when play button is clicked
 void Field::on_playButton_clicked() {
     // ONLINE DATA
+    /*
     Client::retrieveGladiators();
     Pathfinding* pathfinding = Pathfinding::getInstance();
     pathfinding->backTrack11x19(6, 0, fieldMatrix);
     PathList* pathList = PathList::getInstance();
     pathList->createPath11x19(6, 0);
     game->setPath(pathList->toQList());
+    */
 
     // OFFLINE TEST DATA. COMMENT IT IF RUNNING ONLINE
     game->createArmy(3);
-    /*QList<int>* path = new QList<int>;
+    QList<int>* path = new QList<int>;
     path->append(95);
     path->append(96);
     path->append(97);
@@ -327,10 +324,14 @@ void Field::on_playButton_clicked() {
     path->append(85);
     path->append(123);
     path->append(142);
-    game->setPath(path);*/
+    game->setPath(path);
 }
 
-void Field::on_skipButton_pressed() {
+void Field::on_resetButton_clicked() {
+    resetField();
+}
+
+void Field::on_skipButton_clicked() {
     QString text = ui->genEntry->text();
 }
 
@@ -366,6 +367,35 @@ void Field::paintPath(QList<int>* path) {
         } else {
             currentSquare->setBrush(QColor(100, 0, 0, 120));
         }
+    }
+}
+
+/// Resets all field and its matrixes
+void Field::resetField() {
+    // Resets pathfinding matrix
+    if (currentStage == 1) {
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < columns; j++) {
+                fieldMatrix[i][j] = 1;
+            }
+        }
+    } else {
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < columns; j++) {
+                cityMatrix[i][j] = 1;
+            }
+        }
+    }
+
+    // Resets towers in UI
+    for (int i = 0; i < columns * rows; i++) {
+        allSquares[i]->setAcceptDrops(false);
+        deOpaqueGrid();
+    }
+
+    // Resets damage matrix
+    for (int i = 0; i < damageMatrix->length(); i++) {
+        damageMatrix->removeAt(i);
     }
 }
 

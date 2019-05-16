@@ -62,6 +62,7 @@ public:
     QList<int>* idToCoords(int id);
     void opaqueGrid();
     void paintPath(QList<int>* path);
+    void resetField();
     static void setInstance(Field* nfield);
     void setSoldierScene(QGraphicsScene* newScene);
     void setSoldierLabels();
@@ -72,6 +73,7 @@ private:
     static Field* field;
     Game* game;
     int life = 20;
+    bool pathAlgorithm = false;
     QGraphicsScene* scene;
     QGraphicsScene* soldier_scene;
     QGraphicsView* soldier_view;
@@ -83,8 +85,10 @@ private:
     void initializeField();
 
 private slots:
+    void on_nextButton_clicked();
     void on_playButton_clicked();
-    void on_skipButton_pressed();
+    void on_resetButton_clicked();
+    void on_skipButton_clicked();
 
 };
 

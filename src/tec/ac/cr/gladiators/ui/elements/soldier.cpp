@@ -87,7 +87,7 @@ void Soldier::checkRotation() {
             rPix = QPixmap(rotationDir);
             rotationPix = rPix.scaled(40,40);
             towerSquare->setBrush(rotationPix);
-        }else if (graphicalSquare == upLeft) {
+        } else if (graphicalSquare == upLeft) {
             rotationDir = ":/towers/towers/" + towerType + "1a.png";
             rPix = QPixmap(rotationDir);
             rotationPix = rPix.scaled(40,40);

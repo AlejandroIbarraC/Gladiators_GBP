@@ -11,6 +11,7 @@ class CustomRectItem : public QGraphicsRectItem {
 
 public:
     CustomRectItem(QGraphicsRectItem* parent = nullptr);
+    int damageIndex = 1;
     int id;
     QString towerType;
 
