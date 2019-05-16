@@ -387,7 +387,7 @@ Field::~Field()
 void Field::setSoldierLabels() {
 
     GladiatorsList* gladiatorsList = GladiatorsList::getInstance();
-    qDebug() << "HOLAAAAAAAAAAAAAA";
+
 
     int age = gladiatorsList->soldierToShow->getAge();
     QString Age = QString::number(age);
@@ -411,7 +411,7 @@ void Field::setSoldierLabels() {
 
     int resistence = gladiatorsList->soldierToShow->getResistence();
     QString Resistence = QString::number(resistence);
-    ui->SoldierPhysicalCondition->setText(Resistence);
+    ui->SoldierResistence->setText(Resistence);
 }
 
 /// Gets ID of custom rect item square
