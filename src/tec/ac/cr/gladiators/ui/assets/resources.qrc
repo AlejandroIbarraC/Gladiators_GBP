@@ -28,9 +28,16 @@
         <file>towers/firearrow.png</file>
         <file>towers/fireicon.png</file>
         <file>towers/gatling1.png</file>
+        <file>towers/gatling1a.png</file>
+        <file>towers/gatling1b.png</file>
+        <file>towers/gatling1c.png</file>
+        <file>towers/gatling1d.png</file>
+        <file>towers/gatling1e.png</file>
+        <file>towers/gatling1f.png</file>
         <file>towers/gatling2.png</file>
         <file>towers/gatlingarrow.png</file>
         <file>towers/gatlingicon.png</file>
+        <file>towers/gatling1g.png</file>
     </qresource>
     <qresource prefix="/soldiers">
         <file>soldiers/soldierFlashDown.png</file>

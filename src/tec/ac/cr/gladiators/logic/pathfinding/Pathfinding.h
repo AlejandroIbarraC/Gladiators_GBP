@@ -21,6 +21,9 @@ public:
     bool backTrack11x19(int sRow, int sColumn, int matrix[11][19]);
     bool backTrack8x17(int sRow, int sColumn, int matrix[8][17]);
 
+    string toString11x19();
+    string toString8x17();
+
 private:
 
     Pathfinding() = default;
@@ -28,9 +31,6 @@ private:
     Pathfinding& operator = (Pathfinding const&) = default;
 
     static Pathfinding* pathfinding;
-
-    string toString11x19();
-    string toString8x17();
 
 };
 

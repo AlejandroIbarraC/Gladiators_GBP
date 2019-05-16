@@ -5,7 +5,6 @@
 #include "soldier.h"
 
 
-
 Game *Game::instance = new Game();
 
 Game::Game() {
@@ -163,6 +162,7 @@ void Game::updateGame() {
         } else {
             followPath(currentSoldier);
             currentSoldier->damage();
+            currentSoldier->checkRotation();
         }
     }
 }

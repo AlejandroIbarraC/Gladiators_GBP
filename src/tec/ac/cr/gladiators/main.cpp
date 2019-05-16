@@ -40,18 +40,18 @@ int main(int argc, char *argv[]) {
                           {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
                           {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}};
 
-    Pathfinding* pathfinding = Pathfinding::getInstance();
-    pathfinding->backTrack11x19(6, 0, matrix1);
-    pathfinding->backTrack8x17(3, 0, matrix2);
+//    Pathfinding* pathfinding = Pathfinding::getInstance();
+//    pathfinding->backTrack11x19(6, 0, matrix1);
+//    pathfinding->backTrack8x17(3, 0, matrix2);
 
-    // Inicio y Destino de la matriz 11x19
-    Pair src11x19 = make_pair(6, 0);
-    Pair dest11x19 = make_pair(6, 18);
-    aStarSearch11x19 (matrix1, src11x19, dest11x19);
+//    // Inicio y Destino de la matriz 11x19
+//    Pair src11x19 = make_pair(6, 0);
+//    Pair dest11x19 = make_pair(6, 18);
+//    aStarSearch11x19 (matrix1, src11x19, dest11x19);
 
-    Pair src8x17 = make_pair(3, 0);
-    Pair dest8x17 = make_pair(3, 16);
-    aStarSearch8x17 (matrix2, src8x17, dest8x17);
+//    Pair src8x17 = make_pair(3, 0);
+//    Pair dest8x17 = make_pair(3, 16);
+//    aStarSearch8x17 (matrix2, src8x17, dest8x17);
 
     QApplication a(argc, argv);
     Menu w;
