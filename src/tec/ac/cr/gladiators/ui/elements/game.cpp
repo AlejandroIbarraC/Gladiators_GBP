@@ -5,7 +5,6 @@
 #include "soldier.h"
 
 
-
 Game *Game::instance = new Game();
 
 Game::Game() {

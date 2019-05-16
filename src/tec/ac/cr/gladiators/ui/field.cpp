@@ -84,6 +84,14 @@ void Field::addTower(int id) {
     } else {
         cityMatrix[x][y] = 0;
     }
+
+    qDebug() << "Added tower in " << x << y;
+    Pathfinding* pathfinding = Pathfinding::getInstance();
+    pathfinding->backTrack11x19(0,6, fieldMatrix);
+    PathList* pathList = PathList::getInstance();
+    pathList->createPath11x19(0, 6);
+    std::cout << pathfinding->toString11x19();
+    qDebug() << "END";
 }
 
 /// Algorithmically assign damage to square in damage matrix when adding a tower
@@ -170,6 +178,20 @@ void Field::lowerLife() {
 
 Field* Field::getInstance() {
     return field;
+}
+
+QList<int>* Field::getPath() {
+    Pathfinding* pathfinding = Pathfinding::getInstance();
+    PathList* pathList = PathList::getInstance();
+    if (currentStage == 1) {
+        pathfinding->backTrack11x19(6, 0, fieldMatrix);
+        pathList->createPath11x19(6, 0);
+    } else {
+        pathfinding->backTrack8x17(6, 0, cityMatrix);
+        pathList->createPath8x17(6, 0);
+    }
+    QList<int>* path = pathList->toQList();
+    return path;
 }
 
 QGraphicsScene* Field::getScene() {
@@ -323,7 +345,6 @@ void Field::opaqueGrid() {
 void Field::paintPath(QList<int>* path) {
     for (int i = 0; i < path->length(); i++) {
         CustomRectItem* currentSquare = allSquares[path->at(i)];
-        qDebug() << path->at(i);
         if (currentSquare->acceptDrops()) {
             // Ignore placed towers.
         } else {

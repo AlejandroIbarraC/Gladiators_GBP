@@ -68,11 +68,14 @@ void DraggableRectItem::mouseMoveEvent(QGraphicsSceneMouseEvent *event) {
         }
 
         // Gets updated path and paints it
-        Pathfinding* pathfinding = Pathfinding::getInstance();
-        pathfinding->backTrack11x19(6, 0, field->fieldMatrix);
-        PathList* pathList = PathList::getInstance();
-        pathList->createPath11x19(6, 0);
-        QList<int>* path = pathList->toQList();
+        QList<int>* path = field->getPath();
+
+//        Pathfinding* pathfinding = Pathfinding::getInstance();
+//        pathfinding->backTrack11x19(0,6, field->fieldMatrix);
+//        PathList* pathList = PathList::getInstance();
+//        pathList->createPath11x19(6, 0);
+//        QList<int>* path = pathList->toQList();
+//        std::cout << pathfinding->toString11x19();
         field->paintPath(path);
 
         safeReturn = false;

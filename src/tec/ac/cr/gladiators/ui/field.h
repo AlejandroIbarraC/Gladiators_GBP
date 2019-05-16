@@ -54,6 +54,7 @@ public:
     void deOpaqueGrid();
     void lowerLife();
     static Field* getInstance();
+    QList<int>* getPath();
     QGraphicsScene* getScene();
     QGraphicsScene* getSoldierScene();
     QList<int>* idToCoords(int id);
