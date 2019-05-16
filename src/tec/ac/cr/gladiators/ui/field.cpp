@@ -79,7 +79,11 @@ void Field::addTower(int id) {
     QList<int>* IDCoords = idToCoords(id);
     int x = IDCoords->at(0);
     int y = IDCoords->at(1);
-    fieldMatrix[x][y] = 0;
+    if (currentStage == 1) {
+        fieldMatrix[x][y] = 0;
+    } else {
+        cityMatrix[x][y] = 0;
+    }
 }
 
 /// Algorithmically assign damage to square in damage matrix when adding a tower
@@ -142,6 +146,19 @@ void Field::deOpaqueGrid() {
         if (!currentSquare->acceptDrops()) {
             currentSquare->setBrush(QBrush(QColor(0, 0, 0, 0)));
         }
+    }
+}
+
+/// Deletes tower in pathfinding matrix
+/// @param int id tower to delete
+void Field::deleteTower(int id) {
+    QList<int>* IDCoords = idToCoords(id);
+    int x = IDCoords->at(0);
+    int y = IDCoords->at(1);
+    if (currentStage == 1) {
+        fieldMatrix[x][y] = 1;
+    } else {
+        cityMatrix[x][y] = 1;
     }
 }
 
@@ -301,13 +318,18 @@ void Field::opaqueGrid() {
     }
 }
 
-/// Deletes tower in pathfinding matrix
-/// @param int id tower to delete
-void Field::deleteTower(int id) {
-    QList<int>* IDCoords = idToCoords(id);
-    int x = IDCoords->at(0);
-    int y = IDCoords->at(1);
-    fieldMatrix[x][y] = 1;
+/// Paints designed path in UI.
+/// @param QList<int> path to paint
+void Field::paintPath(QList<int>* path) {
+    for (int i = 0; i < path->length(); i++) {
+        CustomRectItem* currentSquare = allSquares[path->at(i)];
+        qDebug() << path->at(i);
+        if (currentSquare->acceptDrops()) {
+            // Ignore placed towers.
+        } else {
+            currentSquare->setBrush(QColor(100, 0, 0, 120));
+        }
+    }
 }
 
 void Field::setInstance(Field* nfield) {
