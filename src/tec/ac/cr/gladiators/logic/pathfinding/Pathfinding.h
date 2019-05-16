@@ -6,6 +6,7 @@
 #define GLADIATORS_GBP_PATHFINDING_H
 
 #include <string>
+#include <list>
 
 using namespace std;
 
@@ -20,9 +21,7 @@ public:
 
     bool backTrack11x19(int sRow, int sColumn, int matrix[11][19]);
     bool backTrack8x17(int sRow, int sColumn, int matrix[8][17]);
-
-    string toString11x19();
-    string toString8x17();
+    void reset();
 
 private:
 
@@ -31,6 +30,14 @@ private:
     Pathfinding& operator = (Pathfinding const&) = default;
 
     static Pathfinding* pathfinding;
+    int ids11x19[11][19];
+    int ids8x17[8][17];
+    int visited11x19[11][19];
+    int visited8x17[8][17];
+
+    void initializeIDS();
+    string toString11x19();
+    string toString8x17();
 
 };
 

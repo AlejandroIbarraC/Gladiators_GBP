@@ -95,7 +95,6 @@ void Field::addTower(int id) {
     pathfinding->backTrack11x19(0,6, fieldMatrix);
     PathList* pathList = PathList::getInstance();
     pathList->createPath11x19(0, 6);
-    std::cout << pathfinding->toString11x19();
     qDebug() << "END";
 }
 
@@ -301,16 +300,16 @@ void Field::initializeField() {
 //! A method that is run when play button is clicked
 void Field::on_playButton_clicked() {
     // ONLINE DATA
-    //Client::retrieveGladiators();
-    //Pathfinding* pathfinding = Pathfinding::getInstance();
-    //pathfinding->backTrack11x19(6, 0, fieldMatrix);
-    //PathList* pathList = PathList::getInstance();
-    //pathList->createPath11x19(6, 0);
-    //game->setPath(pathList->toQList());
+    Client::retrieveGladiators();
+    Pathfinding* pathfinding = Pathfinding::getInstance();
+    pathfinding->backTrack11x19(6, 0, fieldMatrix);
+    PathList* pathList = PathList::getInstance();
+    pathList->createPath11x19(6, 0);
+    game->setPath(pathList->toQList());
 
     // OFFLINE TEST DATA. COMMENT IT IF RUNNING ONLINE
     game->createArmy(3);
-    QList<int>* path = new QList<int>;
+    /*QList<int>* path = new QList<int>;
     path->append(95);
     path->append(96);
     path->append(97);
@@ -328,7 +327,7 @@ void Field::on_playButton_clicked() {
     path->append(85);
     path->append(123);
     path->append(142);
-    game->setPath(path);
+    game->setPath(path);*/
 }
 
 void Field::on_skipButton_pressed() {
