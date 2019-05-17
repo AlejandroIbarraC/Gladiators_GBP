@@ -26,7 +26,7 @@ void Game::createArmy(int size) {
     Field* field = Field::getInstance();
     QGraphicsScene* scene = field->getScene();
     GladiatorsList* gladiatorsList = GladiatorsList::getInstance();
-    size = gladiatorsList->getLenght();
+    //size = gladiatorsList->getLenght();
     allSquares = field->allSquares;
     distanceX = -20;
 
@@ -157,6 +157,14 @@ void Game::setPath(QList<int> *nPath) {
 //! \param area
 void Game::removeArea(QGraphicsItem *area) {
     allAreas.removeOne(area);
+}
+
+void Game::pause() {
+    timer->stop();
+}
+
+void Game::play() {
+    timer->start();
 }
 
 //! A method that runs the game

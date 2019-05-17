@@ -9,6 +9,7 @@
 
 Soldier::Soldier(QGraphicsRectItem* parent) {
     // Initializes default attributes.
+    oof->setMedia(QUrl("qrc:/main/oof.mp3"));
 }
 
 /// Advances square ID in path.
@@ -115,6 +116,7 @@ void Soldier::checkRotation() {
 void Soldier::damage() {
     if (life < 0) {
         Game* game = Game::getInstance();
+        oof->play();
         game->deleteSoldier(this);
     } else {
         Field* field = Field::getInstance();
@@ -126,12 +128,15 @@ void Soldier::damage() {
 
 //! A method that runs specific actions when a soldier is pressed
 void Soldier::mousePressEvent(QGraphicsSceneMouseEvent *event) {
-
     QGraphicsRectItem::mousePressEvent(event);
     GladiatorsList* gladiatorsList = GladiatorsList::getInstance();
     gladiatorsList->setSoldierToShowByID(this->id);
     Field* field = Field::getInstance();
     field->setSoldierLabels();
+}
+
+void Soldier::setLife(int nlife) {
+    life = nlife;
 }
 
 

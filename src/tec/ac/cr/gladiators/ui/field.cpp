@@ -73,6 +73,30 @@ Field::Field(QWidget *parent, int stage) :
     for (int i = 0; i < (columns * rows); i++) {
         damageMatrix->append(0);
     }
+
+    // Blocks placement in area limit
+    allSquares[95]->setAcceptDrops(true);
+    allSquares[114]->setAcceptDrops(true);
+    allSquares[133]->setAcceptDrops(true);
+    allSquares[113]->setAcceptDrops(true);
+    allSquares[132]->setAcceptDrops(true);
+    allSquares[151]->setAcceptDrops(true);
+
+    // Creates button hover watchers for UI Buttons.
+    ButtonHoverWatcher* watcher = new ButtonHoverWatcher(this,":/main/playButtonIcon.png",":/main/playButtonIcon_pressed.png");
+    ui->playButton->installEventFilter(watcher);
+    ButtonHoverWatcher* watcher2 = new ButtonHoverWatcher(this,":/main/nextButtonIcon.png",":/main/nextButtonIcon_pressed.png");
+    ui->nextButton->installEventFilter(watcher2);
+    ButtonHoverWatcher* watcher3 = new ButtonHoverWatcher(this,":/main/resetButtonIcon.png",":/main/resetButtonIcon_pressed.png");
+    ui->resetButton->installEventFilter(watcher3);
+    ButtonHoverWatcher* watcher4 = new ButtonHoverWatcher(this,":/main/skipButtonIcon.png",":/main/skipButtonIcon_pressed.png");
+    ui->skipButton->installEventFilter(watcher4);
+
+    // Assigns sound effect data
+    trumpet->setMedia(QUrl("qrc:/main/trumpet.mp3"));
+    ding->setMedia(QUrl("qrc:/main/ding.mp3"));
+    rewind->setMedia(QUrl("qrc:/main/rewind.mp3"));
+    roll->setMedia(QUrl("qrc:/main/roll.mp3"));
 }
 
 /// Adds tower to pathfinding matrix
@@ -289,11 +313,23 @@ void Field::initializeField() {
 }
 
 void Field::on_nextButton_clicked() {
+    trumpet->play();
+}
+
+void Field::on_pauseButton_clicked() {
+    bool state = ui->pauseButton->isChecked();
+    Game* game = Game::getInstance();
+    if (state) {
+        game->pause();
+    } else {
+        game->play();
+    }
 
 }
 
 //! A method that is run when play button is clicked
 void Field::on_playButton_clicked() {
+    trumpet->play();
     // ONLINE DATA
     /*
     Client::retrieveGladiators();
@@ -329,10 +365,12 @@ void Field::on_playButton_clicked() {
 
 void Field::on_resetButton_clicked() {
     resetField();
+    roll->play();
 }
 
 void Field::on_skipButton_clicked() {
     QString text = ui->genEntry->text();
+    rewind->play();
 }
 
 //! A method that dulls grid
@@ -397,6 +435,14 @@ void Field::resetField() {
     for (int i = 0; i < damageMatrix->length(); i++) {
         damageMatrix->removeAt(i);
     }
+
+    // Blocks placement in border limits
+    allSquares[95]->setAcceptDrops(true);
+    allSquares[114]->setAcceptDrops(true);
+    allSquares[133]->setAcceptDrops(true);
+    allSquares[113]->setAcceptDrops(true);
+    allSquares[132]->setAcceptDrops(true);
+    allSquares[151]->setAcceptDrops(true);
 }
 
 void Field::setInstance(Field* nfield) {

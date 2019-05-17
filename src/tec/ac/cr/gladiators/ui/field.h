@@ -11,6 +11,7 @@
 #include "elements/draggablerectitem.h"
 #include "elements/soldier.h"
 #include "elements/game.h"
+#include "elements/buttonhoverwatcher.h"
 
 namespace Ui {
 class Field;
@@ -35,6 +36,7 @@ public:
                                  {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}};
     int columns;
     QList<int>* damageMatrix;
+    QMediaPlayer* ding = new QMediaPlayer();
     int fieldMatrix[11][19] = {{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
                                {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
                                {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
@@ -46,8 +48,11 @@ public:
                                {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
                                {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
                                {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}};
+    QMediaPlayer* rewind = new QMediaPlayer();
+    QMediaPlayer* roll = new QMediaPlayer();
     int rows;
     QList<int>* towerList;
+    QMediaPlayer* trumpet = new QMediaPlayer();
 
     void addTower(int id);
     void assignDamageMatrix(int id);
@@ -86,6 +91,7 @@ private:
 
 private slots:
     void on_nextButton_clicked();
+    void on_pauseButton_clicked();
     void on_playButton_clicked();
     void on_resetButton_clicked();
     void on_skipButton_clicked();

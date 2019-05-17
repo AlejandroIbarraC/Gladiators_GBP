@@ -19,6 +19,8 @@ public:
     QList<QGraphicsItem*> getAreas();
     QList<Soldier*>* getArmy() const;
     static Game* getInstance();
+    void pause();
+    void play();
     void removeArea(QGraphicsItem* area);
     void run();
     void setArmy(QList<Soldier*> *nArmy);

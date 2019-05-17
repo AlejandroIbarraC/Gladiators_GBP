@@ -4,6 +4,7 @@
 #include <QGraphicsRectItem>
 #include <QGraphicsSceneMouseEvent>
 #include <QDateTime>
+#include <QMediaPlayer>
 #include <QBrush>
 
 #include "customrectitem.h"
@@ -26,6 +27,7 @@ protected:
     void mouseReleaseEvent(QGraphicsSceneMouseEvent *event);
 
 private:
+    QMediaPlayer* build = new QMediaPlayer();
     QGraphicsItem* closestItem;
     CustomRectItem* closestSquare;
     QPixmap iconPix;

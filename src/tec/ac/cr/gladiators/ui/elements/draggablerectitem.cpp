@@ -17,6 +17,7 @@ DraggableRectItem::DraggableRectItem(QGraphicsRectItem* parent, QString tower):
     towerPix = tPix.scaled(40,40);
     iconPix = iPix.scaled(70, 70);
     this->setBrush(iconPix);
+    build->setMedia(QUrl("qrc:/main/build.mp3"));
 }
 
 /// Sets point where item will return if dropped elsewhere
@@ -92,6 +93,8 @@ void DraggableRectItem::mouseReleaseEvent(QGraphicsSceneMouseEvent *event){
         closestSquare->initializeArea();
         field->addTower(areaID);
         closestSquare->towerType = towerType;
+        build->play();
+
     }
 
     // Gets updated path and paints it
