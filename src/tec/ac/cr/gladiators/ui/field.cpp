@@ -104,6 +104,7 @@ Field::Field(QWidget *parent, int stage) :
     ding->setMedia(QUrl("qrc:/main/ding.mp3"));
     rewind->setMedia(QUrl("qrc:/main/rewind.mp3"));
     roll->setMedia(QUrl("qrc:/main/roll.mp3"));
+    snap->setMedia(QUrl("qrc:/main/snap.mp3"));
 }
 
 /// Adds tower to pathfinding matrix
@@ -322,12 +323,13 @@ void Field::lowerLife() {
 
 void Field::on_nextButton_clicked() {
     trumpet->play();
-    resetField();
+    //resetField();
     Client::sendGladiatorsData();
     Client::retrieveGladiators();
     Client::sendTowersData();
     Client::retrieveTowers();
     Pathfinding* pathfinding = Pathfinding::getInstance();
+    pathfinding->reset();
     PathList* pathList = PathList::getInstance();
     if (currentStage == 1) {
         if (pathAlgorithm) {
@@ -371,7 +373,10 @@ void Field::on_pauseButton_clicked() {
 //! A method that is run when play button is clicked
 void Field::on_playButton_clicked() {
     trumpet->play();
+
     // ONLINE DATA
+    GladiatorsList::getInstance();
+    TowersList::getInstance();
     Client::retrieveGladiators();
     Client::retrieveTowers();
     Pathfinding* pathfinding = Pathfinding::getInstance();
@@ -415,6 +420,20 @@ void Field::on_skipButton_clicked() {
     rewind->play();
     Client::skipNumber = text.toInt();
     Client::skip();
+}
+
+void Field::on_thanosButton_clicked() {
+    snap->play();
+    Game* game = Game::getInstance();
+    QList<Soldier*>* army = game->getArmy();
+    DraggableRectItem* randomizer = new DraggableRectItem();
+
+    for (int i = 0; i < army->length(); i++) {
+        int chance = randomizer->randInt(0, 1);
+        if (chance == 0) {
+            game->deleteSoldier(army->at(i));
+        }
+    }
 }
 
 //! A method that dulls grid
@@ -478,6 +497,7 @@ void Field::resetField() {
     // Resets towers in UI
     for (int i = 0; i < dimensions; i++) {
         allSquares[i]->setAcceptDrops(false);
+        towerList->clear();
         deOpaqueGrid();
     }
 

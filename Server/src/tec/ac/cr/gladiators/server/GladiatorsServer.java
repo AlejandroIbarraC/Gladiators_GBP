@@ -23,8 +23,7 @@ public class GladiatorsServer {
 
     @POST
     @Path("stats")
-    @Consumes(MediaType.APPLICATION_JSON)
-    public void getGladiators(ArrayList<Gladiators> gladiatorsArrayList){
+    public void getGladiators(){
         System.out.println(2);
         Holder.gladiatorsArrayList = GladiatorsFacade.updatePopulation();
     }

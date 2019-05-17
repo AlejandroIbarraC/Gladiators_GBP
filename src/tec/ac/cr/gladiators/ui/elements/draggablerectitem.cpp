@@ -3,6 +3,7 @@
 
 #include "../field.h"
 
+
 DraggableRectItem::DraggableRectItem(QGraphicsRectItem* parent, QString tower):
         QGraphicsRectItem(parent), m_dragged(false) {
     setFlags(QGraphicsRectItem::ItemIsSelectable|
@@ -19,6 +20,21 @@ DraggableRectItem::DraggableRectItem(QGraphicsRectItem* parent, QString tower):
     this->setBrush(iconPix);
     build->setMedia(QUrl("qrc:/main/build.mp3"));
 }
+
+/// Adds tower to pathfinding matrix
+void DraggableRectItem::addTempTower(int id) {
+    Field* field = Field::getInstance();
+    QList<int>* IDCoords = field->idToCoords(id);
+    int x = IDCoords->at(0);
+    int y = IDCoords->at(1);
+    if (field->currentStage == 1) {
+        tempFieldMatrix[x][y] = 0;
+    } else {
+        tempCityMatrix[x][y] = 0;
+    }
+   // qDebug() << "added" << x << y << tempFieldMatrix[x][y];
+}
+
 
 /// Sets point where item will return if dropped elsewhere
 void DraggableRectItem::setAnchorPoint(const QPointF &anchorPoint) {
@@ -69,8 +85,17 @@ void DraggableRectItem::mouseMoveEvent(QGraphicsSceneMouseEvent *event) {
         }
 
         // Gets updated path and paints it
-        QList<int>* path = field->getPath();
-        field->paintPath(path);
+        PathList* pathList = PathList::getInstance();
+        Pathfinding* pathfinding = Pathfinding::getInstance();
+        pathfinding->reset();
+        if (field->currentStage == 1) {
+             memcpy(tempFieldMatrix, field->fieldMatrix, 4 * sizeof(int));
+             addTempTower(closestSquare->id - 1);
+             pathfinding->backTrack11x19(6, 0, tempFieldMatrix);
+             pathList->createPath11x19(6, 0);
+             //qDebug() << tempFieldMatrix[0][0];
+        }
+        field->paintPath(pathList->toQList());
 
         safeReturn = false;
     }
@@ -91,7 +116,7 @@ void DraggableRectItem::mouseReleaseEvent(QGraphicsSceneMouseEvent *event){
     // data, and paint tower on UI
     if (!safeReturn) {
         int areaID = field->squareToID(closestSquare);
-        field->allSquares[areaID]->damageIndex = TowersList::getInstance()->getTowersByPosition(field->towerIndex) / 2000;
+        field->allSquares[areaID]->damageIndex = TowersList::getInstance()->getTowersByPosition(field->towerIndex) / 20;
         field->towerIndex++;
         field->assignDamageMatrix(areaID);
         closestSquare->setBrush(towerPix);

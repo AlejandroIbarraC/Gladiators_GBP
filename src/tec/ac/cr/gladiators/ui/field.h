@@ -51,12 +51,14 @@ public:
     QMediaPlayer* rewind = new QMediaPlayer();
     QMediaPlayer* roll = new QMediaPlayer();
     int rows;
+    QMediaPlayer* snap = new QMediaPlayer();
     int towerIndex = 0;
     QList<int>* towerList;
     QMediaPlayer* trumpet = new QMediaPlayer();
 
     void addTower(int id);
     void assignDamageMatrix(int id);
+    int currentStage;
     void deleteTower(int id);
     QList<int>* findCoverage(int id);
     void deOpaqueGrid();
@@ -76,7 +78,6 @@ public:
     void unassignDamageMatrix(int id);
 
 private:
-    int currentStage;
     static Field* field;
     Game* game;
     int life = 20;
@@ -96,6 +97,7 @@ private slots:
     void on_pauseButton_clicked();
     void on_playButton_clicked();
     void on_resetButton_clicked();
+    void on_thanosButton_clicked();
     void on_skipButton_clicked();
 
 };
