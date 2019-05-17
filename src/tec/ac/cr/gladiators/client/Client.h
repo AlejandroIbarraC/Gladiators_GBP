@@ -15,6 +15,7 @@ class Client{
 public:
 
     static int skipNumber;
+    static string ip;
 
     static void retrieveGladiators();
     static void retrieveTowers();
