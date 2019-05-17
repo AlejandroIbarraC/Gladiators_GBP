@@ -73,7 +73,7 @@ public class TowersManager {
         Random rn = new Random();
 
         if (rn.nextInt(100)<= 20){
-            System.out.println("A mutation has occurred to Gladiator: " + this);
+            System.out.println("A mutation has occurred to Tower: " + this);
             //Select a random mutation point
             int mutationPoint = rn.nextInt(population.getIndividuals()[0].getGenes().length);
 

@@ -23,8 +23,7 @@ public class TowersServer {
 
     @POST
     @Path("stats")
-    @Consumes(MediaType.APPLICATION_JSON)
-    public void getTowers(ArrayList<Towers> towersArrayList){
+    public void getTowers(){
         System.out.println(4);
         Holder.towersArrayList = TowersFacade.updatePopulation();
     }
