@@ -323,12 +323,13 @@ void Field::lowerLife() {
 
 void Field::on_nextButton_clicked() {
     trumpet->play();
-    resetField();
+    //resetField();
     Client::sendGladiatorsData();
     Client::retrieveGladiators();
     Client::sendTowersData();
     Client::retrieveTowers();
     Pathfinding* pathfinding = Pathfinding::getInstance();
+    pathfinding->reset();
     PathList* pathList = PathList::getInstance();
     if (currentStage == 1) {
         if (pathAlgorithm) {
@@ -374,8 +375,8 @@ void Field::on_playButton_clicked() {
     trumpet->play();
 
     // ONLINE DATA
-    TowersList::getInstance();
     GladiatorsList::getInstance();
+    TowersList::getInstance();
     Client::retrieveGladiators();
     Client::retrieveTowers();
     Pathfinding* pathfinding = Pathfinding::getInstance();
@@ -496,6 +497,7 @@ void Field::resetField() {
     // Resets towers in UI
     for (int i = 0; i < dimensions; i++) {
         allSquares[i]->setAcceptDrops(false);
+        towerList->clear();
         deOpaqueGrid();
     }
 
