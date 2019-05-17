@@ -16,16 +16,15 @@ class Soldier : public QGraphicsRectItem {
 
 public:
     Soldier(QGraphicsRectItem* parent = nullptr);
-    int id;
     int currentSquare = 0;
     int done = false;
     int graphicalSquare;
+    int id;
     QPixmap soldierPix;
 
     void advanceSquare();
     void checkRotation();
     void damage();
-    void checkDamage();
     void setLife(int nlife);
 
 protected:

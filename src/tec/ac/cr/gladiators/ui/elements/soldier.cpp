@@ -6,7 +6,6 @@
 #include "../field.h"
 #include <iostream>
 
-
 Soldier::Soldier(QGraphicsRectItem* parent) {
     // Initializes default attributes.
     oof->setMedia(QUrl("qrc:/main/oof.mp3"));
@@ -17,35 +16,7 @@ void Soldier::advanceSquare() {
     this->currentSquare ++;
 }
 
-//! A method use to check soldiers damage
-void Soldier::checkDamage() {
-    if (life < 1) {
-        this->setVisible(false);
-    } else {
-        Game* game = Game::getInstance();
-        QList<QGraphicsItem*> colItems = collidingItems();
-        QList<QGraphicsItem*> areas = game->getAreas();
-        QList<QGraphicsItem*> intersection;
-
-        for (int i = 0; i < colItems.length(); i++) {
-            QGraphicsItem* item = colItems[i];
-            for (int i = 0; i < areas.length(); i++) {
-                QGraphicsItem* area = areas[i];
-                if (area == item) {
-                    intersection.append(area);
-                }
-            }
-        }
-
-        int damage = collidingItems().length();
-        int size = intersection.size();
-        if (size > 0) {
-            qDebug() << "Made it" << size;
-        }
-        life-= damage;
-    }
-}
-
+/// Rotates towers accordingly. Loop it for animated results.
 void Soldier::checkRotation() {
     Field* field = Field::getInstance();
     QList<int>* towers = field->towerList;

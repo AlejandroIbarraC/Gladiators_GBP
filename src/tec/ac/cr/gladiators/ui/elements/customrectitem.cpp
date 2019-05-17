@@ -45,6 +45,7 @@ void CustomRectItem::mousePressEvent(QGraphicsSceneMouseEvent *event) {
         field->unassignDamageMatrix(id);
         setBrush(QBrush(QColor(0, 0, 0, 0)));
         setAcceptDrops(false);
+        field->towerList->removeAt(id);
         area->setVisible(false);
     }
 }

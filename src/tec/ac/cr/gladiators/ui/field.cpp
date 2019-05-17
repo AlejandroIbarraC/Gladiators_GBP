@@ -374,16 +374,16 @@ void Field::on_playButton_clicked() {
     trumpet->play();
 
     // ONLINE DATA
-    TowersList::getInstance();
-    GladiatorsList::getInstance();
-    Client::retrieveGladiators();
-    Client::retrieveTowers();
-    Pathfinding* pathfinding = Pathfinding::getInstance();
-    pathfinding->backTrack11x19(6, 0, fieldMatrix);
-    PathList* pathList = PathList::getInstance();
-    pathList->createPath11x19(6, 0);
-    game->setPath(pathList->toQList());
-    game->createArmy(3);
+//    TowersList::getInstance();
+//    GladiatorsList::getInstance();
+//    Client::retrieveGladiators();
+//    Client::retrieveTowers();
+//    Pathfinding* pathfinding = Pathfinding::getInstance();
+//    pathfinding->backTrack11x19(6, 0, fieldMatrix);
+//    PathList* pathList = PathList::getInstance();
+//    pathList->createPath11x19(6, 0);
+//    game->setPath(pathList->toQList());
+//    game->createArmy(3);
 
     // OFFLINE TEST DATA. COMMENT IT IF RUNNING ONLINE
     /*
@@ -496,6 +496,7 @@ void Field::resetField() {
     // Resets towers in UI
     for (int i = 0; i < dimensions; i++) {
         allSquares[i]->setAcceptDrops(false);
+        towerList->clear();
         deOpaqueGrid();
     }
 

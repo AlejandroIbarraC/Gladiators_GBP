@@ -58,6 +58,7 @@ public:
 
     void addTower(int id);
     void assignDamageMatrix(int id);
+    int currentStage;
     void deleteTower(int id);
     QList<int>* findCoverage(int id);
     void deOpaqueGrid();
@@ -77,7 +78,6 @@ public:
     void unassignDamageMatrix(int id);
 
 private:
-    int currentStage;
     static Field* field;
     Game* game;
     int life = 20;
