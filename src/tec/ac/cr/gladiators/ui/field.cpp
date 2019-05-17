@@ -204,8 +204,8 @@ QList<int>* Field::findCoverage(int id) {
     // Remove fake ones
     for (int i = 0; i < numbers->length(); i++) {
         int currentNumber = numbers->at(i);
-        if (currentNumber != -1) {
-            numbers->removeOne(i);
+        if (currentNumber == -1) {
+            numbers->removeOne(numbers->at(i));
         }
     }
 
