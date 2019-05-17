@@ -323,12 +323,13 @@ void Field::lowerLife() {
 
 void Field::on_nextButton_clicked() {
     trumpet->play();
-    resetField();
+    //resetField();
     Client::sendGladiatorsData();
     Client::retrieveGladiators();
     Client::sendTowersData();
     Client::retrieveTowers();
     Pathfinding* pathfinding = Pathfinding::getInstance();
+    pathfinding->reset();
     PathList* pathList = PathList::getInstance();
     if (currentStage == 1) {
         if (pathAlgorithm) {
@@ -374,16 +375,16 @@ void Field::on_playButton_clicked() {
     trumpet->play();
 
     // ONLINE DATA
-//    TowersList::getInstance();
-//    GladiatorsList::getInstance();
-//    Client::retrieveGladiators();
-//    Client::retrieveTowers();
-//    Pathfinding* pathfinding = Pathfinding::getInstance();
-//    pathfinding->backTrack11x19(6, 0, fieldMatrix);
-//    PathList* pathList = PathList::getInstance();
-//    pathList->createPath11x19(6, 0);
-//    game->setPath(pathList->toQList());
-//    game->createArmy(3);
+    GladiatorsList::getInstance();
+    TowersList::getInstance();
+    Client::retrieveGladiators();
+    Client::retrieveTowers();
+    Pathfinding* pathfinding = Pathfinding::getInstance();
+    pathfinding->backTrack11x19(6, 0, fieldMatrix);
+    PathList* pathList = PathList::getInstance();
+    pathList->createPath11x19(6, 0);
+    game->setPath(pathList->toQList());
+    game->createArmy(3);
 
     // OFFLINE TEST DATA. COMMENT IT IF RUNNING ONLINE
     /*

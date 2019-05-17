@@ -177,13 +177,14 @@ void Game::run() {
 /// Main game loop.
 void Game::updateGame() {
     // Updates each soldier in game.
+
     for(int i = 0; i < army->length(); i++) {
         Soldier* currentSoldier = army->at(i);
         if (currentSoldier->done) {
             Field* field = Field::getInstance();
             field->lowerLife();
             deleteSoldier(currentSoldier);
-        } else {
+        } else {            
             followPath(currentSoldier);
             currentSoldier->damage();
             currentSoldier->checkRotation();
