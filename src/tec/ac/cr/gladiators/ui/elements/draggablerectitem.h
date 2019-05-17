@@ -10,6 +10,7 @@
 #include "customrectitem.h"
 #include "../../logic/pathfinding/Pathfinding.h"
 #include "../../logic/pathfinding/PathList.h"
+#include "../../logic/TowersList.h"
 
 
 class DraggableRectItem : public QGraphicsRectItem {

@@ -35,6 +35,7 @@ void Game::createArmy(int size) {
         Soldier* soldier = new Soldier();
         soldier->id = i;
         soldier->setPen(Qt::NoPen);
+        soldier->setLife(GladiatorsList::getInstance()->getGladiatorLifeByID(i) * 100);
 
         QString soldierdir = ":/soldiers/soldiers/soldierFlashRight.png";
         QPixmap sPix = QPixmap(soldierdir);
@@ -42,7 +43,6 @@ void Game::createArmy(int size) {
         soldier->setBrush(soldier->soldierPix);
 
         soldier->setRect(rect);
-        soldier->id = i;
         addSoldier(soldier);
         soldier->setX(distanceX);
         distanceX = distanceX - 20;

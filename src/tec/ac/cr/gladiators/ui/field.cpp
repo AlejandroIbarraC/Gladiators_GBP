@@ -325,6 +325,8 @@ void Field::on_nextButton_clicked() {
     resetField();
     Client::sendGladiatorsData();
     Client::retrieveGladiators();
+    Client::sendTowersData();
+    Client::retrieveTowers();
     Pathfinding* pathfinding = Pathfinding::getInstance();
     PathList* pathList = PathList::getInstance();
     if (currentStage == 1) {
@@ -371,6 +373,7 @@ void Field::on_playButton_clicked() {
     trumpet->play();
     // ONLINE DATA
     Client::retrieveGladiators();
+    Client::retrieveTowers();
     Pathfinding* pathfinding = Pathfinding::getInstance();
     pathfinding->backTrack11x19(6, 0, fieldMatrix);
     PathList* pathList = PathList::getInstance();
@@ -410,6 +413,8 @@ void Field::on_resetButton_clicked() {
 void Field::on_skipButton_clicked() {
     QString text = ui->genEntry->text();
     rewind->play();
+    Client::skipNumber = text.toInt();
+    Client::skip();
 }
 
 //! A method that dulls grid
@@ -496,6 +501,7 @@ void Field::resetField() {
         allSquares[67]->setAcceptDrops(true);
         allSquares[84]->setAcceptDrops(true);
     }
+    towerIndex = 0;
 }
 
 void Field::setInstance(Field* nfield) {

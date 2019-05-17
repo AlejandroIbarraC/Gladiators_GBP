@@ -51,6 +51,7 @@ public:
     QMediaPlayer* rewind = new QMediaPlayer();
     QMediaPlayer* roll = new QMediaPlayer();
     int rows;
+    int towerIndex = 0;
     QList<int>* towerList;
     QMediaPlayer* trumpet = new QMediaPlayer();
 
