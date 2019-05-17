@@ -44,5 +44,6 @@
         <file>soldiers/soldierFlashLeft.png</file>
         <file>soldiers/soldierFlashRight.png</file>
         <file>soldiers/soldierFlashUp.png</file>
+        <file>soldiers/fire.png</file>
     </qresource>
 </RCC>
