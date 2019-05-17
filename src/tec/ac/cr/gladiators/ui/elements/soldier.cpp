@@ -170,8 +170,10 @@ void Soldier::mousePressEvent(QGraphicsSceneMouseEvent *event) {
     QGraphicsRectItem::mousePressEvent(event);
     GladiatorsList* gladiatorsList = GladiatorsList::getInstance();
     gladiatorsList->setSoldierToShowByID(this->id);
-    Field* field = Field::getInstance();
-    field->setSoldierLabels();
+    if (gladiatorsList->soldierToShow != nullptr){
+        Field* field = Field::getInstance();
+        field->setSoldierLabels();
+    }
 }
 
 void Soldier::setLife(int nlife) {

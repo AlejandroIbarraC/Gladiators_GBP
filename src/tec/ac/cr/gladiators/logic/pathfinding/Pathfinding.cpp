@@ -32,7 +32,7 @@ bool Pathfinding::backTrack11x19(int sRow, int sColumn, int matrix[11][19]){
     //Base Case 2: End of Maze
     else if(matrix[sRow][sColumn] == 1 && sRow == 6 && sColumn == 18){
         solution11x19[sRow][sColumn] = 1;
-        cout << toString11x19() << endl;
+      //  cout << toString11x19() << endl;
         return true;
     }
 
@@ -108,7 +108,7 @@ bool Pathfinding::backTrack8x17(int sRow, int sColumn, int matrix[8][17]){
         //Base Case 2: End of Maze
     else if(matrix[sRow][sColumn] == 1 && sRow == 3 && sColumn == 16){
         solution8x17[sRow][sColumn] = 1;
-        cout << toString8x17() << endl;
+       // cout << toString8x17() << endl;
         return true;
     }
 

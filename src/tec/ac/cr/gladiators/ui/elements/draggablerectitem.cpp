@@ -32,7 +32,7 @@ void DraggableRectItem::addTempTower(int id) {
     } else {
         tempCityMatrix[x][y] = 0;
     }
-    qDebug() << "added" << x << y << tempFieldMatrix[x][y];
+   // qDebug() << "added" << x << y << tempFieldMatrix[x][y];
 }
 
 
@@ -87,12 +87,13 @@ void DraggableRectItem::mouseMoveEvent(QGraphicsSceneMouseEvent *event) {
         // Gets updated path and paints it
         PathList* pathList = PathList::getInstance();
         Pathfinding* pathfinding = Pathfinding::getInstance();
+        pathfinding->reset();
         if (field->currentStage == 1) {
              memcpy(tempFieldMatrix, field->fieldMatrix, 4 * sizeof(int));
              addTempTower(closestSquare->id - 1);
              pathfinding->backTrack11x19(6, 0, tempFieldMatrix);
              pathList->createPath11x19(6, 0);
-             qDebug() << tempFieldMatrix[0][0];
+             //qDebug() << tempFieldMatrix[0][0];
         }
         field->paintPath(pathList->toQList());
 
