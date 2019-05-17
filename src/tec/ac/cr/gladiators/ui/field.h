@@ -12,6 +12,7 @@
 #include "elements/soldier.h"
 #include "elements/game.h"
 #include "elements/buttonhoverwatcher.h"
+#include "../logic/pathfinding/AStar.cpp"
 
 namespace Ui {
 class Field;

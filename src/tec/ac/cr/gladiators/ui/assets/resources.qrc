@@ -39,6 +39,8 @@
         <file>skipButtonIcon_pressed.png</file>
         <file>pauseToggleIcon.png</file>
         <file>playToggleIcon.png</file>
+        <file>redHeart.png</file>
+        <file>thanosIcon.png</file>
     </qresource>
     <qresource prefix="/font">
         <file>Papyrus.ttc</file>

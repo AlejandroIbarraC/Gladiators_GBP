@@ -59,7 +59,7 @@ void Game::deleteSoldier(Soldier *soldier) {
     gladiatorsList->deleteGladiatorByID(soldier->id);
     army->removeOne(soldier);
     Field* field = Field::getInstance();
-    QGraphicsScene* scene = field->getSoldierScene();
+    QGraphicsScene* scene = field->getScene();
     scene->removeItem(soldier);
     delete soldier;
 }
@@ -85,7 +85,6 @@ void Game::followPath(Soldier* soldier) {
     if (absXDifference > 1) {
         // Move right or left.
         if (XObjective > currentX) {
-
             soldier->setX(soldier->x() + 1);
             QString soldierdir = ":/soldiers/soldiers/soldierFlashRight.png";
             QPixmap sPix = QPixmap(soldierdir);
