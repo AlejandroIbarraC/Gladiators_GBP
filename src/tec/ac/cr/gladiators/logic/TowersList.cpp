@@ -117,3 +117,20 @@ void TowersList::deserialize(QJsonArray jsonArray) {
         towersList->head = nullptr;
     }
 }
+
+int TowersList::getTowersByPosition(int pos) {
+    if (this->head == nullptr){
+        cout << "Error, nothing found" << endl;
+    }else{
+        Towers* towers = this->head;
+        int i = 0;
+        while (towers != nullptr){
+            if (i == pos){
+                return towers->getDamageOutput();
+            }else{
+                towers = towers->getNext();
+                i++;
+            }
+        }
+    }
+}

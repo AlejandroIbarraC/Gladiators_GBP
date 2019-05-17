@@ -23,6 +23,7 @@ public:
     void addTower(int typeOfAmmo, int damageOutput, int range);
     void addCreatedTower(Towers* towers);
     void deleteAll();
+    int getTowersByPosition(int pos);
     static QJsonArray serialize();
     static void deserialize(QJsonArray jsonArray);
 

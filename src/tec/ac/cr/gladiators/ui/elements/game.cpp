@@ -2,6 +2,7 @@
 #include "../field.h"
 #include "../../logic/GladiatorsList.h"
 #include "../../client/Client.h"
+#include "soldier.h"
 
 
 Game *Game::instance = new Game();
@@ -23,29 +24,42 @@ void Game::addSoldier(Soldier *soldier) {
 /// @param int army size
 void Game::createArmy(int size) {
     Field* field = Field::getInstance();
-    QGraphicsScene* scene = field->getSoldierScene();
+    QGraphicsScene* scene = field->getScene();
     GladiatorsList* gladiatorsList = GladiatorsList::getInstance();
     size = gladiatorsList->getLenght();
     allSquares = field->allSquares;
     distanceX = -20;
+
+    QRect rect = QRect(0, 0, 15, 15);
     for(int i = 0; i < size; i++) {
         Soldier* soldier = new Soldier();
         soldier->id = i;
+        soldier->setPen(Qt::NoPen);
+        soldier->setLife(GladiatorsList::getInstance()->getGladiatorLifeByID(i) * 100);
+
+        QString soldierdir = ":/soldiers/soldiers/soldierFlashRight.png";
+        QPixmap sPix = QPixmap(soldierdir);
+        soldier->soldierPix = sPix.scaled(15,15);
+        soldier->setBrush(soldier->soldierPix);
+
+        soldier->setRect(rect);
         addSoldier(soldier);
         soldier->setX(distanceX);
         distanceX = distanceX - 20;
         soldier->setY(350);
         scene->addItem(soldier);
+
     }
 }
 
+/// Deletes soldier in army.
+/// @param Soldier* soldier to delete
 void Game::deleteSoldier(Soldier *soldier) {
-
     GladiatorsList* gladiatorsList = GladiatorsList::getInstance();
     gladiatorsList->deleteGladiatorByID(soldier->id);
     army->removeOne(soldier);
     Field* field = Field::getInstance();
-    QGraphicsScene* scene = field->getSoldierScene();
+    QGraphicsScene* scene = field->getScene();
     scene->removeItem(soldier);
     delete soldier;
 }
@@ -56,6 +70,7 @@ void Game::followPath(Soldier* soldier) {
     // Gets specific current square objective for soldier.
     int squareObjective = soldier->currentSquare;
     int IDObjetive = path->at(squareObjective);
+    soldier->graphicalSquare = IDObjetive;
 
     // X axis values
     int XObjective = static_cast<int>(allSquares[IDObjetive]->x()) + 15;
@@ -71,15 +86,34 @@ void Game::followPath(Soldier* soldier) {
         // Move right or left.
         if (XObjective > currentX) {
             soldier->setX(soldier->x() + 1);
+            QString soldierdir = ":/soldiers/soldiers/soldierFlashRight.png";
+            QPixmap sPix = QPixmap(soldierdir);
+            soldier->soldierPix = sPix.scaled(15,15);
+            soldier->setBrush(soldier->soldierPix);
+
         } else {
             soldier->setX(soldier->x() - 1);
+            QString soldierdir = ":/soldiers/soldiers/soldierFlashLeft.png";
+            QPixmap sPix = QPixmap(soldierdir);
+            soldier->soldierPix = sPix.scaled(15,15);
+            soldier->setBrush(soldier->soldierPix);
         }
     } else if (absYDifference > 1) {
         // Move up or down.
         if (YObjective > currentY) {
+
             soldier->setY(soldier->y() + 1);
+            QString soldierdir = ":/soldiers/soldiers/soldierFlashDown.png";
+            QPixmap sPix = QPixmap(soldierdir);
+            soldier->soldierPix = sPix.scaled(15,15);
+            soldier->setBrush(soldier->soldierPix);
+
         } else {
             soldier->setY(soldier->y() - 1);
+            QString soldierdir = ":/soldiers/soldiers/soldierFlashUp.png";
+            QPixmap sPix = QPixmap(soldierdir);
+            soldier->soldierPix = sPix.scaled(15,15);
+            soldier->setBrush(soldier->soldierPix);
         }
     } else {
         // Checks if end is reached.
@@ -124,18 +158,25 @@ void Game::removeArea(QGraphicsItem *area) {
     allAreas.removeOne(area);
 }
 
-// Starts game
+void Game::pause() {
+    timer->stop();
+}
+
+void Game::play() {
+    timer->start();
+}
+
 //! A method that runs the game
 void Game::run() {
     timer = new QTimer(this);
     connect(timer, SIGNAL(timeout()), this, SLOT(updateGame()));
     timer->start(updateTime);
 }
+
 //! A method that upadates the game constantly
 /// Main game loop.
 void Game::updateGame() {
     // Updates each soldier in game.
-
     for(int i = 0; i < army->length(); i++) {
         Soldier* currentSoldier = army->at(i);
         if (currentSoldier->done) {
@@ -144,7 +185,8 @@ void Game::updateGame() {
             deleteSoldier(currentSoldier);
         } else {
             followPath(currentSoldier);
-            currentSoldier->checkDamage();
+            currentSoldier->damage();
+            currentSoldier->checkRotation();
         }
     }
 }

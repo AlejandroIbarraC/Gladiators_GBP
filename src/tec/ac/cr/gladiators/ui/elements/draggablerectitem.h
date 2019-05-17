@@ -4,9 +4,13 @@
 #include <QGraphicsRectItem>
 #include <QGraphicsSceneMouseEvent>
 #include <QDateTime>
+#include <QMediaPlayer>
 #include <QBrush>
 
 #include "customrectitem.h"
+#include "../../logic/pathfinding/Pathfinding.h"
+#include "../../logic/pathfinding/PathList.h"
+#include "../../logic/TowersList.h"
 
 
 class DraggableRectItem : public QGraphicsRectItem {
@@ -24,6 +28,7 @@ protected:
     void mouseReleaseEvent(QGraphicsSceneMouseEvent *event);
 
 private:
+    QMediaPlayer* build = new QMediaPlayer();
     QGraphicsItem* closestItem;
     CustomRectItem* closestSquare;
     QPixmap iconPix;

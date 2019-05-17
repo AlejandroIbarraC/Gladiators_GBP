@@ -10,18 +10,23 @@
 class CustomRectItem : public QGraphicsRectItem {
 
 public:
+
     CustomRectItem(QGraphicsRectItem* parent = nullptr);
+    int damageIndex = 1;
     int id;
+    QString towerType;
 
     QGraphicsItem* getArea();
     void initializeArea();
     void setID(int id);
 
 protected:
+
     void mousePressEvent(QGraphicsSceneMouseEvent *event);
 
 private:
-    QGraphicsRectItem* area;
+
+    QGraphicsEllipseItem* area;
 
 };
 
