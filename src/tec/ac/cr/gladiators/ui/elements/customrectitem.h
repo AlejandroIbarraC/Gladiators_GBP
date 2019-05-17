@@ -10,6 +10,7 @@
 class CustomRectItem : public QGraphicsRectItem {
 
 public:
+
     CustomRectItem(QGraphicsRectItem* parent = nullptr);
     int damageIndex = 1;
     int id;
@@ -20,9 +21,11 @@ public:
     void setID(int id);
 
 protected:
+
     void mousePressEvent(QGraphicsSceneMouseEvent *event);
 
 private:
+
     QGraphicsEllipseItem* area;
 
 };

@@ -28,6 +28,7 @@ public:
     void addCreatedGladiator(Gladiators* gladiators);
     void deleteGladiatorByID(int id);
     void setSoldierToShowByID(int id);
+    int getGladiatorLifeByID(int id);
     void deleteAll();
     static QJsonArray serialize();
     static void deserialize(QJsonArray jsonArray);

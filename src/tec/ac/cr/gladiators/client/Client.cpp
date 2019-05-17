@@ -40,7 +40,7 @@ void Client::retrieveTowers() {
 }
 
 QJsonArray Client::getTowers() {
-    auto response = cpr::Get(cpr::Url{"http://192.168.100.14:9080/Gladiators_GBP_war_exploded/genetics/populations/towers"});
+    auto response = cpr::Get(cpr::Url{"http://192.168.1.46:9080/Gladiators_GBP_war_exploded/genetics/populations/towers"});
     string jsonString = response.text;
     QJsonDocument jsonDocument = QJsonDocument::fromJson(QByteArray(jsonString.c_str()));
     return jsonDocument.array();
@@ -56,11 +56,7 @@ void Client::sendGladiatorsData() {
 
 void Client::postGladiators() {
 
-    QJsonDocument jsonDocument(GladiatorsList::serialize());
-    QByteArray byteArray = jsonDocument.toJson();
-    QString qString = QString(byteArray);
-    string str = qString.toStdString();
-    auto response = cpr::Post(cpr::Url{"http://192.168.100.14:9080/Gladiators_GBP_war_exploded/genetics/populations/gladiators/stats"}, cpr::Body{str}, cpr::Header{{"Content-Type", "application/json"}});
+    auto response = cpr::Post(cpr::Url{"http://192.168.1.46:9080/Gladiators_GBP_war_exploded/genetics/populations/gladiators/stats"});
 
 }
 
@@ -73,11 +69,7 @@ void Client::sendTowersData() {
 
 void Client::postTowers() {
 
-    QJsonDocument jsonDocument(TowersList::serialize());
-    QByteArray byteArray = jsonDocument.toJson();
-    QString qString = QString(byteArray);
-    string str = qString.toStdString();
-    auto response = cpr::Post(cpr::Url{"http://192.168.100.14:9080/Gladiators_GBP_war_exploded/genetics/populations/towers/stats"}, cpr::Body{str}, cpr::Header{{"Content-Type", "application/json"}});
+    auto response = cpr::Post(cpr::Url{"http://192.168.1.46:9080/Gladiators_GBP_war_exploded/genetics/populations/towers/stats"});
 
 }
 
@@ -90,7 +82,7 @@ void Client::reset() {
 
 void Client::postReset() {
 
-    auto response = cpr::Post(cpr::Url{"http://192.168.100.14:9080/Gladiators_GBP_war_exploded/genetics/populations"});
+    auto response = cpr::Post(cpr::Url{"http://192.168.1.46:9080/Gladiators_GBP_war_exploded/genetics/populations"});
 
 }
 
@@ -108,6 +100,6 @@ void Client::postSkip() {
     QByteArray byteArray = jsonDocument.toJson();
     QString qString = QString(byteArray);
     string str = qString.toStdString();
-    auto response = cpr::Post(cpr::Url{"http://192.168.100.14:9080/Gladiators_GBP_war_exploded/genetics/populations/skip"}, cpr::Body{str}, cpr::Header{{"Content-Type", "application/json"}});
+    auto response = cpr::Post(cpr::Url{"http://192.168.1.46:9080/Gladiators_GBP_war_exploded/genetics/populations/skip"}, cpr::Body{str}, cpr::Header{{"Content-Type", "application/json"}});
 
 }
