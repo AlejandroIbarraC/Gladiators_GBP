@@ -5,6 +5,7 @@
 #include "../client/Client.h"
 #include "../logic/pathfinding/Pathfinding.h"
 #include "../logic/pathfinding/PathList.h"
+#include "../logic/pathfinding/AStar.cpp"
 #include <QString>
 
 using namespace std;
@@ -38,7 +39,6 @@ Field::Field(QWidget *parent, int stage) :
     soldier_view->setFixedSize(width, height);
 
     // Initialize background stage
-
     if (stage == 1) {
         ui->background->setPixmap(QPixmap("://main/fieldStage.png"));
         columns = 19;
@@ -49,8 +49,8 @@ Field::Field(QWidget *parent, int stage) :
         ui->background->setPixmap(QPixmap("://main/cityStage.jpg"));
         columns = 17;
         rows = 8;
-        startingx = 55;
-        startingy = 84;
+        startingx = 175;
+        startingy = 165;
     }
 
     // Plays music.
@@ -73,6 +73,38 @@ Field::Field(QWidget *parent, int stage) :
     for (int i = 0; i < (columns * rows); i++) {
         damageMatrix->append(0);
     }
+
+    // Blocks placement in area limit
+    if (currentStage == 1) {
+        allSquares[95]->setAcceptDrops(true);
+        allSquares[114]->setAcceptDrops(true);
+        allSquares[133]->setAcceptDrops(true);
+        allSquares[113]->setAcceptDrops(true);
+        allSquares[132]->setAcceptDrops(true);
+        allSquares[151]->setAcceptDrops(true);
+    } else {
+        allSquares[51]->setAcceptDrops(true);
+        allSquares[68]->setAcceptDrops(true);
+        allSquares[67]->setAcceptDrops(true);
+        allSquares[84]->setAcceptDrops(true);
+    }
+
+    // Creates button hover watchers for UI Buttons.
+    ButtonHoverWatcher* watcher = new ButtonHoverWatcher(this,":/main/playButtonIcon.png",":/main/playButtonIcon_pressed.png");
+    ui->playButton->installEventFilter(watcher);
+    ButtonHoverWatcher* watcher2 = new ButtonHoverWatcher(this,":/main/nextButtonIcon.png",":/main/nextButtonIcon_pressed.png");
+    ui->nextButton->installEventFilter(watcher2);
+    ButtonHoverWatcher* watcher3 = new ButtonHoverWatcher(this,":/main/resetButtonIcon.png",":/main/resetButtonIcon_pressed.png");
+    ui->resetButton->installEventFilter(watcher3);
+    ButtonHoverWatcher* watcher4 = new ButtonHoverWatcher(this,":/main/skipButtonIcon.png",":/main/skipButtonIcon_pressed.png");
+    ui->skipButton->installEventFilter(watcher4);
+
+    // Assigns sound effect data
+    trumpet->setMedia(QUrl("qrc:/main/trumpet.mp3"));
+    ding->setMedia(QUrl("qrc:/main/ding.mp3"));
+    rewind->setMedia(QUrl("qrc:/main/rewind.mp3"));
+    roll->setMedia(QUrl("qrc:/main/roll.mp3"));
+    snap->setMedia(QUrl("qrc:/main/snap.mp3"));
 }
 
 /// Adds tower to pathfinding matrix
@@ -88,25 +120,18 @@ void Field::addTower(int id) {
 
     // Adds tower in internal tower list for rotation in UI
     towerList->append(id);
-
-    // Pathfinding stuff
-    qDebug() << "Added tower in " << x << y;
-    Pathfinding* pathfinding = Pathfinding::getInstance();
-    pathfinding->backTrack11x19(0,6, fieldMatrix);
-    PathList* pathList = PathList::getInstance();
-    pathList->createPath11x19(0, 6);
-    qDebug() << "END";
 }
 
 /// Algorithmically assign damage to square in damage matrix when adding a tower
 /// @param int id position in grid
 void Field::assignDamageMatrix(int id) {
     QList<int>* numbers = findCoverage(id);
+    int damageIndex = allSquares[id]->damageIndex;
 
     // Assigns damage
     for (int i = 0; i < numbers->length(); i++) {
         int currentNumber = numbers->at(i);
-        damageMatrix->insert(currentNumber, damageMatrix->at(currentNumber) + 1);
+        damageMatrix->insert(currentNumber, damageMatrix->at(currentNumber) + damageIndex);
     }
 }
 
@@ -135,6 +160,7 @@ void Field::deleteTower(int id) {
     }
 }
 
+/// Finds tower area coverage by ID
 QList<int>* Field::findCoverage(int id) {
     QList<int>* numbers = new QList<int>();
     int up = id - columns;
@@ -186,25 +212,17 @@ QList<int>* Field::findCoverage(int id) {
     return numbers;
 }
 
-//! A method that reduces player life
-void Field::lowerLife() {
-    life --;
-    ui->lifeLabel->setText("Life: " + QString::number(life));
-}
-
 Field* Field::getInstance() {
     return field;
 }
 
+/// Gets Qlist with square ID in path
 QList<int>* Field::getPath() {
-    Pathfinding* pathfinding = Pathfinding::getInstance();
     PathList* pathList = PathList::getInstance();
     if (currentStage == 1) {
-        pathfinding->backTrack11x19(6, 0, fieldMatrix);
         pathList->createPath11x19(6, 0);
     } else {
-        pathfinding->backTrack8x17(6, 0, cityMatrix);
-        pathList->createPath8x17(6, 0);
+        pathList->createPath8x17(3, 0);
     }
     QList<int>* path = pathList->toQList();
     return path;
@@ -297,19 +315,78 @@ void Field::initializeField() {
     }
 }
 
+/// Lowers player life
+void Field::lowerLife() {
+    life--;
+    ui->lifeLabel->setText(QString::number(life));
+}
+
+void Field::on_nextButton_clicked() {
+    trumpet->play();
+    resetField();
+    Client::sendGladiatorsData();
+    Client::retrieveGladiators();
+    Client::sendTowersData();
+    Client::retrieveTowers();
+    Pathfinding* pathfinding = Pathfinding::getInstance();
+    PathList* pathList = PathList::getInstance();
+    if (currentStage == 1) {
+        if (pathAlgorithm) {
+            pathfinding->backTrack11x19(6, 0, fieldMatrix);
+            pathAlgorithm = false;
+            pathList->createPath11x19(6, 0);
+        } else {
+            Pair src11x19 = make_pair(6, 0);
+            Pair dest11x19 = make_pair(6, 18);
+            aStarSearch11x19(fieldMatrix, src11x19, dest11x19);
+            pathList->createPath11x19(6, 0);
+            pathAlgorithm = true;
+        }
+    } else {
+        if (pathAlgorithm) {
+            pathfinding->backTrack8x17(3, 0, cityMatrix);
+            pathAlgorithm = false;
+            pathList->createPath8x17(3, 0);
+        } else {
+            Pair src8x17 = make_pair(3, 0);
+            Pair dest8x17 = make_pair(3, 16);
+            aStarSearch8x17(cityMatrix, src8x17, dest8x17);
+            pathList->createPath8x17(3, 0);
+            pathAlgorithm = true;
+        }
+    }
+    game->setPath(pathList->toQList());
+    game->createArmy(0);
+}
+
+void Field::on_pauseButton_clicked() {
+    bool state = ui->pauseButton->isChecked();
+    Game* game = Game::getInstance();
+    if (state) {
+        game->pause();
+    } else {
+        game->play();
+    }
+}
+
 //! A method that is run when play button is clicked
 void Field::on_playButton_clicked() {
+    trumpet->play();
+
     // ONLINE DATA
-    /*
+    TowersList::getInstance();
+    GladiatorsList::getInstance();
     Client::retrieveGladiators();
+    Client::retrieveTowers();
     Pathfinding* pathfinding = Pathfinding::getInstance();
     pathfinding->backTrack11x19(6, 0, fieldMatrix);
     PathList* pathList = PathList::getInstance();
     pathList->createPath11x19(6, 0);
     game->setPath(pathList->toQList());
-    */
-    // OFFLINE TEST DATA. COMMENT IT IF RUNNING ONLINE
     game->createArmy(3);
+
+    // OFFLINE TEST DATA. COMMENT IT IF RUNNING ONLINE
+    /*
     QList<int>* path = new QList<int>;
     path->append(95);
     path->append(96);
@@ -329,10 +406,33 @@ void Field::on_playButton_clicked() {
     path->append(123);
     path->append(142);
     game->setPath(path);
+    */
 }
 
-void Field::on_skipButton_pressed() {
+void Field::on_resetButton_clicked() {
+    resetField();
+    roll->play();
+}
+
+void Field::on_skipButton_clicked() {
     QString text = ui->genEntry->text();
+    rewind->play();
+    Client::skipNumber = text.toInt();
+    Client::skip();
+}
+
+void Field::on_thanosButton_clicked() {
+    snap->play();
+    Game* game = Game::getInstance();
+    QList<Soldier*>* army = game->getArmy();
+    DraggableRectItem* randomizer = new DraggableRectItem();
+
+    for (int i = 0; i < army->length(); i++) {
+        int chance = randomizer->randInt(0, 1);
+        if (chance == 0) {
+            game->deleteSoldier(army->at(i));
+        }
+    }
 }
 
 //! A method that dulls grid
@@ -340,7 +440,12 @@ void Field::opaqueGrid() {
     bool opaque = true;
     int dimensions = rows * columns;
     QBrush clearBrush = QBrush(QColor(8, 8, 8, 30));
-    QBrush opaqueBrush = QBrush(QColor(80, 80, 80, 120));
+    QBrush opaqueBrush;
+    if (currentStage == 1) {
+        opaqueBrush = QBrush(QColor(80, 80, 80, 120));
+    } else {
+        opaqueBrush = QBrush(QColor(0, 0, 80, 120));
+    }
     QBrush currentBrush;
     for (int i = 0; i < dimensions; i++) {
         QGraphicsRectItem* currentSquare = allSquares[i];
@@ -368,6 +473,53 @@ void Field::paintPath(QList<int>* path) {
             currentSquare->setBrush(QColor(100, 0, 0, 120));
         }
     }
+}
+
+/// Resets all field and its matrixes
+void Field::resetField() {
+    int dimensions = rows * columns;
+    // Resets pathfinding matrix
+    if (currentStage == 1) {
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < columns; j++) {
+                fieldMatrix[i][j] = 1;
+            }
+        }
+    } else {
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < columns; j++) {
+                cityMatrix[i][j] = 1;
+            }
+        }
+    }
+
+    // Resets towers in UI
+    for (int i = 0; i < dimensions; i++) {
+        allSquares[i]->setAcceptDrops(false);
+        deOpaqueGrid();
+    }
+
+    // Resets damage matrix
+    damageMatrix->clear();
+    for (int i = 0; i < dimensions; i++) {
+        damageMatrix->append(0);
+    }
+
+    // Blocks placement in border limits
+    if (currentStage == 1) {
+        allSquares[95]->setAcceptDrops(true);
+        allSquares[114]->setAcceptDrops(true);
+        allSquares[133]->setAcceptDrops(true);
+        allSquares[113]->setAcceptDrops(true);
+        allSquares[132]->setAcceptDrops(true);
+        allSquares[151]->setAcceptDrops(true);
+    } else {
+        allSquares[51]->setAcceptDrops(true);
+        allSquares[68]->setAcceptDrops(true);
+        allSquares[67]->setAcceptDrops(true);
+        allSquares[84]->setAcceptDrops(true);
+    }
+    towerIndex = 0;
 }
 
 void Field::setInstance(Field* nfield) {
@@ -424,4 +576,17 @@ int Field::squareToID(CustomRectItem* square) {
         }
     }
     return id;
+}
+
+/// Algorithmically unassign damage to square in damage matrix when removing a tower
+/// @param int id position in grid
+void Field::unassignDamageMatrix(int id) {
+    QList<int>* numbers = findCoverage(id);
+    int damageIndex = allSquares[id]->damageIndex;
+
+    // Unassigns damage
+    for (int i = 0; i < numbers->length(); i++) {
+        int currentNumber = numbers->at(i);
+        damageMatrix->insert(currentNumber, damageMatrix->at(currentNumber) - damageIndex);
+    }
 }

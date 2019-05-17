@@ -17,6 +17,7 @@ DraggableRectItem::DraggableRectItem(QGraphicsRectItem* parent, QString tower):
     towerPix = tPix.scaled(40,40);
     iconPix = iPix.scaled(70, 70);
     this->setBrush(iconPix);
+    build->setMedia(QUrl("qrc:/main/build.mp3"));
 }
 
 /// Sets point where item will return if dropped elsewhere
@@ -69,13 +70,6 @@ void DraggableRectItem::mouseMoveEvent(QGraphicsSceneMouseEvent *event) {
 
         // Gets updated path and paints it
         QList<int>* path = field->getPath();
-
-//        Pathfinding* pathfinding = Pathfinding::getInstance();
-//        pathfinding->backTrack11x19(0,6, field->fieldMatrix);
-//        PathList* pathList = PathList::getInstance();
-//        pathList->createPath11x19(6, 0);
-//        QList<int>* path = pathList->toQList();
-//        std::cout << pathfinding->toString11x19();
         field->paintPath(path);
 
         safeReturn = false;
@@ -97,12 +91,15 @@ void DraggableRectItem::mouseReleaseEvent(QGraphicsSceneMouseEvent *event){
     // data, and paint tower on UI
     if (!safeReturn) {
         int areaID = field->squareToID(closestSquare);
+        field->allSquares[areaID]->damageIndex = TowersList::getInstance()->getTowersByPosition(field->towerIndex) / 20;
+        field->towerIndex++;
         field->assignDamageMatrix(areaID);
         closestSquare->setBrush(towerPix);
         closestSquare->setAcceptDrops(true);
         closestSquare->initializeArea();
         field->addTower(areaID);
         closestSquare->towerType = towerType;
+        build->play();
     }
 }
 

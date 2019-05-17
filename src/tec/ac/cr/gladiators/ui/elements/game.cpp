@@ -35,6 +35,7 @@ void Game::createArmy(int size) {
         Soldier* soldier = new Soldier();
         soldier->id = i;
         soldier->setPen(Qt::NoPen);
+        soldier->setLife(GladiatorsList::getInstance()->getGladiatorLifeByID(i) * 100);
 
         QString soldierdir = ":/soldiers/soldiers/soldierFlashRight.png";
         QPixmap sPix = QPixmap(soldierdir);
@@ -42,7 +43,6 @@ void Game::createArmy(int size) {
         soldier->setBrush(soldier->soldierPix);
 
         soldier->setRect(rect);
-        soldier->id = i;
         addSoldier(soldier);
         soldier->setX(distanceX);
         distanceX = distanceX - 20;
@@ -59,7 +59,7 @@ void Game::deleteSoldier(Soldier *soldier) {
     gladiatorsList->deleteGladiatorByID(soldier->id);
     army->removeOne(soldier);
     Field* field = Field::getInstance();
-    QGraphicsScene* scene = field->getSoldierScene();
+    QGraphicsScene* scene = field->getScene();
     scene->removeItem(soldier);
     delete soldier;
 }
@@ -85,7 +85,6 @@ void Game::followPath(Soldier* soldier) {
     if (absXDifference > 1) {
         // Move right or left.
         if (XObjective > currentX) {
-
             soldier->setX(soldier->x() + 1);
             QString soldierdir = ":/soldiers/soldiers/soldierFlashRight.png";
             QPixmap sPix = QPixmap(soldierdir);
@@ -157,6 +156,14 @@ void Game::setPath(QList<int> *nPath) {
 //! \param area
 void Game::removeArea(QGraphicsItem *area) {
     allAreas.removeOne(area);
+}
+
+void Game::pause() {
+    timer->stop();
+}
+
+void Game::play() {
+    timer->start();
 }
 
 //! A method that runs the game

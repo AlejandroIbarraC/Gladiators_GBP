@@ -16,12 +16,36 @@
         <file>cityStage.jpg</file>
         <file>plate.png</file>
         <file>moneyIcon.png</file>
+        <file>ageIcon.png</file>
+        <file>carbonFiberBackground.jpg</file>
+        <file>genIcon.png</file>
+        <file>intelligenceIcon.png</file>
+        <file>nextButtonIcon.png</file>
+        <file>physicalIcon.png</file>
+        <file>playButtonIcon.png</file>
+        <file>resetButtonIcon.png</file>
+        <file>resistanceIcon.png</file>
+        <file>survivalIcon.png</file>
+        <file>build.mp3</file>
+        <file>oof.mp3</file>
+        <file>trumpet.mp3</file>
+        <file>ding.mp3</file>
+        <file>nextButtonIcon_pressed.png</file>
+        <file>playButtonIcon_pressed.png</file>
+        <file>resetButtonIcon_pressed.png</file>
+        <file>rewind.mp3</file>
+        <file>roll.mp3</file>
+        <file>skipButtonIcon.png</file>
+        <file>skipButtonIcon_pressed.png</file>
+        <file>pauseToggleIcon.png</file>
+        <file>playToggleIcon.png</file>
+        <file>redHeart.png</file>
+        <file>thanosIcon.png</file>
     </qresource>
     <qresource prefix="/font">
         <file>Papyrus.ttc</file>
     </qresource>
     <qresource prefix="/towers">
-        <file>towers/electric1.png</file>
         <file>towers/electricarrow.png</file>
         <file>towers/electricicon.png</file>
         <file>towers/fire1.png</file>
@@ -38,6 +62,21 @@
         <file>towers/gatlingarrow.png</file>
         <file>towers/gatlingicon.png</file>
         <file>towers/gatling1g.png</file>
+        <file>towers/electric1.png</file>
+        <file>towers/electric1a.png</file>
+        <file>towers/electric1b.png</file>
+        <file>towers/electric1c.png</file>
+        <file>towers/electric1d.png</file>
+        <file>towers/electric1e.png</file>
+        <file>towers/electric1f.png</file>
+        <file>towers/electric1g.png</file>
+        <file>towers/fire1a.png</file>
+        <file>towers/fire1b.png</file>
+        <file>towers/fire1c.png</file>
+        <file>towers/fire1d.png</file>
+        <file>towers/fire1e.png</file>
+        <file>towers/fire1f.png</file>
+        <file>towers/fire1g.png</file>
     </qresource>
     <qresource prefix="/soldiers">
         <file>soldiers/soldierFlashDown.png</file>

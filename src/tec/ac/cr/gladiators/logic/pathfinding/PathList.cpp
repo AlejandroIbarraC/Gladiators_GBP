@@ -48,6 +48,11 @@ void PathList::addPath(int id) {
 void PathList::createPath11x19(int row, int column) {
     Pathfinding* pathfinding = Pathfinding::getInstance();
     int currentPath[11][19];
+    for (int i = 0; i < 11; i++){
+        for (int j = 0; j < 19; j++){
+            currentPath[i][j] = 0;
+        }
+    }
     if (this->head != nullptr){
         this->deletePath();
         this->head = nullptr;
@@ -63,16 +68,16 @@ void PathList::createPath11x19(int row, int column) {
         up = row - 1;
         left = column - 1;
         right = column + 1;
-        if (row - 1 >= 0 && pathfinding->solution11x19[down][column] == 1 && currentPath[down][column] != 1){
-            row--;
-        }
-        else if (row + 1 <= 10 && pathfinding->solution11x19[up][column] == 1 && currentPath[up][column] != 1){
+        if (down >= 0 && pathfinding->solution11x19[down][column] == 1 && currentPath[down][column] != 1){
             row++;
         }
-        else if (column - 1 >= 0 && pathfinding->solution11x19[row][left] == 1 && currentPath[row][left] != 1){
+        else if (up <= 10 && pathfinding->solution11x19[up][column] == 1 && currentPath[up][column] != 1){
+            row--;
+        }
+        else if (left >= 0 && pathfinding->solution11x19[row][left] == 1 && currentPath[row][left] != 1){
             column--;
         }
-        else if(column + 1 <= 18 && pathfinding->solution11x19[row][right] == 1 && currentPath[row][right] != 1){
+        else if(right <= 18 && pathfinding->solution11x19[row][right] == 1 && currentPath[row][right] != 1){
             column++;
         }
         else{

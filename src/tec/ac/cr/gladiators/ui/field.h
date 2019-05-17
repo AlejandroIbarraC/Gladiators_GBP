@@ -11,6 +11,7 @@
 #include "elements/draggablerectitem.h"
 #include "elements/soldier.h"
 #include "elements/game.h"
+#include "elements/buttonhoverwatcher.h"
 
 namespace Ui {
 class Field;
@@ -35,6 +36,7 @@ public:
                                  {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}};
     int columns;
     QList<int>* damageMatrix;
+    QMediaPlayer* ding = new QMediaPlayer();
     int fieldMatrix[11][19] = {{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
                                {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
                                {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
@@ -46,8 +48,13 @@ public:
                                {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
                                {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
                                {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}};
+    QMediaPlayer* rewind = new QMediaPlayer();
+    QMediaPlayer* roll = new QMediaPlayer();
     int rows;
+    QMediaPlayer* snap = new QMediaPlayer();
+    int towerIndex = 0;
     QList<int>* towerList;
+    QMediaPlayer* trumpet = new QMediaPlayer();
 
     void addTower(int id);
     void assignDamageMatrix(int id);
@@ -62,16 +69,19 @@ public:
     QList<int>* idToCoords(int id);
     void opaqueGrid();
     void paintPath(QList<int>* path);
+    void resetField();
     static void setInstance(Field* nfield);
     void setSoldierScene(QGraphicsScene* newScene);
     void setSoldierLabels();
     int squareToID(CustomRectItem* square);
+    void unassignDamageMatrix(int id);
 
 private:
     int currentStage;
     static Field* field;
     Game* game;
     int life = 20;
+    bool pathAlgorithm = true;
     QGraphicsScene* scene;
     QGraphicsScene* soldier_scene;
     QGraphicsView* soldier_view;
@@ -83,8 +93,12 @@ private:
     void initializeField();
 
 private slots:
+    void on_nextButton_clicked();
+    void on_pauseButton_clicked();
     void on_playButton_clicked();
-    void on_skipButton_pressed();
+    void on_resetButton_clicked();
+    void on_thanosButton_clicked();
+    void on_skipButton_clicked();
 
 };
 
