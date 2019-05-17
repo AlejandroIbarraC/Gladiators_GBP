@@ -94,7 +94,19 @@ public class GladiatorsManager {
         }
     }
 
-
+    public void buffLife(){
+        int length = population.getIndividuals().length;
+        int i = 0;
+        int life;
+        while (i < length){
+            life = population.getIndividuals()[i].getResistence();
+            if(life>100){
+                life = 10;
+            }
+            population.getIndividuals()[i].setResistence(life + 2);
+            i++;
+        }
+    }
     public Population getPopulation() {
         return population;
     }

@@ -29,6 +29,7 @@ public class GladiatorsFacade {
         gladiatorsManager.mutation();
         gladiatorsManager.addFittestOffspring();
         gladiatorsManager.getPopulation().calculateFitness();
+        gladiatorsManager.buffLife();
         gladiatorsList = ArrayToArrayList(gladiatorsManager.getPopulation().getIndividuals());
         return gladiatorsList;
     }
