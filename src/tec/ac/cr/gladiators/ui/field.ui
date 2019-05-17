@@ -782,6 +782,32 @@ BRIEFING</string>
      <bool>true</bool>
     </property>
    </widget>
+   <widget class="QPushButton" name="thanosButton">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>100</y>
+      <width>71</width>
+      <height>71</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">border:0px</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="icon">
+     <iconset resource="assets/resources.qrc">
+      <normaloff>:/main/thanosIcon.png</normaloff>:/main/thanosIcon.png</iconset>
+    </property>
+    <property name="iconSize">
+     <size>
+      <width>64</width>
+      <height>64</height>
+     </size>
+    </property>
+   </widget>
    <zorder>backgroundCarbonFiber</zorder>
    <zorder>background</zorder>
    <zorder>soldierView</zorder>
@@ -814,6 +840,7 @@ BRIEFING</string>
    <zorder>pauseButton</zorder>
    <zorder>heart</zorder>
    <zorder>lifeLabel</zorder>
+   <zorder>thanosButton</zorder>
   </widget>
  </widget>
  <resources>

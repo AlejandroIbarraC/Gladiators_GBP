@@ -91,7 +91,7 @@ void DraggableRectItem::mouseReleaseEvent(QGraphicsSceneMouseEvent *event){
     // data, and paint tower on UI
     if (!safeReturn) {
         int areaID = field->squareToID(closestSquare);
-        field->allSquares[areaID]->damageIndex = TowersList::getInstance()->getTowersByPosition(field->towerIndex) / 2000;
+        field->allSquares[areaID]->damageIndex = TowersList::getInstance()->getTowersByPosition(field->towerIndex) / 20;
         field->towerIndex++;
         field->assignDamageMatrix(areaID);
         closestSquare->setBrush(towerPix);
