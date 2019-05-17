@@ -74,11 +74,13 @@ void TowersList::addCreatedTower(Towers* towers) {
 }
 
 void TowersList::deleteAll() {
-    if (this->head == nullptr){
-        cout << "Error, no hay gladiadores por borrar" << endl;
+    if (!towersList){
+        towersList = new TowersList();
+    }else if (this->head == nullptr){
+        cout << "Error, no hay torres por borrar" << endl;
     }else{
         Towers* toDel = this->head;
-        Towers* tmp = this->head;
+        Towers* tmp = this->head->getNext();
         while (tmp != nullptr){
             delete toDel;
             toDel = tmp;
@@ -113,7 +115,8 @@ void TowersList::deserialize(QJsonArray jsonArray) {
             tmp->deserialize(node);
             towersList->addCreatedTower(tmp);
         }
-    }else {
+    }
+    else {
         towersList->head = nullptr;
     }
 }

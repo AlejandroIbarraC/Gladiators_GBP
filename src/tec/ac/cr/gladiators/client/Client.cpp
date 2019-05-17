@@ -40,6 +40,7 @@ void Client::retrieveTowers() {
 }
 
 QJsonArray Client::getTowers() {
+
     auto response = cpr::Get(cpr::Url{"http://192.168.1.46:9080/Gladiators_GBP_war_exploded/genetics/populations/towers"});
     string jsonString = response.text;
     QJsonDocument jsonDocument = QJsonDocument::fromJson(QByteArray(jsonString.c_str()));
