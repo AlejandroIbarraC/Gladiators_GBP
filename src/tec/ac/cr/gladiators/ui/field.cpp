@@ -337,6 +337,7 @@ void Field::on_nextButton_clicked() {
             Pair dest11x19 = make_pair(6, 18);
             aStarSearch11x19(fieldMatrix, src11x19, dest11x19);
             pathList->createPath11x19(6, 0);
+            pathAlgorithm = true;
         }
     } else {
         if (pathAlgorithm) {
@@ -348,6 +349,7 @@ void Field::on_nextButton_clicked() {
             Pair dest8x17 = make_pair(3, 16);
             aStarSearch8x17(cityMatrix, src8x17, dest8x17);
             pathList->createPath8x17(3, 0);
+            pathAlgorithm = true;
         }
     }
     game->setPath(pathList->toQList());

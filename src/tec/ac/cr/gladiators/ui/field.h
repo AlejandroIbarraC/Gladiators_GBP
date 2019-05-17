@@ -12,7 +12,6 @@
 #include "elements/soldier.h"
 #include "elements/game.h"
 #include "elements/buttonhoverwatcher.h"
-#include "../logic/pathfinding/AStar.cpp"
 
 namespace Ui {
 class Field;
@@ -80,7 +79,7 @@ private:
     static Field* field;
     Game* game;
     int life = 20;
-    bool pathAlgorithm = false;
+    bool pathAlgorithm = true;
     QGraphicsScene* scene;
     QGraphicsScene* soldier_scene;
     QGraphicsView* soldier_view;
