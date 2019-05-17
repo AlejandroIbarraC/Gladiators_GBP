@@ -72,6 +72,7 @@ public:
     void setSoldierScene(QGraphicsScene* newScene);
     void setSoldierLabels();
     int squareToID(CustomRectItem* square);
+    void unassignDamageMatrix(int id);
 
 private:
     int currentStage;

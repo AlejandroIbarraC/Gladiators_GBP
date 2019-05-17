@@ -26,7 +26,7 @@ void Game::createArmy(int size) {
     Field* field = Field::getInstance();
     QGraphicsScene* scene = field->getScene();
     GladiatorsList* gladiatorsList = GladiatorsList::getInstance();
-    //size = gladiatorsList->getLenght();
+    size = gladiatorsList->getLenght();
     allSquares = field->allSquares;
     distanceX = -20;
 

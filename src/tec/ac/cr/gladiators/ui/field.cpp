@@ -432,8 +432,9 @@ void Field::resetField() {
     }
 
     // Resets damage matrix
-    for (int i = 0; i < damageMatrix->length(); i++) {
-        damageMatrix->removeAt(i);
+    damageMatrix->clear();
+    for (int i = 0; i < rows * columns; i++) {
+        damageMatrix->append(0);
     }
 
     // Blocks placement in border limits
@@ -499,4 +500,17 @@ int Field::squareToID(CustomRectItem* square) {
         }
     }
     return id;
+}
+
+/// Algorithmically unassign damage to square in damage matrix when removing a tower
+/// @param int id position in grid
+void Field::unassignDamageMatrix(int id) {
+    QList<int>* numbers = findCoverage(id);
+    int damageIndex = allSquares[id]->damageIndex;
+
+    // Unassigns damage
+    for (int i = 0; i < numbers->length(); i++) {
+        int currentNumber = numbers->at(i);
+        damageMatrix->insert(currentNumber, damageMatrix->at(currentNumber) - damageIndex);
+    }
 }

@@ -498,14 +498,14 @@
      </font>
     </property>
     <property name="styleSheet">
-     <string notr="true">border:0</string>
+     <string notr="true">border:0px</string>
     </property>
     <property name="text">
      <string/>
     </property>
     <property name="icon">
-     <iconset>
-      <normaloff>assets/skipButtonIcon.png</normaloff>assets/skipButtonIcon.png</iconset>
+     <iconset resource="assets/resources.qrc">
+      <normaloff>:/main/skipButtonIcon.png</normaloff>:/main/skipButtonIcon.png</iconset>
     </property>
     <property name="iconSize">
      <size>
