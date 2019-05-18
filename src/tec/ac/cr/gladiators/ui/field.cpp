@@ -474,6 +474,7 @@ void Field::paintPath(QList<int>* path) {
             currentSquare->setBrush(QColor(100, 0, 0, 120));
         }
     }
+    delete path;
 }
 
 /// Resets all field and its matrixes

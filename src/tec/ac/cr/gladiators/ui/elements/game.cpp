@@ -148,6 +148,7 @@ void Game::setArmy(QList<Soldier*> *nArmy) {
 }
 
 void Game::setPath(QList<int> *nPath) {
+    delete path;
     path = nPath;
     lastID = path->constLast();
 }
