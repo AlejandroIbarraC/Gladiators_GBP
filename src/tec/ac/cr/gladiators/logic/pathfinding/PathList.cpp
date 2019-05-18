@@ -152,3 +152,23 @@ QList<int>* PathList::toQList() {
     }
     return path;
 }
+
+QList<int> * PathList::recalculatePath(QList<int> oldPath) {
+    QList<int>* newPath = new QList<int>();
+    QList<int>* currentPath = toQList();
+    int i = 0;
+    while (true){
+        if (oldPath.at(i) == currentPath->at(0)){
+            break;
+        }else{
+            newPath->append(oldPath.at(i));
+            i++;
+        }
+    }
+    for (i = 0; i < currentPath->size(); i++){
+        newPath->append(currentPath->at(i));
+    }
+    delete currentPath;
+    delete &oldPath;
+    return newPath;
+}

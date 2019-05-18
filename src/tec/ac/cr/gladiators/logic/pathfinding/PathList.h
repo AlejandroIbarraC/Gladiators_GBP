@@ -23,6 +23,7 @@ public:
     void createPath11x19(int row, int column);
     void createPath8x17(int row, int column);
     QList<int>* toQList();
+    QList<int>* recalculatePath(QList<int> oldPath);
 
 private:
 
