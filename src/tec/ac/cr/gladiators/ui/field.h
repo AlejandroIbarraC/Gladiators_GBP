@@ -62,6 +62,7 @@ public:
     void deleteTower(int id);
     QList<int>* findCoverage(int id);
     void deOpaqueGrid();
+    void deOpaqueID(int id);
     void lowerLife();
     static Field* getInstance();
     QList<int>* getPath();

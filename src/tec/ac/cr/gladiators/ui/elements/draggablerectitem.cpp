@@ -93,7 +93,6 @@ void DraggableRectItem::mouseMoveEvent(QGraphicsSceneMouseEvent *event) {
              addTempTower(closestSquare->id - 1);
              pathfinding->backTrack11x19(6, 0, tempFieldMatrix);
              pathList->createPath11x19(6, 0);
-             //qDebug() << tempFieldMatrix[0][0];
         }
         field->paintPath(pathList->toQList());
 

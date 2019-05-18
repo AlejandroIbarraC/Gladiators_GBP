@@ -131,6 +131,7 @@ void Field::assignDamageMatrix(int id) {
     // Assigns damage
     for (int i = 0; i < numbers->length(); i++) {
         int currentNumber = numbers->at(i);
+        qDebug() << currentNumber;
         damageMatrix->insert(currentNumber, damageMatrix->at(currentNumber) + damageIndex);
     }
 }
@@ -144,6 +145,14 @@ void Field::deOpaqueGrid() {
         if (!currentSquare->acceptDrops()) {
             currentSquare->setBrush(QBrush(QColor(0, 0, 0, 0)));
         }
+    }
+}
+
+/// Deopaques specific ID
+void Field::deOpaqueID(int id) {
+    if (id != -1) {
+        allSquares[id]->setBrush(QBrush(QColor(0, 0, 0, 0)));
+    } else {
     }
 }
 
@@ -205,7 +214,7 @@ QList<int>* Field::findCoverage(int id) {
     for (int i = 0; i < numbers->length(); i++) {
         int currentNumber = numbers->at(i);
         if (currentNumber == -1) {
-            numbers->removeOne(numbers->at(i));
+            numbers->removeOne(currentNumber);
         }
     }
 
@@ -279,7 +288,7 @@ void Field::initializeField() {
             item->setRect(rect);
             item->setPen(Qt::NoPen);
             allSquares.append(item);
-            item->setID(allSquares.length());
+            item->setID(allSquares.length() - 1);
             scene->addItem(item);
             item->setPos(xpos, ypos);
             xpos += 42;
@@ -387,27 +396,27 @@ void Field::on_playButton_clicked() {
     game->createArmy(3);
 
     // OFFLINE TEST DATA. COMMENT IT IF RUNNING ONLINE
-    /*
-    QList<int>* path = new QList<int>;
-    path->append(95);
-    path->append(96);
-    path->append(97);
-    path->append(98);
-    path->append(99);
-    path->append(100);
-    path->append(81);
-    path->append(62);
-    path->append(43);
-    path->append(44);
-    path->append(45);
-    path->append(46);
-    path->append(47);
-    path->append(66);
-    path->append(85);
-    path->append(123);
-    path->append(142);
-    game->setPath(path);
-    */
+
+//    QList<int>* path = new QList<int>;
+//    path->append(95);
+//    path->append(96);
+//    path->append(97);
+//    path->append(98);
+//    path->append(99);
+//    path->append(100);
+//    path->append(81);
+//    path->append(62);
+//    path->append(43);
+//    path->append(44);
+//    path->append(45);
+//    path->append(46);
+//    path->append(47);
+//    path->append(66);
+//    path->append(85);
+//    path->append(123);
+//    path->append(142);
+//    game->setPath(path);
+
 }
 
 void Field::on_resetButton_clicked() {

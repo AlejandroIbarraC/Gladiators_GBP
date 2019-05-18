@@ -42,10 +42,11 @@ void CustomRectItem::mousePressEvent(QGraphicsSceneMouseEvent *event) {
     } else {
         Field* field = Field::getInstance();
         field->deleteTower(id);
+        qDebug() << id;
         field->unassignDamageMatrix(id);
         setBrush(QBrush(QColor(0, 0, 0, 0)));
         setAcceptDrops(false);
-        field->towerList->removeAt(id);
+        field->towerList->removeOne(id);
         area->setVisible(false);
     }
 }

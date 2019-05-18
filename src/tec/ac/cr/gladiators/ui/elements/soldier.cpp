@@ -46,11 +46,11 @@ void Soldier::checkRotation() {
             rotationPix = rPix.scaled(40,40);
             towerSquare->setBrush(rotationPix);
 
-            Field* field = Field::getInstance();
             QString areaDamage = ":/soldiers/soldiers/fire.png";
-            QPixmap adPix = QPixmap(areaDamage);
+            adPix = QPixmap(areaDamage);
             adPix = adPix.scaled(40,40);
             field->allSquares.at(up)->setBrush(adPix);
+            lastAD = up;
 
         } else if (graphicalSquare == down) {
 
@@ -59,11 +59,11 @@ void Soldier::checkRotation() {
             rotationPix = rPix.scaled(40,40);
             towerSquare->setBrush(rotationPix);
 
-            Field* field = Field::getInstance();
             QString areaDamage = ":/soldiers/soldiers/fire.png";
-            QPixmap adPix = QPixmap(areaDamage);
+            adPix = QPixmap(areaDamage);
             adPix = adPix.scaled(40,40);
             field->allSquares.at(down)->setBrush(adPix);
+            lastAD = down;
 
         } else if (graphicalSquare == right) {
 
@@ -72,11 +72,11 @@ void Soldier::checkRotation() {
             rotationPix = rPix.scaled(40,40);
             towerSquare->setBrush(rotationPix);
 
-            Field* field = Field::getInstance();
             QString areaDamage = ":/soldiers/soldiers/fire.png";
-            QPixmap adPix = QPixmap(areaDamage);
+            adPix = QPixmap(areaDamage);
             adPix = adPix.scaled(40,40);
             field->allSquares.at(right)->setBrush(adPix);
+            lastAD = right;
 
         } else if (graphicalSquare == left) {
 
@@ -85,25 +85,25 @@ void Soldier::checkRotation() {
             rotationPix = rPix.scaled(40,40);
             towerSquare->setBrush(rotationPix);
 
-            Field* field = Field::getInstance();
             QString areaDamage = ":/soldiers/soldiers/fire.png";
-            QPixmap adPix = QPixmap(areaDamage);
+            adPix = QPixmap(areaDamage);
             adPix = adPix.scaled(40,40);
             field->allSquares.at(left)->setBrush(adPix);
+            lastAD = left;
 
 
-        }else if (graphicalSquare == upLeft) {
+        } else if (graphicalSquare == upLeft) {
 
             rotationDir = ":/towers/towers/" + towerType + "1a.png";
             rPix = QPixmap(rotationDir);
             rotationPix = rPix.scaled(40,40);
             towerSquare->setBrush(rotationPix);
 
-            Field* field = Field::getInstance();
             QString areaDamage = ":/soldiers/soldiers/fire.png";
             QPixmap adPix = QPixmap(areaDamage);
             adPix = adPix.scaled(40,40);
             field->allSquares.at(upLeft)->setBrush(adPix);
+            lastAD = upLeft;
 
         } else if (graphicalSquare == upRight) {
 
@@ -112,11 +112,11 @@ void Soldier::checkRotation() {
             rotationPix = rPix.scaled(40,40);
             towerSquare->setBrush(rotationPix);
 
-            Field* field = Field::getInstance();
             QString areaDamage = ":/soldiers/soldiers/fire.png";
-            QPixmap adPix = QPixmap(areaDamage);
+            adPix = QPixmap(areaDamage);
             adPix = adPix.scaled(40,40);
             field->allSquares.at(upRight)->setBrush(adPix);
+            lastAD = upRight;
 
         } else if (graphicalSquare == downLeft) {
 
@@ -125,11 +125,11 @@ void Soldier::checkRotation() {
             rotationPix = rPix.scaled(40,40);
             towerSquare->setBrush(rotationPix);
 
-            Field* field = Field::getInstance();
             QString areaDamage = ":/soldiers/soldiers/fire.png";
-            QPixmap adPix = QPixmap(areaDamage);
+            adPix = QPixmap(areaDamage);
             adPix = adPix.scaled(40,40);
             field->allSquares.at(downLeft)->setBrush(adPix);
+            lastAD = downLeft;
 
         } else if (graphicalSquare == downRight) {
 
@@ -138,15 +138,15 @@ void Soldier::checkRotation() {
             rotationPix = rPix.scaled(40,40);
             towerSquare->setBrush(rotationPix);
 
-            Field* field = Field::getInstance();
             QString areaDamage = ":/soldiers/soldiers/fire.png";
-            QPixmap adPix = QPixmap(areaDamage);
+            adPix = QPixmap(areaDamage);
             adPix = adPix.scaled(40,40);
             field->allSquares.at(downRight)->setBrush(adPix);
+            lastAD = downRight;
         }
         else {
-            Field* field = Field::getInstance();
-            field->deOpaqueGrid();
+            field->deOpaqueID(lastAD);
+            lastAD = -1;
         }
     }
 }
