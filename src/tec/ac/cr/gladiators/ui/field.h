@@ -64,6 +64,7 @@ public:
     void deOpaqueGrid();
     void deOpaqueID(int id);
     void lowerLife();
+    QList<int>* getBlockedIDList();
     static Field* getInstance();
     QList<int>* getPath();
     QGraphicsScene* getScene();

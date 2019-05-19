@@ -69,18 +69,39 @@ void Game::deleteSoldier(Soldier *soldier) {
 void Game::followPath(Soldier* soldier) {
     // Gets specific current square objective for soldier.
     int squareObjective = soldier->currentSquare;
-    int IDObjetive = path->at(squareObjective);
-    soldier->graphicalSquare = IDObjetive;
+    int IDObjective = path->at(squareObjective);
+    soldier->graphicalSquare = IDObjective;
+
+    // Define x and y values
+    int XObjective = 0;
+    int currentX = 0;
+    int absXDifference = 0;
+    int YObjective = 0;
+    int currentY = 0;
+    int absYDifference = 0;
+    int endSquareX = 0;
+    int endSquareY = 0;
+
+    if (IDObjective > 0) {
+        XObjective = static_cast<int>(allSquares[IDObjective]->x()) + 15;
+        YObjective = static_cast<int>(allSquares[IDObjective]->y()) + 15;
+    } else {
+        if (IDObjective == -1) {
+            XObjective = 100;
+        } else {
+            XObjective = 1100;
+        }
+        YObjective = 350;
+    }
 
     // X axis values
-    int XObjective = static_cast<int>(allSquares[IDObjetive]->x()) + 15;
-    int currentX = static_cast<int>(soldier->x());
-    int absXDifference = abs(abs(XObjective) - abs(currentX));
+    currentX = static_cast<int>(soldier->x());
+    absXDifference = abs(abs(XObjective) - abs(currentX));
 
-    // Y Axis values
-    int YObjective = static_cast<int>(allSquares[IDObjetive]->y()) + 15;
-    int currentY = static_cast<int>(soldier->y());
-    int absYDifference = abs(abs(YObjective) - abs(currentY));
+    // Y axis values
+    currentY = static_cast<int>(soldier->y());
+    absYDifference = abs(abs(YObjective) - abs(currentY));
+
 
     if (absXDifference > 1) {
         // Move right or left.
@@ -117,8 +138,17 @@ void Game::followPath(Soldier* soldier) {
         }
     } else {
         // Checks if end is reached.
-        int endSquareX = static_cast<int>(allSquares[lastID]->x()) + 15;
-        int endSquareY = static_cast<int>(allSquares[lastID]->y()) + 15;
+        if (IDObjective > 0) {
+            endSquareX = static_cast<int>(allSquares[lastID]->x()) + 15;
+            endSquareY = static_cast<int>(allSquares[lastID]->y()) + 15;
+        } else {
+            if (IDObjective == -1) {
+                endSquareX = 100;
+            } else {
+                endSquareX = 1100;
+            }
+            endSquareY = 350;
+        }
         int xEndDifference = abs(abs(currentX) - abs(endSquareX));
         int yEndDifference = abs(abs(currentY) - abs(endSquareY));
 
@@ -144,11 +174,14 @@ Game* Game::getInstance() {
 }
 
 void Game::setArmy(QList<Soldier*> *nArmy) {
+    delete army;
     army = nArmy;
 }
 
 void Game::setPath(QList<int> *nPath) {
     delete path;
+    nPath->prepend(-1);
+    nPath->append(-2);
     path = nPath;
     lastID = path->constLast();
 }

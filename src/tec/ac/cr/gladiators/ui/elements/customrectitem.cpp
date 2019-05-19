@@ -33,10 +33,14 @@ void CustomRectItem::setID(int id) {
 void CustomRectItem::mousePressEvent(QGraphicsSceneMouseEvent *event) {
     if (event->buttons() & Qt::LeftButton) {
         if (acceptDrops()) {
-            if (!area->isVisible()) {
-                area->setVisible(true);
-            } else {
-                area->setVisible(false);
+            Field * field = Field::getInstance();
+            QList<int>* blockedIDs = field->getBlockedIDList();
+            if (!blockedIDs->contains(id)) {
+                if (!area->isVisible()) {
+                    area->setVisible(true);
+                } else {
+                    area->setVisible(false);
+                }
             }
         }
     } else {

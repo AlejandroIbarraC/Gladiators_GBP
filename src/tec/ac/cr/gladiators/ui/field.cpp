@@ -131,7 +131,6 @@ void Field::assignDamageMatrix(int id) {
     // Assigns damage
     for (int i = 0; i < numbers->length(); i++) {
         int currentNumber = numbers->at(i);
-        qDebug() << currentNumber;
         damageMatrix->insert(currentNumber, damageMatrix->at(currentNumber) + damageIndex);
     }
 }
@@ -194,10 +193,15 @@ QList<int>* Field::findCoverage(int id) {
         up = -1;
         upLeft = -1;
         upRight = -1;
-    } if (down > rows * columns) {
+    }
+    if (down >= rows * columns) {
         down = -1;
         downLeft = -1;
         downRight = -1;
+    }
+
+    if (id == 0) {
+        downLeft = -1;
     }
 
     // Adds to iterated list
@@ -211,14 +215,34 @@ QList<int>* Field::findCoverage(int id) {
     numbers->append(down);
 
     // Remove fake ones
+    QList<int>* result = new QList<int>();
     for (int i = 0; i < numbers->length(); i++) {
         int currentNumber = numbers->at(i);
-        if (currentNumber == -1) {
-            numbers->removeOne(currentNumber);
+        if (currentNumber != -1) {
+            result->append(currentNumber);
         }
     }
 
-    return numbers;
+    return result;
+}
+
+/// Gets list with blocked IDs.
+QList<int>* Field::getBlockedIDList() {
+    QList<int>* result = new QList<int>();
+    if (currentStage == 1) {
+        result->append(95);
+        result->append(114);
+        result->append(133);
+        result->append(113);
+        result->append(132);
+        result->append(151);
+    } else {
+        result->append(51);
+        result->append(68);
+        result->append(67);
+        result->append(84);
+    }
+    return result;
 }
 
 Field* Field::getInstance() {
