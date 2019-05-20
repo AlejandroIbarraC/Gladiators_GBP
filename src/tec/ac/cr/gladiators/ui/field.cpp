@@ -105,6 +105,11 @@ Field::Field(QWidget *parent, int stage) :
     rewind->setMedia(QUrl("qrc:/main/rewind.mp3"));
     roll->setMedia(QUrl("qrc:/main/roll.mp3"));
     snap->setMedia(QUrl("qrc:/main/snap.mp3"));
+    growl->setMedia(QUrl("qrc:/main/growl.mp3"));
+    roar->setMedia(QUrl("qrc:/main/roar.mp3"));
+
+    // Get tower information
+    Client::retrieveTowers();
 }
 
 /// Adds tower to pathfinding matrix
@@ -354,9 +359,18 @@ void Field::lowerLife() {
     ui->lifeLabel->setText(QString::number(life));
 }
 
+void Field::on_fastForwardButton_clicked() {
+    bool state = ui->fastForwardButton->isChecked();
+    Game* game = Game::getInstance();
+    if (state) {
+        game->setUpdateTime(5);
+    } else {
+        game->setUpdateTime(15);
+    }
+}
+
 void Field::on_nextButton_clicked() {
     trumpet->play();
-    //resetField();
     Client::sendGladiatorsData();
     Client::retrieveGladiators();
     Client::sendTowersData();
@@ -393,6 +407,21 @@ void Field::on_nextButton_clicked() {
     game->createArmy(0);
 }
 
+void Field::on_nightKingButton_clicked() {
+    roar->play();
+    Game* game = Game::getInstance();
+    QList<Soldier*>* deadArmy = game->getDeadArmy();
+    QList<Soldier*>* army = game->getArmy();
+    for(int i = 0; i < deadArmy->length(); i++) {
+        Soldier* currentSoldier = deadArmy->at(i);
+        currentSoldier->setLife(currentSoldier->fullLife * 100);
+        currentSoldier->isUndead = true;
+        army->append(currentSoldier);
+        growl->play();
+    }
+    deadArmy->clear();
+}
+
 void Field::on_pauseButton_clicked() {
     bool state = ui->pauseButton->isChecked();
     Game* game = Game::getInstance();
@@ -413,9 +442,14 @@ void Field::on_playButton_clicked() {
     Client::retrieveGladiators();
     Client::retrieveTowers();
     Pathfinding* pathfinding = Pathfinding::getInstance();
-    pathfinding->backTrack11x19(6, 0, fieldMatrix);
     PathList* pathList = PathList::getInstance();
-    pathList->createPath11x19(6, 0);
+    if (currentStage == 1) {
+        pathfinding->backTrack11x19(6, 0, fieldMatrix);
+        pathList->createPath11x19(6, 0);
+    } else {
+        pathfinding->backTrack8x17(6, 0, cityMatrix);
+        pathList->createPath8x17(6, 0);
+    }
     game->setPath(pathList->toQList());
     game->createArmy(3);
 
@@ -450,6 +484,7 @@ void Field::on_resetButton_clicked() {
 
 void Field::on_skipButton_clicked() {
     QString text = ui->genEntry->text();
+    ui->genEntry->clear();
     rewind->play();
     Client::skipNumber = text.toInt();
     Client::skip();
@@ -556,6 +591,13 @@ void Field::resetField() {
         allSquares[84]->setAcceptDrops(true);
     }
     towerIndex = 0;
+
+    // Deletes dead army.
+    QList<Soldier*>* deadArmy = game->getDeadArmy();
+    for (int i = 0; i < deadArmy->length(); i++) {
+        Soldier* currentWalker = deadArmy->at(i);
+        game->deleteSoldier(currentWalker);
+    }
 }
 
 void Field::setInstance(Field* nfield) {

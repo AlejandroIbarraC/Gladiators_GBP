@@ -16,11 +16,12 @@ class Soldier : public QGraphicsRectItem {
 
 public:
     Soldier(QGraphicsRectItem* parent = nullptr);
-    QPixmap adPix;
     int currentSquare = 0;
     int done = false;
+    int fullLife = 10000;
     int graphicalSquare;
     int id;
+    bool isUndead = false;
     int lastAD = -1;
     QPixmap soldierPix;
 

@@ -19,6 +19,7 @@ DraggableRectItem::DraggableRectItem(QGraphicsRectItem* parent, QString tower):
     iconPix = iPix.scaled(70, 70);
     this->setBrush(iconPix);
     build->setMedia(QUrl("qrc:/main/build.mp3"));
+    blockingSquare = new CustomRectItem();
 }
 
 /// Adds tower to pathfinding matrix
@@ -32,7 +33,6 @@ void DraggableRectItem::addTempTower(int id) {
     } else {
         tempCityMatrix[x][y] = 0;
     }
-   // qDebug() << "added" << x << y << tempFieldMatrix[x][y];
 }
 
 
@@ -87,15 +87,28 @@ void DraggableRectItem::mouseMoveEvent(QGraphicsSceneMouseEvent *event) {
         // Gets updated path and paints it
         PathList* pathList = PathList::getInstance();
         Pathfinding* pathfinding = Pathfinding::getInstance();
+        bool isPath = false;
         pathfinding->reset();
         if (field->currentStage == 1) {
-             memcpy(tempFieldMatrix, field->fieldMatrix, 4 * sizeof(int));
-             addTempTower(closestSquare->id - 1);
-             pathfinding->backTrack11x19(6, 0, tempFieldMatrix);
-             pathList->createPath11x19(6, 0);
+            for (int i = 0; i < field->rows; i++) {
+                for (int j = 0; j < field->columns; j++) {
+                    tempFieldMatrix[i][j] = field->fieldMatrix[i][j];
+                }
+            }
+            addTempTower(closestSquare->id);
+            isPath = pathfinding->backTrack11x19(6, 0, tempFieldMatrix);
+            pathList->createPath11x19(6, 0);
+        } else {
+            for (int i = 0; i < field->rows; i++) {
+                for (int j = 0; j < field->columns; j++) {
+                    tempCityMatrix[i][j] = field->cityMatrix[i][j];
+                }
+            }
+            addTempTower(closestSquare->id);
+            isPath = pathfinding->backTrack8x17(6, 0, tempCityMatrix);
+            pathList->createPath8x17(6, 0);
         }
         field->paintPath(pathList->toQList());
-
         safeReturn = false;
     }
 }
@@ -115,15 +128,36 @@ void DraggableRectItem::mouseReleaseEvent(QGraphicsSceneMouseEvent *event){
     // data, and paint tower on UI
     if (!safeReturn) {
         int areaID = field->squareToID(closestSquare);
-        field->allSquares[areaID]->damageIndex = TowersList::getInstance()->getTowersByPosition(field->towerIndex) / 20;
+        field->allSquares[areaID]->damageIndex = TowersList::getInstance()->getTowersByPosition(field->towerIndex) / 60;
         field->towerIndex++;
         field->assignDamageMatrix(areaID);
         closestSquare->setBrush(towerPix);
         closestSquare->setAcceptDrops(true);
         closestSquare->initializeArea();
-        field->addTower(areaID);
         closestSquare->towerType = towerType;
+
+        // Multiplies damage if tower is special
+        if (towerType == "fire") {
+            closestSquare->damageIndex *= 2;
+        } else if (towerType == "electric") {
+            closestSquare->damageIndex *= 3;
+        }
+        field->addTower(areaID);
         build->play();
+
+        // Update soldier path in real time
+        Game* game = Game::getInstance();
+        Pathfinding* pathfinding = Pathfinding::getInstance();
+        PathList* pathList = PathList::getInstance();
+        pathfinding->reset();
+        if (field->currentStage == 1) {
+            pathfinding->backTrack11x19(6, 0, field->fieldMatrix);
+            pathList->createPath11x19(6, 0);
+        } else {
+            pathfinding->backTrack8x17(6, 0, field->cityMatrix);
+            pathList->createPath8x17(6, 0);
+        }
+        game->setPath(pathList->toQList());
     }
 }
 

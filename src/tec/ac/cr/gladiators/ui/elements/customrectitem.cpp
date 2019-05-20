@@ -31,26 +31,23 @@ void CustomRectItem::setID(int id) {
 /// Executes when tower is pressed to show additional options.
 /// Click to show area. Secondary click to delete tower.
 void CustomRectItem::mousePressEvent(QGraphicsSceneMouseEvent *event) {
-    if (event->buttons() & Qt::LeftButton) {
-        if (acceptDrops()) {
-            Field * field = Field::getInstance();
-            QList<int>* blockedIDs = field->getBlockedIDList();
-            if (!blockedIDs->contains(id)) {
-                if (!area->isVisible()) {
-                    area->setVisible(true);
-                } else {
-                    area->setVisible(false);
-                }
+    Field * field = Field::getInstance();
+    QList<int>* blockedIDs = field->getBlockedIDList();
+
+    if (!blockedIDs->contains(id) && acceptDrops()) {
+        if (event->buttons() & Qt::LeftButton) {
+            if (!area->isVisible()) {
+                area->setVisible(true);
+            } else {
+                area->setVisible(false);
             }
+        } else {
+            field->deleteTower(id);
+            field->unassignDamageMatrix(id);
+            setBrush(QBrush(QColor(0, 0, 0, 0)));
+            setAcceptDrops(false);
+            field->towerList->removeOne(id);
+            area->setVisible(false);
         }
-    } else {
-        Field* field = Field::getInstance();
-        field->deleteTower(id);
-        qDebug() << id;
-        field->unassignDamageMatrix(id);
-        setBrush(QBrush(QColor(0, 0, 0, 0)));
-        setAcceptDrops(false);
-        field->towerList->removeOne(id);
-        area->setVisible(false);
     }
 }

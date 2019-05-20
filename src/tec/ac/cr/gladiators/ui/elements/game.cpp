@@ -9,7 +9,7 @@ Game *Game::instance = new Game();
 
 Game::Game() {
     army = new QList<Soldier*>();
-    updateTime = 10;
+    deadArmy = new QList<Soldier*>();
 }
 
 void Game::addArea(QGraphicsItem *area) {
@@ -18,6 +18,10 @@ void Game::addArea(QGraphicsItem *area) {
 
 void Game::addSoldier(Soldier *soldier) {
     army->append(soldier);
+}
+
+void Game::addWalker(Soldier *soldier) {
+    deadArmy->append(soldier);
 }
 
 /// Creates army of soldiers with distance between them
@@ -35,7 +39,9 @@ void Game::createArmy(int size) {
         Soldier* soldier = new Soldier();
         soldier->id = i;
         soldier->setPen(Qt::NoPen);
-        soldier->setLife(GladiatorsList::getInstance()->getGladiatorLifeByID(i) * 100);
+        int life = GladiatorsList::getInstance()->getGladiatorLifeByID(i) * 1000;
+        soldier->setLife(life);
+        soldier->fullLife = life;
 
         QString soldierdir = ":/soldiers/soldiers/soldierFlashRight.png";
         QPixmap sPix = QPixmap(soldierdir);
@@ -46,7 +52,7 @@ void Game::createArmy(int size) {
         addSoldier(soldier);
         soldier->setX(distanceX);
         distanceX = distanceX - 20;
-        soldier->setY(350);
+        soldier->setY(340);
         scene->addItem(soldier);
 
     }
@@ -89,9 +95,9 @@ void Game::followPath(Soldier* soldier) {
         if (IDObjective == -1) {
             XObjective = 100;
         } else {
-            XObjective = 1100;
+            XObjective = 1000;
         }
-        YObjective = 350;
+        YObjective = 340;
     }
 
     // X axis values
@@ -107,14 +113,23 @@ void Game::followPath(Soldier* soldier) {
         // Move right or left.
         if (XObjective > currentX) {
             soldier->setX(soldier->x() + 1);
-            QString soldierdir = ":/soldiers/soldiers/soldierFlashRight.png";
+            QString soldierdir;
+            if (!soldier->isUndead) {
+                soldierdir = ":/soldiers/soldiers/soldierFlashRight.png";
+            } else {
+                soldierdir = ":/soldiers/soldiers/walkerRight.png";
+            }
             QPixmap sPix = QPixmap(soldierdir);
             soldier->soldierPix = sPix.scaled(15,15);
             soldier->setBrush(soldier->soldierPix);
-
         } else {
             soldier->setX(soldier->x() - 1);
-            QString soldierdir = ":/soldiers/soldiers/soldierFlashLeft.png";
+            QString soldierdir;
+            if (!soldier->isUndead) {
+                soldierdir = ":/soldiers/soldiers/soldierFlashLeft.png";
+            } else {
+                soldierdir = ":/soldiers/soldiers/walkerLeft.png";
+            }
             QPixmap sPix = QPixmap(soldierdir);
             soldier->soldierPix = sPix.scaled(15,15);
             soldier->setBrush(soldier->soldierPix);
@@ -122,40 +137,41 @@ void Game::followPath(Soldier* soldier) {
     } else if (absYDifference > 1) {
         // Move up or down.
         if (YObjective > currentY) {
-
             soldier->setY(soldier->y() + 1);
-            QString soldierdir = ":/soldiers/soldiers/soldierFlashDown.png";
+            QString soldierdir;
+            if (!soldier->isUndead) {
+                soldierdir = ":/soldiers/soldiers/soldierFlashDown.png";
+            } else {
+                soldierdir = ":/soldiers/soldiers/walkerDown.png";
+            }
             QPixmap sPix = QPixmap(soldierdir);
             soldier->soldierPix = sPix.scaled(15,15);
             soldier->setBrush(soldier->soldierPix);
-
         } else {
             soldier->setY(soldier->y() - 1);
-            QString soldierdir = ":/soldiers/soldiers/soldierFlashUp.png";
+            QString soldierdir;
+            if (!soldier->isUndead) {
+                soldierdir = ":/soldiers/soldiers/soldierFlashUp.png";
+            } else {
+                soldierdir = ":/soldiers/soldiers/walkerUp.png";
+            }
             QPixmap sPix = QPixmap(soldierdir);
             soldier->soldierPix = sPix.scaled(15,15);
             soldier->setBrush(soldier->soldierPix);
         }
     } else {
         // Checks if end is reached.
-        if (IDObjective > 0) {
-            endSquareX = static_cast<int>(allSquares[lastID]->x()) + 15;
-            endSquareY = static_cast<int>(allSquares[lastID]->y()) + 15;
-        } else {
-            if (IDObjective == -1) {
-                endSquareX = 100;
-            } else {
-                endSquareX = 1100;
-            }
-            endSquareY = 350;
-        }
+        endSquareX = 1000;
+        endSquareY = 350;
         int xEndDifference = abs(abs(currentX) - abs(endSquareX));
         int yEndDifference = abs(abs(currentY) - abs(endSquareY));
 
         if (xEndDifference > 1 or yEndDifference > 1) {
-            soldier->advanceSquare();
-        } else {
-            soldier->done = true;
+            if (IDObjective == -2) {
+                soldier->done = true;
+            } else {
+                soldier->advanceSquare();
+            }
         }
     }
     soldier->update();
@@ -163,6 +179,10 @@ void Game::followPath(Soldier* soldier) {
 
 QList<QGraphicsItem*> Game::getAreas() {
     return allAreas;
+}
+
+QList<Soldier*>* Game::getDeadArmy() const {
+    return deadArmy;
 }
 
 QList<Soldier*>* Game::getArmy() const {
@@ -179,11 +199,15 @@ void Game::setArmy(QList<Soldier*> *nArmy) {
 }
 
 void Game::setPath(QList<int> *nPath) {
-    delete path;
-    //nPath->prepend(-1);
-    //nPath->append(-2);
+    nPath->prepend(-1);
+    nPath->append(-2);
     path = nPath;
     lastID = path->constLast();
+}
+
+void Game::setUpdateTime(int nTime) {
+    updateTime = nTime;
+    timer->setInterval(nTime);
 }
 
 //! A method use to remove Areas

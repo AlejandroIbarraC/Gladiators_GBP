@@ -48,7 +48,9 @@ public:
                                {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
                                {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
                                {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}};
+    QMediaPlayer* growl = new QMediaPlayer();
     QMediaPlayer* rewind = new QMediaPlayer();
+    QMediaPlayer* roar = new QMediaPlayer();
     QMediaPlayer* roll = new QMediaPlayer();
     int rows;
     QMediaPlayer* snap = new QMediaPlayer();
@@ -95,7 +97,9 @@ private:
     void initializeField();
 
 private slots:
+    void on_fastForwardButton_clicked();
     void on_nextButton_clicked();
+    void on_nightKingButton_clicked();
     void on_pauseButton_clicked();
     void on_playButton_clicked();
     void on_resetButton_clicked();

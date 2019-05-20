@@ -13,7 +13,7 @@ Soldier::Soldier(QGraphicsRectItem* parent) {
 
 /// Advances square ID in path.
 void Soldier::advanceSquare() {
-    this->currentSquare ++;
+    this->currentSquare++;
 }
 
 /// Rotates towers accordingly. Loop it for animated results.
@@ -25,9 +25,6 @@ void Soldier::checkRotation() {
     for (int i = 0; i < towers->length(); i++) {
         int towerID = towers->at(i);
         CustomRectItem* towerSquare = squares.at(towerID);
-        QString rotationDir;
-        QPixmap rPix;
-        QPixmap rotationPix;
         QString towerType = towerSquare->towerType;
 
         int up = towers->at(i) - field->columns;
@@ -41,112 +38,99 @@ void Soldier::checkRotation() {
 
         if (graphicalSquare == up) {
 
-            rotationDir = ":/towers/towers/" + towerType + "1b.png";
-            rPix = QPixmap(rotationDir);
-            rotationPix = rPix.scaled(40,40);
-            towerSquare->setBrush(rotationPix);
+            QString rotationDir = ":/towers/towers/" + towerType + "1b.png";
+            QPixmap rPix = QPixmap(rotationDir);
+            rPix = rPix.scaled(40,40);
+            towerSquare->setBrush(rPix);
 
-            QString areaDamage = ":/soldiers/soldiers/fire.png";
-            adPix = QPixmap(areaDamage);
+            QString areaDamage = ":/soldiers/soldiers/" + towerType + ".png";
+            QPixmap adPix = QPixmap(areaDamage);
             adPix = adPix.scaled(40,40);
             field->allSquares.at(up)->setBrush(adPix);
-            lastAD = up;
 
         } else if (graphicalSquare == down) {
 
-            rotationDir = ":/towers/towers/" + towerType + "1f.png";
-            rPix = QPixmap(rotationDir);
-            rotationPix = rPix.scaled(40,40);
-            towerSquare->setBrush(rotationPix);
+            QString rotationDir = ":/towers/towers/" + towerType + "1f.png";
+            QPixmap rPix = QPixmap(rotationDir);
+            rPix = rPix.scaled(40,40);
+            towerSquare->setBrush(rPix);
 
-            QString areaDamage = ":/soldiers/soldiers/fire.png";
-            adPix = QPixmap(areaDamage);
+            QString areaDamage = ":/soldiers/soldiers/" + towerType + ".png";
+            QPixmap adPix = QPixmap(areaDamage);
             adPix = adPix.scaled(40,40);
             field->allSquares.at(down)->setBrush(adPix);
-            lastAD = down;
 
         } else if (graphicalSquare == right) {
 
-            rotationDir = ":/towers/towers/" + towerType + "1d.png";
-            rPix = QPixmap(rotationDir);
-            rotationPix = rPix.scaled(40,40);
-            towerSquare->setBrush(rotationPix);
+            QString rotationDir = ":/towers/towers/" + towerType + "1d.png";
+            QPixmap rPix = QPixmap(rotationDir);
+            rPix = rPix.scaled(40,40);
+            towerSquare->setBrush(rPix);
 
-            QString areaDamage = ":/soldiers/soldiers/fire.png";
-            adPix = QPixmap(areaDamage);
+            QString areaDamage = ":/soldiers/soldiers/" + towerType + ".png";
+            QPixmap adPix = QPixmap(areaDamage);
             adPix = adPix.scaled(40,40);
             field->allSquares.at(right)->setBrush(adPix);
-            lastAD = right;
 
         } else if (graphicalSquare == left) {
 
-            rotationDir = ":/towers/towers/" + towerType + "1.png";
-            rPix = QPixmap(rotationDir);
-            rotationPix = rPix.scaled(40,40);
-            towerSquare->setBrush(rotationPix);
+            QString rotationDir = ":/towers/towers/" + towerType + "1.png";
+            QPixmap rPix = QPixmap(rotationDir);
+            rPix = rPix.scaled(40,40);
+            towerSquare->setBrush(rPix);
 
-            QString areaDamage = ":/soldiers/soldiers/fire.png";
-            adPix = QPixmap(areaDamage);
+            QString areaDamage = ":/soldiers/soldiers/" + towerType + ".png";
+            QPixmap adPix = QPixmap(areaDamage);
             adPix = adPix.scaled(40,40);
             field->allSquares.at(left)->setBrush(adPix);
-            lastAD = left;
-
 
         } else if (graphicalSquare == upLeft) {
 
-            rotationDir = ":/towers/towers/" + towerType + "1a.png";
-            rPix = QPixmap(rotationDir);
-            rotationPix = rPix.scaled(40,40);
-            towerSquare->setBrush(rotationPix);
+            QString rotationDir = ":/towers/towers/" + towerType + "1a.png";
+            QPixmap rPix = QPixmap(rotationDir);
+            rPix= rPix.scaled(40,40);
+            towerSquare->setBrush(rPix);
 
-            QString areaDamage = ":/soldiers/soldiers/fire.png";
+            QString areaDamage = ":/soldiers/soldiers/" + towerType + ".png";
             QPixmap adPix = QPixmap(areaDamage);
             adPix = adPix.scaled(40,40);
             field->allSquares.at(upLeft)->setBrush(adPix);
-            lastAD = upLeft;
 
         } else if (graphicalSquare == upRight) {
 
-            rotationDir = ":/towers/towers/" + towerType + "1c.png";
-            rPix = QPixmap(rotationDir);
-            rotationPix = rPix.scaled(40,40);
-            towerSquare->setBrush(rotationPix);
+            QString rotationDir = ":/towers/towers/" + towerType + "1c.png";
+            QPixmap rPix = QPixmap(rotationDir);
+            rPix = rPix.scaled(40,40);
+            towerSquare->setBrush(rPix);
 
-            QString areaDamage = ":/soldiers/soldiers/fire.png";
-            adPix = QPixmap(areaDamage);
+            QString areaDamage = ":/soldiers/soldiers/" + towerType + ".png";
+            QPixmap adPix = QPixmap(areaDamage);
             adPix = adPix.scaled(40,40);
             field->allSquares.at(upRight)->setBrush(adPix);
-            lastAD = upRight;
 
         } else if (graphicalSquare == downLeft) {
 
-            rotationDir = ":/towers/towers/" + towerType + "1g.png";
-            rPix = QPixmap(rotationDir);
-            rotationPix = rPix.scaled(40,40);
-            towerSquare->setBrush(rotationPix);
+            QString rotationDir = ":/towers/towers/" + towerType + "1g.png";
+            QPixmap rPix = QPixmap(rotationDir);
+            rPix = rPix.scaled(40,40);
+            towerSquare->setBrush(rPix);
 
-            QString areaDamage = ":/soldiers/soldiers/fire.png";
-            adPix = QPixmap(areaDamage);
+            QString areaDamage = ":/soldiers/soldiers/" + towerType + ".png";
+            QPixmap adPix = QPixmap(areaDamage);
             adPix = adPix.scaled(40,40);
             field->allSquares.at(downLeft)->setBrush(adPix);
-            lastAD = downLeft;
 
         } else if (graphicalSquare == downRight) {
 
-            rotationDir = ":/towers/towers/" + towerType + "1e.png";
-            rPix = QPixmap(rotationDir);
-            rotationPix = rPix.scaled(40,40);
-            towerSquare->setBrush(rotationPix);
+            QString rotationDir = ":/towers/towers/" + towerType + "1e.png";
+            QPixmap rPix = QPixmap(rotationDir);
+            rPix = rPix.scaled(40,40);
+            towerSquare->setBrush(rPix);
 
-            QString areaDamage = ":/soldiers/soldiers/fire.png";
-            adPix = QPixmap(areaDamage);
+            QString areaDamage = ":/soldiers/soldiers/" + towerType + ".png";
+            QPixmap adPix = QPixmap(areaDamage);
             adPix = adPix.scaled(40,40);
             field->allSquares.at(downRight)->setBrush(adPix);
-            lastAD = downRight;
-        }
-        else {
-            field->deOpaqueID(lastAD);
-            lastAD = -1;
         }
     }
 }
@@ -155,13 +139,24 @@ void Soldier::checkRotation() {
 void Soldier::damage() {
     if (life < 0) {
         Game* game = Game::getInstance();
-        oof->play();
-        game->deleteSoldier(this);
+        if (isUndead) {
+            game->deleteSoldier(this);
+        } else {
+            QString splatDir = ":/soldiers/soldiers/splat.png";
+            QPixmap sPix = QPixmap(splatDir);
+            sPix = sPix.scaled(15,15);
+            this->setBrush(sPix);
+            oof->play();
+            game->getArmy()->removeOne(this);
+            this->isUndead = true;
+            game->addWalker(this);
+        }
     } else {
         Field* field = Field::getInstance();
         QList<int>* damageMatrix = field->damageMatrix;
-        life -= damageMatrix->at(graphicalSquare);
-        //qDebug() << life;
+        if (graphicalSquare > 0) {
+            life -= damageMatrix->at(graphicalSquare);
+        }
     }
 }
 

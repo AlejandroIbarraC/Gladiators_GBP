@@ -41,6 +41,12 @@
         <file>playToggleIcon.png</file>
         <file>redHeart.png</file>
         <file>thanosIcon.png</file>
+        <file>fastForwardIcon.png</file>
+        <file>fastForwardIcon_pressed.png</file>
+        <file>snap.mp3</file>
+        <file>nightKingButtonIcon.png</file>
+        <file>growl.mp3</file>
+        <file>roar.mp3</file>
     </qresource>
     <qresource prefix="/font">
         <file>Papyrus.ttc</file>
@@ -84,5 +90,12 @@
         <file>soldiers/soldierFlashRight.png</file>
         <file>soldiers/soldierFlashUp.png</file>
         <file>soldiers/fire.png</file>
+        <file>soldiers/electric.png</file>
+        <file>soldiers/gatling.png</file>
+        <file>soldiers/splat.png</file>
+        <file>soldiers/walkerDown.png</file>
+        <file>soldiers/walkerLeft.png</file>
+        <file>soldiers/walkerRight.png</file>
+        <file>soldiers/walkerUp.png</file>
     </qresource>
 </RCC>
