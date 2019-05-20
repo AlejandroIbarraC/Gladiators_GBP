@@ -39,7 +39,8 @@ void Game::createArmy(int size) {
         Soldier* soldier = new Soldier();
         soldier->id = i;
         soldier->setPen(Qt::NoPen);
-        int life = GladiatorsList::getInstance()->getGladiatorLifeByID(i) * 1000;
+        int life = GladiatorsList::getInstance()->getGladiatorLifeByID(i) * 100;
+        qDebug() << life;
         soldier->setLife(life);
         soldier->fullLife = life;
 

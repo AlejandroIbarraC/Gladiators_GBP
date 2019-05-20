@@ -161,17 +161,19 @@ void GladiatorsList::setSoldierToShowByID(int id) {
 }
 
 int GladiatorsList::getGladiatorLifeByID(int id) {
-    if (this->head == nullptr){
+    if (this->head == nullptr) {
         cout << "Error, no gladiators in list" << endl;
-    }else{
+    } else {
         Gladiators* gladiators = this->head;
+        int result = 0;
         while (gladiators != nullptr){
             if (gladiators->getId() == id){
-                return gladiators->getId();
-            }else{
+                result = gladiators->getResistence();
+            } else {
                 gladiators = gladiators->getNext();
             }
         }
+        return result;
     }
 }
 

@@ -414,7 +414,7 @@ void Field::on_nightKingButton_clicked() {
     QList<Soldier*>* army = game->getArmy();
     for(int i = 0; i < deadArmy->length(); i++) {
         Soldier* currentSoldier = deadArmy->at(i);
-        currentSoldier->setLife(currentSoldier->fullLife * 100);
+        currentSoldier->setLife(currentSoldier->fullLife * 1000);
         currentSoldier->isUndead = true;
         army->append(currentSoldier);
         growl->play();
