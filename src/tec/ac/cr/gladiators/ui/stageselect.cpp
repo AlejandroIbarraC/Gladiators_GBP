@@ -19,12 +19,20 @@ StageSelect::StageSelect(QWidget *parent) :
 //! A method that hides the StageSelect window
 void StageSelect::on_fieldButton_clicked() {
     toField(1);
+    QString ip = ui->ipEntry->text();
+    if (ip != "") {
+
+    }
     hide();
 }
 
 //! A method that hides the StageSelect window
 void StageSelect::on_cityButton_clicked() {
     toField(2);
+    QString ip = ui->ipEntry->text();
+    if (ip != "") {
+
+    }
     hide();
 }
 
