@@ -40,7 +40,7 @@ void Game::createArmy(int size) {
         soldier->id = i;
         soldier->setPen(Qt::NoPen);
         int life = GladiatorsList::getInstance()->getGladiatorLifeByID(i) * 100;
-        qDebug() << life;
+      //  qDebug() << life;
         soldier->setLife(life);
         soldier->fullLife = life;
 
@@ -68,7 +68,7 @@ void Game::deleteSoldier(Soldier *soldier) {
     Field* field = Field::getInstance();
     QGraphicsScene* scene = field->getScene();
     scene->removeItem(soldier);
-    delete soldier;
+    //delete soldier;
 }
 
 /// Updates soldier position. Loop it for animated results.

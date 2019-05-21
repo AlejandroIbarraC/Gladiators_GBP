@@ -107,9 +107,6 @@ Field::Field(QWidget *parent, int stage) :
     snap->setMedia(QUrl("qrc:/main/snap.mp3"));
     growl->setMedia(QUrl("qrc:/main/growl.mp3"));
     roar->setMedia(QUrl("qrc:/main/roar.mp3"));
-
-    // Get tower information
-    Client::retrieveTowers();
 }
 
 /// Adds tower to pathfinding matrix
@@ -414,7 +411,7 @@ void Field::on_nightKingButton_clicked() {
     QList<Soldier*>* army = game->getArmy();
     for(int i = 0; i < deadArmy->length(); i++) {
         Soldier* currentSoldier = deadArmy->at(i);
-        currentSoldier->setLife(currentSoldier->fullLife * 1000);
+        currentSoldier->setLife(currentSoldier->fullLife * 2);
         currentSoldier->isUndead = true;
         army->append(currentSoldier);
         growl->play();
@@ -437,8 +434,6 @@ void Field::on_playButton_clicked() {
     trumpet->play();
 
     // ONLINE DATA
-    GladiatorsList::getInstance();
-    TowersList::getInstance();
     Client::retrieveGladiators();
     Client::retrieveTowers();
     Pathfinding* pathfinding = Pathfinding::getInstance();

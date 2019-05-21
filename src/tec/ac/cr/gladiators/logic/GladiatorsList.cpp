@@ -169,6 +169,7 @@ int GladiatorsList::getGladiatorLifeByID(int id) {
         while (gladiators != nullptr){
             if (gladiators->getId() == id){
                 result = gladiators->getResistence();
+                break;
             } else {
                 gladiators = gladiators->getNext();
             }
