@@ -103,11 +103,11 @@ void Game::followPath(Soldier* soldier) {
 
     // X axis values
     currentX = static_cast<int>(soldier->x());
-    absXDifference = abs(abs(XObjective) - abs(currentX));
+    absXDifference = abs(currentX - XObjective);
 
     // Y axis values
     currentY = static_cast<int>(soldier->y());
-    absYDifference = abs(abs(YObjective) - abs(currentY));
+    absYDifference = abs(currentY - YObjective);
 
 
     if (absXDifference > 1) {

@@ -117,6 +117,9 @@
       <pointsize>16</pointsize>
      </font>
     </property>
+    <property name="cursor">
+     <cursorShape>PointingHandCursor</cursorShape>
+    </property>
     <property name="styleSheet">
      <string notr="true">border:0</string>
     </property>
@@ -504,6 +507,9 @@
       <pointsize>11</pointsize>
      </font>
     </property>
+    <property name="cursor">
+     <cursorShape>PointingHandCursor</cursorShape>
+    </property>
     <property name="styleSheet">
      <string notr="true">border:0px</string>
     </property>
@@ -530,6 +536,9 @@
       <height>61</height>
      </rect>
     </property>
+    <property name="cursor">
+     <cursorShape>PointingHandCursor</cursorShape>
+    </property>
     <property name="styleSheet">
      <string notr="true">border:0px</string>
     </property>
@@ -555,6 +564,9 @@
       <width>71</width>
       <height>71</height>
      </rect>
+    </property>
+    <property name="cursor">
+     <cursorShape>PointingHandCursor</cursorShape>
     </property>
     <property name="styleSheet">
      <string notr="true">border:0</string>
@@ -745,6 +757,9 @@ BRIEFING</string>
       <height>61</height>
      </rect>
     </property>
+    <property name="cursor">
+     <cursorShape>PointingHandCursor</cursorShape>
+    </property>
     <property name="styleSheet">
      <string notr="true">border:0</string>
     </property>
@@ -794,6 +809,9 @@ BRIEFING</string>
       <height>71</height>
      </rect>
     </property>
+    <property name="cursor">
+     <cursorShape>PointingHandCursor</cursorShape>
+    </property>
     <property name="styleSheet">
      <string notr="true">border:0px</string>
     </property>
@@ -819,6 +837,9 @@ BRIEFING</string>
       <width>61</width>
       <height>61</height>
      </rect>
+    </property>
+    <property name="cursor">
+     <cursorShape>PointingHandCursor</cursorShape>
     </property>
     <property name="styleSheet">
      <string notr="true">border:0</string>
@@ -849,6 +870,9 @@ BRIEFING</string>
       <width>71</width>
       <height>71</height>
      </rect>
+    </property>
+    <property name="cursor">
+     <cursorShape>PointingHandCursor</cursorShape>
     </property>
     <property name="styleSheet">
      <string notr="true">border:0px</string>

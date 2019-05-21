@@ -23,6 +23,9 @@
       <height>81</height>
      </rect>
     </property>
+    <property name="cursor">
+     <cursorShape>OpenHandCursor</cursorShape>
+    </property>
     <property name="styleSheet">
      <string notr="true">border: 0px</string>
     </property>
