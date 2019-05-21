@@ -36,7 +36,7 @@ void Soldier::checkRotation() {
         int downLeft = down - 1;
         int downRight = down + 1;
 
-        if (graphicalSquare == up) {
+        if (graphicalSquare == up and up >= 0) {
 
             QString rotationDir = ":/towers/towers/" + towerType + "1b.png";
             QPixmap rPix = QPixmap(rotationDir);
@@ -48,7 +48,7 @@ void Soldier::checkRotation() {
             adPix = adPix.scaled(40,40);
             field->allSquares.at(up)->setBrush(adPix);
 
-        } else if (graphicalSquare == down) {
+        } else if (graphicalSquare == down and down >= 0) {
 
             QString rotationDir = ":/towers/towers/" + towerType + "1f.png";
             QPixmap rPix = QPixmap(rotationDir);
@@ -60,7 +60,7 @@ void Soldier::checkRotation() {
             adPix = adPix.scaled(40,40);
             field->allSquares.at(down)->setBrush(adPix);
 
-        } else if (graphicalSquare == right) {
+        } else if (graphicalSquare == right and right >= 0) {
 
             QString rotationDir = ":/towers/towers/" + towerType + "1d.png";
             QPixmap rPix = QPixmap(rotationDir);
@@ -72,7 +72,7 @@ void Soldier::checkRotation() {
             adPix = adPix.scaled(40,40);
             field->allSquares.at(right)->setBrush(adPix);
 
-        } else if (graphicalSquare == left) {
+        } else if (graphicalSquare == left and left >= 0) {
 
             QString rotationDir = ":/towers/towers/" + towerType + "1.png";
             QPixmap rPix = QPixmap(rotationDir);
@@ -84,7 +84,7 @@ void Soldier::checkRotation() {
             adPix = adPix.scaled(40,40);
             field->allSquares.at(left)->setBrush(adPix);
 
-        } else if (graphicalSquare == upLeft) {
+        } else if (graphicalSquare == upLeft and upLeft >= 0) {
 
             QString rotationDir = ":/towers/towers/" + towerType + "1a.png";
             QPixmap rPix = QPixmap(rotationDir);
@@ -96,7 +96,7 @@ void Soldier::checkRotation() {
             adPix = adPix.scaled(40,40);
             field->allSquares.at(upLeft)->setBrush(adPix);
 
-        } else if (graphicalSquare == upRight) {
+        } else if (graphicalSquare == upRight and upRight >= 0) {
 
             QString rotationDir = ":/towers/towers/" + towerType + "1c.png";
             QPixmap rPix = QPixmap(rotationDir);
@@ -108,7 +108,7 @@ void Soldier::checkRotation() {
             adPix = adPix.scaled(40,40);
             field->allSquares.at(upRight)->setBrush(adPix);
 
-        } else if (graphicalSquare == downLeft) {
+        } else if (graphicalSquare == downLeft and downLeft >= 0) {
 
             QString rotationDir = ":/towers/towers/" + towerType + "1g.png";
             QPixmap rPix = QPixmap(rotationDir);
@@ -120,7 +120,7 @@ void Soldier::checkRotation() {
             adPix = adPix.scaled(40,40);
             field->allSquares.at(downLeft)->setBrush(adPix);
 
-        } else if (graphicalSquare == downRight) {
+        } else if (graphicalSquare == downRight and downRight >= 0) {
 
             QString rotationDir = ":/towers/towers/" + towerType + "1e.png";
             QPixmap rPix = QPixmap(rotationDir);

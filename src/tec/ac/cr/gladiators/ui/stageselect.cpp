@@ -21,7 +21,8 @@ void StageSelect::on_fieldButton_clicked() {
     toField(1);
     QString ip = ui->ipEntry->text();
     if (ip != "") {
-
+        string text= ip.toStdString();
+        Client::ip = text;
     }
     hide();
 }
@@ -31,7 +32,8 @@ void StageSelect::on_cityButton_clicked() {
     toField(2);
     QString ip = ui->ipEntry->text();
     if (ip != "") {
-
+        string text= ip.toStdString();
+        Client::ip = text;
     }
     hide();
 }
