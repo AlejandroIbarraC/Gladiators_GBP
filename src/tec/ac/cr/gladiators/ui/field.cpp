@@ -148,7 +148,7 @@ void Field::assignDamageMatrix(int id) {
     // Assigns damage
     for (int i = 0; i < numbers->length(); i++) {
         int currentNumber = numbers->at(i);
-        qDebug() << currentNumber;
+        //qDebug() << currentNumber;
         damageMatrix->insert(currentNumber, damageMatrix->at(currentNumber) + damageIndex);
     }
 }
@@ -651,9 +651,6 @@ void Field::resetField() {
         Soldier* currentWalker = deadArmy->at(i);
         game->deleteSoldier(currentWalker);
     }
-
-    // Resets money.
-    setMoney(20);
 }
 
 void Field::setInstance(Field* nfield) {
