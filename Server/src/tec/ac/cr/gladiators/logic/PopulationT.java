@@ -5,8 +5,8 @@ import java.util.Random;
 public class PopulationT {
 
 
-    int popSize = 40;
-    private Towers[] individuals = new Towers[40];
+    int popSize = 209;
+    private Towers[] individuals = new Towers[209];
     private int fittest = 0;
 
 

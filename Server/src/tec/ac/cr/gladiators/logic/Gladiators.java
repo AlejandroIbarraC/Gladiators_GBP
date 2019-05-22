@@ -143,7 +143,7 @@ public class Gladiators {
     /**
      * Fill the Chromosome of genetic information
      */
-    private void fillGenes(){
+    public void fillGenes(){
         int[] genes = new int[8];
         genes[0] = this.getAge();
         genes[1] = this.getSurvivalProbability();
@@ -161,15 +161,15 @@ public class Gladiators {
     /**
      * Calculate the Resistance for each gladiator in 0 to 100 scale
      */
-    private void calcResistance(){
+    public void calcResistance(){
         int[] gens = this.genes;
         int total = 0;
         int i = 0;
-        while (i<7){
-            total =+ gens[i];
+        while (i<8){
+            total += gens[i];
             i++;
         }
-        total = (total * 100)/700;
+        total = (total * 100)/800;
         if(total==0){
             total++;
         }
