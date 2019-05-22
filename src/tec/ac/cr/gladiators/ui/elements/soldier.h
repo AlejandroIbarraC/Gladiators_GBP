@@ -21,6 +21,7 @@ public:
     int fullLife = 10000;
     int graphicalSquare;
     int id;
+    bool isBoss = false;
     bool isFloating = false;
     bool isUndead = false;
     int lastAD = -1;

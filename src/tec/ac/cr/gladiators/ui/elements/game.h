@@ -12,10 +12,13 @@ class Game : public QObject {
     Q_OBJECT
 
 public:
+    int waveCount = 1;
+
     void addArea(QGraphicsItem* area);
     void addSoldier(Soldier *soldier);
     void addWalker(Soldier *soldier);
     void createArmy(int size);
+    void createBoss();
     void deleteArmy();
     void deleteSoldier(Soldier *soldier);
     void floatAllToggle();
@@ -32,6 +35,7 @@ public:
     void setPath(QList<int>* nPath);
     void setUpdateTime(int nTime);
     void toggleFreeze();
+
 
 public slots:
     void updateGame();

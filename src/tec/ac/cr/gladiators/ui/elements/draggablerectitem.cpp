@@ -187,8 +187,3 @@ void DraggableRectItem::mouseReleaseEvent(QGraphicsSceneMouseEvent *event){
 
     }
 }
-
-/// Calculates random integer from two limits
-int DraggableRectItem::randInt(int low, int high) {
-    return qrand() % ((high + 1) - low) + low;
-}

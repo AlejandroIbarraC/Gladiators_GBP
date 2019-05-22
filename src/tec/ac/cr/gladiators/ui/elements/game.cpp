@@ -54,8 +54,34 @@ void Game::createArmy(int size) {
         distanceX = distanceX - 20;
         soldier->setY(340);
         scene->addItem(soldier);
-
     }
+}
+
+/// Creates boss
+void Game::createBoss() {
+    Field* field = Field::getInstance();
+    QGraphicsScene* scene = field->getScene();
+    distanceX = -20;
+
+    QRect rect = QRect(0, 0, 40, 40);
+    Soldier* boss = new Soldier();
+    boss->isBoss = true;
+    boss->setPen(Qt::NoPen);
+    int life = 50000;
+    boss->setLife(life);
+    boss->fullLife = life;
+
+    QString bossDir = ":/soldiers/soldiers/BossRight.png";
+    QPixmap bPix = QPixmap(bossDir);
+    boss->soldierPix = bPix.scaled(40,40);
+    boss->setBrush(boss->soldierPix);
+
+    boss->setRect(rect);
+    addSoldier(boss);
+    boss->setX(distanceX);
+    distanceX = distanceX - 20;
+    boss->setY(340);
+    scene->addItem(boss);
 }
 
 /// Deletes whole army.
@@ -132,8 +158,14 @@ void Game::followPath(Soldier* soldier) {
             } else {
                 soldierdir = ":/soldiers/soldiers/walkerRight.png";
             }
+            if (soldier->isBoss){
+                soldierdir = ":/soldiers/soldiers/bossRight.png";
+            }
             QPixmap sPix = QPixmap(soldierdir);
             soldier->soldierPix = sPix.scaled(15,15);
+            if (soldier->isBoss) {
+                soldier->soldierPix = sPix.scaled(40, 40);
+            }
             soldier->setBrush(soldier->soldierPix);
         } else {
             soldier->setX(soldier->x() - 1);
@@ -143,8 +175,14 @@ void Game::followPath(Soldier* soldier) {
             } else {
                 soldierdir = ":/soldiers/soldiers/walkerLeft.png";
             }
+            if (soldier->isBoss){
+                soldierdir = ":/soldiers/soldiers/bossLeft.png";
+            }
             QPixmap sPix = QPixmap(soldierdir);
             soldier->soldierPix = sPix.scaled(15,15);
+            if (soldier->isBoss) {
+                soldier->soldierPix = sPix.scaled(40, 40);
+            }
             soldier->setBrush(soldier->soldierPix);
         }
     } else if (absYDifference > 1) {
@@ -157,8 +195,14 @@ void Game::followPath(Soldier* soldier) {
             } else {
                 soldierdir = ":/soldiers/soldiers/walkerDown.png";
             }
+            if (soldier->isBoss){
+                soldierdir = ":/soldiers/soldiers/bossDown.png";
+            }
             QPixmap sPix = QPixmap(soldierdir);
             soldier->soldierPix = sPix.scaled(15,15);
+            if (soldier->isBoss) {
+                soldier->soldierPix = sPix.scaled(40, 40);
+            }
             soldier->setBrush(soldier->soldierPix);
         } else {
             soldier->setY(soldier->y() - 1);
@@ -168,8 +212,14 @@ void Game::followPath(Soldier* soldier) {
             } else {
                 soldierdir = ":/soldiers/soldiers/walkerUp.png";
             }
+            if (soldier->isBoss){
+                soldierdir = ":/soldiers/soldiers/bossUp.png";
+            }
             QPixmap sPix = QPixmap(soldierdir);
             soldier->soldierPix = sPix.scaled(15,15);
+            if (soldier->isBoss) {
+                soldier->soldierPix = sPix.scaled(40, 40);
+            }
             soldier->setBrush(soldier->soldierPix);
         }
     } else {
@@ -277,6 +327,12 @@ void Game::updateGame() {
         if (currentSoldier->done) {
             Field* field = Field::getInstance();
             field->lowerLife();
+            if (currentSoldier->isBoss) {
+                field->lowerLife();
+                field->lowerLife();
+                field->lowerLife();
+                field->lowerLife();
+            }
             deleteSoldier(currentSoldier);
         } else {
             bool isFloating = currentSoldier->isFloating;

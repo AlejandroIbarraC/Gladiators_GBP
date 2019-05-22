@@ -152,7 +152,6 @@ void Field::assignDamageMatrix(int id) {
     // Assigns damage
     for (int i = 0; i < numbers->length(); i++) {
         int currentNumber = numbers->at(i);
-        //qDebug() << currentNumber;
         damageMatrix->insert(currentNumber, damageMatrix->at(currentNumber) + damageIndex);
     }
 }
@@ -507,7 +506,13 @@ void Field::on_nextButton_clicked() {
         }
     }
     game->setPath(pathList->toQList());
-    game->createArmy(0);
+
+    if (game->waveCount % 5 == 0) {
+        game->createBoss();
+    } else {
+        game->createArmy(0);
+    }
+    game->waveCount++;
 }
 
 void Field::on_nightKingButton_clicked() {
@@ -571,10 +576,9 @@ void Field::on_thanosButton_clicked() {
         snap->play();
         Game* game = Game::getInstance();
         QList<Soldier*>* army = game->getArmy();
-        DraggableRectItem* randomizer = new DraggableRectItem();
 
         for (int i = 0; i < army->length(); i++) {
-            int chance = randomizer->randInt(0, 1);
+            int chance = randInt(0, 1);
             if (chance == 0) {
                 game->deleteSoldier(army->at(i));
             }
@@ -623,6 +627,12 @@ void Field::paintPath(QList<int>* path) {
     }
     delete path;
 }
+
+/// Calculates random integer from two limits
+int Field::randInt(int low, int high) {
+    return qrand() % ((high + 1) - low) + low;
+}
+
 
 /// Resets all field and its matrixes
 void Field::resetField() {

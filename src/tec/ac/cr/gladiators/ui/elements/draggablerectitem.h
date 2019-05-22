@@ -22,7 +22,6 @@ public:
 
     void addTempTower(int id);
     void setAnchorPoint(const QPointF& anchorPoint);
-    int randInt(int low, int high);
 
 protected:
     void mouseMoveEvent(QGraphicsSceneMouseEvent *event);

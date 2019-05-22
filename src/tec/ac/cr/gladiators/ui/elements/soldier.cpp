@@ -150,9 +150,14 @@ void Soldier::damage() {
         } else {
             QString splatDir = ":/soldiers/soldiers/splat.png";
             QPixmap sPix = QPixmap(splatDir);
-            sPix = sPix.scaled(15,15);
+            if (isBoss) {
+                sPix = sPix.scaled(40,40);
+                growl->play();
+            } else {
+                sPix = sPix.scaled(15,15);
+                oof->play();
+            }
             this->setBrush(sPix);
-            oof->play();
             game->getArmy()->removeOne(this);
             this->isUndead = true;
             game->addWalker(this);
@@ -161,8 +166,11 @@ void Soldier::damage() {
     } else {
         Field* field = Field::getInstance();
         QList<int>* damageMatrix = field->damageMatrix;
-        if (graphicalSquare > 0) {
-            life -= damageMatrix->at(graphicalSquare);
+        if (graphicalSquare >= 0) {
+            int dodgeChange = field->randInt(0, 20);
+            if (dodgeChange != 7) {
+                life -= damageMatrix->at(graphicalSquare);
+            }
         }
     }
 }

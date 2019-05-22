@@ -142,6 +142,10 @@
         <file>soldiers/walkerLeft.png</file>
         <file>soldiers/walkerRight.png</file>
         <file>soldiers/walkerUp.png</file>
+        <file>soldiers/bossDown.png</file>
+        <file>soldiers/bossLeft.png</file>
+        <file>soldiers/bossRight.png</file>
+        <file>soldiers/bossUp.png</file>
     </qresource>
     <qresource prefix="/audio">
         <file>audio/build.mp3</file>

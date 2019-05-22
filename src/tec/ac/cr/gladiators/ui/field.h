@@ -84,6 +84,7 @@ public:
     QList<int>* idToCoords(int id);
     void opaqueGrid();
     void paintPath(QList<int>* path);
+    int randInt(int low, int high);
     void resetField();
     static void setInstance(Field* nfield);
     void setMoney(int nmoney);
