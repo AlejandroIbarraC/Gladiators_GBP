@@ -288,6 +288,9 @@ void Game::updateGame() {
                 } else {
                     floatSoldier(currentSoldier);
                 }
+            } else {
+                currentSoldier->damage();
+                currentSoldier->checkRotation();
             }
         }
     }

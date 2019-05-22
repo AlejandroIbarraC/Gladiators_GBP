@@ -98,6 +98,8 @@ Field::Field(QWidget *parent, int stage) :
     ui->resetButton->installEventFilter(watcher3);
     ButtonHoverWatcher* watcher4 = new ButtonHoverWatcher(this,":/main/skipButtonIcon.png",":/main/skipButtonIcon_pressed.png");
     ui->skipButton->installEventFilter(watcher4);
+    ButtonHoverWatcher* watcher5 = new ButtonHoverWatcher(this,":/main/fullresetIcon.png",":/main/fullresetIcon_pressed.png");
+    ui->fullresetButton->installEventFilter(watcher5);
 
     // Assigns sound effect data
     trumpet->setMedia(QUrl("qrc:/audio/audio/trumpet.mp3"));
@@ -109,10 +111,12 @@ Field::Field(QWidget *parent, int stage) :
     dracarys->setMedia(QUrl("qrc:/audio/audio/dracarys.mp3"));
     fly->setMedia(QUrl("qrc:/audio/audio/fly.mp3"));
     freeze->setMedia(QUrl("qrc:/audio/audio/freeze.mp3"));
+    startup->setMedia(QUrl("qrc:/audio/audio/startup.mp3"));
 
     // Sets freeze timer
     freezeTimer = new QTimer(this);
     freezeTimer->setInterval(5000);
+    connect(freezeTimer, SIGNAL(timeout()), this, SLOT(freeze_aux()));
 
     // Set money
     ui->moneyLabel->setText(QString::number(money));
@@ -148,7 +152,7 @@ void Field::assignDamageMatrix(int id) {
     // Assigns damage
     for (int i = 0; i < numbers->length(); i++) {
         int currentNumber = numbers->at(i);
-        qDebug() << currentNumber;
+        //qDebug() << currentNumber;
         damageMatrix->insert(currentNumber, damageMatrix->at(currentNumber) + damageIndex);
     }
 }
@@ -193,6 +197,15 @@ void Field::deleteTower(int id) {
     } else {
         setMoney(getMoney() + 15);
     }
+}
+
+/// Ends game.
+void Field::endGame() {
+    Game* game = Game::getInstance();
+    game->pause();
+    endGame_window = new EndGame(this);
+    endGame_window->show();
+    hide();
 }
 
 /// Finds tower area coverage by ID
@@ -253,6 +266,7 @@ QList<int>* Field::findCoverage(int id) {
     return result;
 }
 
+/// Controls freeze powerup with timer
 void Field::freeze_aux() {
     Game* game = Game::getInstance();
     game->toggleFreeze();
@@ -389,12 +403,24 @@ void Field::initializeField() {
 /// Lowers player life
 void Field::lowerLife() {
     life--;
+    if (life == 0) {
+        endGame();
+    }
     ui->lifeLabel->setText(QString::number(life));
 }
 
 void Field::on_dracarysButton_clicked() {
     if (money >= 10) {
         dracarys->play();
+
+        // Animated dragon flyover
+        QLabel* dragon = ui->dragon;
+        QPropertyAnimation *animation = new QPropertyAnimation(dragon, "geometry");
+        animation->setDuration(1000);
+        animation->setStartValue(QRect(1250, 20, 601, 551));
+        animation->setEndValue(QRect(-550, 20, 601, 551));
+        animation->start();
+
         Game* game = Game::getInstance();
         resetField();
         int dimensions = rows * columns;
@@ -411,7 +437,7 @@ void Field::on_dracarysButton_clicked() {
             }
         }
         game->deleteArmy();
-        money -= 10;
+        setMoney(money - 10);
     }
 }
 
@@ -430,7 +456,7 @@ void Field::on_flyButton_clicked() {
         fly->play();
         Game* game = Game::getInstance();
         game->floatAllToggle();
-        money -= 20;
+        setMoney(money - 20);
     }
 }
 
@@ -440,10 +466,13 @@ void Field::on_frozenButton_clicked() {
         ui->background->setPixmap(QPixmap("://main/fieldStage_frozen.png"));
         Game* game = Game::getInstance();
         game->toggleFreeze();
-        connect(freezeTimer, SIGNAL(timeout()), this, SLOT(freeze_aux()));
         freezeTimer->start();
-        money -=5;
+        setMoney(money - 5);
     }
+}
+
+void Field::on_fullresetButton_clicked() {
+    startup->play();
 }
 
 void Field::on_nextButton_clicked() {
@@ -550,7 +579,7 @@ void Field::on_thanosButton_clicked() {
                 game->deleteSoldier(army->at(i));
             }
         }
-        money -=10;
+        setMoney(money - 10);
     }
 }
 

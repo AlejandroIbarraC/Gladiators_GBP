@@ -41,6 +41,10 @@
         <file>fieldStage_frozen.png</file>
         <file>flyButtonIcon.png</file>
         <file>freezeButtonIcon.png</file>
+        <file>fullresetIcon.png</file>
+        <file>fullresetIcon_pressed.png</file>
+        <file>endGame.jpg</file>
+        <file>dragon.png</file>
     </qresource>
     <qresource prefix="/font">
         <file>Papyrus.ttc</file>
@@ -153,5 +157,6 @@
         <file>audio/trumpet.mp3</file>
         <file>audio/dracarys.mp3</file>
         <file>audio/fly.mp3</file>
+        <file>audio/startup.mp3</file>
     </qresource>
 </RCC>
