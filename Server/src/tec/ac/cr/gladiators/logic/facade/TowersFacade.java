@@ -28,6 +28,7 @@ public class TowersFacade {
         towersManager.crossover();
         towersManager.mutation();
         towersManager.addFittestOffspring();
+        towersManager.updateId();
         towersManager.getPopulation().calculateFitness();
         towersList = ArrayToArrayList(towersManager.getPopulation().getIndividuals());
         return towersList;

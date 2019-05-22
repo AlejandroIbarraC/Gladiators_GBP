@@ -30,6 +30,7 @@ public class GladiatorsFacade {
         gladiatorsManager.addFittestOffspring();
         gladiatorsManager.getPopulation().calculateFitness();
         gladiatorsManager.buffLife();
+        gladiatorsManager.updateId();
         gladiatorsList = ArrayToArrayList(gladiatorsManager.getPopulation().getIndividuals());
         return gladiatorsList;
     }
