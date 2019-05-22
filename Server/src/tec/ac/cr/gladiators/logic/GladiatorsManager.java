@@ -61,9 +61,9 @@ public class GladiatorsManager {
 
         //Get index of least fit individual
         int leastFittestIndex = population.getLeastFittestIndex();
-
+        Gladiators replace = getFittestOffspring();
         //Replace least fittest individual from most fittest offspring
-        population.getIndividuals()[leastFittestIndex] = getFittestOffspring();
+        population.getIndividuals()[leastFittestIndex] = replace;
     }
 
     /**
@@ -101,9 +101,18 @@ public class GladiatorsManager {
         while (i < length){
             life = population.getIndividuals()[i].getResistence();
             if(life>100){
-                life = 10;
+                life = 100;
             }
             population.getIndividuals()[i].setResistence(life + 2);
+            i++;
+        }
+    }
+
+    public void updateId(){
+        int length = population.getIndividuals().length;
+        int i = 0;
+        while (i < length){
+            population.getIndividuals()[i].setId(i);
             i++;
         }
     }
