@@ -40,7 +40,6 @@ void Game::createArmy(int size) {
         soldier->id = i;
         soldier->setPen(Qt::NoPen);
         int life = GladiatorsList::getInstance()->getGladiatorLifeByID(i) * 100;
-      //  qDebug() << life;
         soldier->setLife(life);
         soldier->fullLife = life;
 
@@ -59,6 +58,20 @@ void Game::createArmy(int size) {
     }
 }
 
+/// Deletes whole army.
+void Game::deleteArmy() {
+    GladiatorsList* gladiatorsList = GladiatorsList::getInstance();
+    Field* field = Field::getInstance();
+    QGraphicsScene* scene = field->getScene();
+    for (int i = 0; i < gladiatorsList->getLenght(); i++) {
+        gladiatorsList->deleteGladiatorByID(i);
+    }
+    for (int i = 0; i < army->length(); i++){
+        scene->removeItem(army->at(i));
+    }
+    army->clear();
+}
+
 /// Deletes soldier in army.
 /// @param Soldier* soldier to delete
 void Game::deleteSoldier(Soldier *soldier) {
@@ -68,7 +81,6 @@ void Game::deleteSoldier(Soldier *soldier) {
     Field* field = Field::getInstance();
     QGraphicsScene* scene = field->getScene();
     scene->removeItem(soldier);
-    //delete soldier;
 }
 
 /// Updates soldier position. Loop it for animated results.
@@ -178,6 +190,21 @@ void Game::followPath(Soldier* soldier) {
     soldier->update();
 }
 
+void Game::floatAllToggle() {
+    for (int i = 0; i < army->length(); i++) {
+        Soldier* currentSoldier = army->at(i);
+        currentSoldier->isFloating = true;
+    }
+}
+
+void Game::floatSoldier(Soldier *soldier) {
+    if (soldier->y() < -10) {
+        deleteSoldier(soldier);
+    } else {
+        soldier->setY(soldier->y() -1);
+    }
+}
+
 QList<QGraphicsItem*> Game::getAreas() {
     return allAreas;
 }
@@ -232,6 +259,14 @@ void Game::run() {
     timer->start(updateTime);
 }
 
+void Game::toggleFreeze() {
+    if (frozenArmy) {
+        frozenArmy = false;
+    } else {
+        frozenArmy = true;
+    }
+}
+
 //! A method that upadates the game constantly
 /// Main game loop.
 void Game::updateGame() {
@@ -243,10 +278,17 @@ void Game::updateGame() {
             Field* field = Field::getInstance();
             field->lowerLife();
             deleteSoldier(currentSoldier);
-        } else {            
-            followPath(currentSoldier);
-            currentSoldier->damage();
-            currentSoldier->checkRotation();
+        } else {
+            bool isFloating = currentSoldier->isFloating;
+            if (!frozenArmy) {
+                if (!isFloating) {
+                    followPath(currentSoldier);
+                    currentSoldier->damage();
+                    currentSoldier->checkRotation();
+                } else {
+                    floatSoldier(currentSoldier);
+                }
+            }
         }
     }
 }

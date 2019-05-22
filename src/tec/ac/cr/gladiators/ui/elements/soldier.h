@@ -21,6 +21,7 @@ public:
     int fullLife = 10000;
     int graphicalSquare;
     int id;
+    bool isFloating = false;
     bool isUndead = false;
     int lastAD = -1;
     QPixmap soldierPix;
@@ -34,6 +35,7 @@ protected:
     void mousePressEvent(QGraphicsSceneMouseEvent *event);
 
 private:
+    QMediaPlayer* growl = new QMediaPlayer();
     QMediaPlayer* oof = new QMediaPlayer();
     int life = 200;
 };

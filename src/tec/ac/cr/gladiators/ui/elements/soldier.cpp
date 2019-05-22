@@ -8,7 +8,8 @@
 
 Soldier::Soldier(QGraphicsRectItem* parent) {
     // Initializes default attributes.
-    oof->setMedia(QUrl("qrc:/main/oof.mp3"));
+    oof->setMedia(QUrl("qrc:/audio/audio/oof.mp3"));
+    growl->setMedia(QUrl("qrc:/audio/audio/growl.mp3"));
 }
 
 /// Advances square ID in path.
@@ -26,6 +27,7 @@ void Soldier::checkRotation() {
         int towerID = towers->at(i);
         CustomRectItem* towerSquare = squares.at(towerID);
         QString towerType = towerSquare->towerType;
+        QString towerLevel = QString::number(towerSquare->towerLevel);
 
         int up = towers->at(i) - field->columns;
         int down = towers->at(i) + field->columns;
@@ -38,7 +40,7 @@ void Soldier::checkRotation() {
 
         if (graphicalSquare == up and up >= 0) {
 
-            QString rotationDir = ":/towers/towers/" + towerType + "1b.png";
+            QString rotationDir = ":/towers/towers/" + towerType + towerLevel + "b.png";
             QPixmap rPix = QPixmap(rotationDir);
             rPix = rPix.scaled(40,40);
             towerSquare->setBrush(rPix);
@@ -50,7 +52,7 @@ void Soldier::checkRotation() {
 
         } else if (graphicalSquare == down and down >= 0) {
 
-            QString rotationDir = ":/towers/towers/" + towerType + "1f.png";
+            QString rotationDir = ":/towers/towers/" + towerType + towerLevel + "f.png";
             QPixmap rPix = QPixmap(rotationDir);
             rPix = rPix.scaled(40,40);
             towerSquare->setBrush(rPix);
@@ -62,7 +64,7 @@ void Soldier::checkRotation() {
 
         } else if (graphicalSquare == right and right >= 0) {
 
-            QString rotationDir = ":/towers/towers/" + towerType + "1d.png";
+            QString rotationDir = ":/towers/towers/" + towerType + towerLevel + "d.png";
             QPixmap rPix = QPixmap(rotationDir);
             rPix = rPix.scaled(40,40);
             towerSquare->setBrush(rPix);
@@ -74,7 +76,7 @@ void Soldier::checkRotation() {
 
         } else if (graphicalSquare == left and left >= 0) {
 
-            QString rotationDir = ":/towers/towers/" + towerType + "1.png";
+            QString rotationDir = ":/towers/towers/" + towerType + towerLevel + ".png";
             QPixmap rPix = QPixmap(rotationDir);
             rPix = rPix.scaled(40,40);
             towerSquare->setBrush(rPix);
@@ -86,7 +88,7 @@ void Soldier::checkRotation() {
 
         } else if (graphicalSquare == upLeft and upLeft >= 0) {
 
-            QString rotationDir = ":/towers/towers/" + towerType + "1a.png";
+            QString rotationDir = ":/towers/towers/" + towerType + towerLevel + "a.png";
             QPixmap rPix = QPixmap(rotationDir);
             rPix= rPix.scaled(40,40);
             towerSquare->setBrush(rPix);
@@ -98,7 +100,7 @@ void Soldier::checkRotation() {
 
         } else if (graphicalSquare == upRight and upRight >= 0) {
 
-            QString rotationDir = ":/towers/towers/" + towerType + "1c.png";
+            QString rotationDir = ":/towers/towers/" + towerType + towerLevel + "c.png";
             QPixmap rPix = QPixmap(rotationDir);
             rPix = rPix.scaled(40,40);
             towerSquare->setBrush(rPix);
@@ -110,7 +112,7 @@ void Soldier::checkRotation() {
 
         } else if (graphicalSquare == downLeft and downLeft >= 0) {
 
-            QString rotationDir = ":/towers/towers/" + towerType + "1g.png";
+            QString rotationDir = ":/towers/towers/" + towerType + towerLevel + "g.png";
             QPixmap rPix = QPixmap(rotationDir);
             rPix = rPix.scaled(40,40);
             towerSquare->setBrush(rPix);
@@ -122,7 +124,7 @@ void Soldier::checkRotation() {
 
         } else if (graphicalSquare == downRight and downRight >= 0) {
 
-            QString rotationDir = ":/towers/towers/" + towerType + "1e.png";
+            QString rotationDir = ":/towers/towers/" + towerType + towerLevel + "e.png";
             QPixmap rPix = QPixmap(rotationDir);
             rPix = rPix.scaled(40,40);
             towerSquare->setBrush(rPix);
@@ -139,8 +141,12 @@ void Soldier::checkRotation() {
 void Soldier::damage() {
     if (life < 0) {
         Game* game = Game::getInstance();
+        Field* field = Field::getInstance();
         if (isUndead) {
+            growl->play();
             game->deleteSoldier(this);
+            field->addMoney();
+            field->addMoney();
         } else {
             QString splatDir = ":/soldiers/soldiers/splat.png";
             QPixmap sPix = QPixmap(splatDir);
@@ -150,6 +156,7 @@ void Soldier::damage() {
             game->getArmy()->removeOne(this);
             this->isUndead = true;
             game->addWalker(this);
+            field->addMoney();
         }
     } else {
         Field* field = Field::getInstance();

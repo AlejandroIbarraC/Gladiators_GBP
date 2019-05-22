@@ -14,6 +14,7 @@ public:
     CustomRectItem(QGraphicsRectItem* parent = nullptr);
     int damageIndex = 1;
     int id;
+    int towerLevel = 1;
     QString towerType;
 
     QGraphicsItem* getArea();

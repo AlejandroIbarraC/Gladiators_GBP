@@ -6,6 +6,7 @@
 #include <QMediaPlayer>
 #include <QGraphicsView>
 #include <iostream>
+#include <QTimer>
 
 #include "elements/customrectitem.h"
 #include "elements/draggablerectitem.h"
@@ -35,8 +36,10 @@ public:
                                  {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
                                  {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}};
     int columns;
+    int currentStage;
     QList<int>* damageMatrix;
     QMediaPlayer* ding = new QMediaPlayer();
+    QMediaPlayer* dracarys = new QMediaPlayer();
     int fieldMatrix[11][19] = {{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
                                {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
                                {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
@@ -48,6 +51,8 @@ public:
                                {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
                                {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
                                {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}};
+    QMediaPlayer* fly = new QMediaPlayer();
+    QMediaPlayer* freeze = new QMediaPlayer();
     QMediaPlayer* growl = new QMediaPlayer();
     QMediaPlayer* rewind = new QMediaPlayer();
     QMediaPlayer* roar = new QMediaPlayer();
@@ -58,17 +63,18 @@ public:
     QList<int>* towerList;
     QMediaPlayer* trumpet = new QMediaPlayer();
 
+    void addMoney();
     void addTower(int id);
     void assignDamageMatrix(int id);
-    int currentStage;
     void deleteTower(int id);
-    QList<int>* findCoverage(int id);
     void deOpaqueGrid();
     void deOpaqueID(int id);
+    QList<int>* findCoverage(int id);
     void lowerLife();
     QList<int>* getBlockedIDList();
     static Field* getInstance();
     QList<int>* getPath();
+    int getMoney();
     QGraphicsScene* getScene();
     QGraphicsScene* getSoldierScene();
     QList<int>* idToCoords(int id);
@@ -76,6 +82,7 @@ public:
     void paintPath(QList<int>* path);
     void resetField();
     static void setInstance(Field* nfield);
+    void setMoney(int nmoney);
     void setSoldierScene(QGraphicsScene* newScene);
     void setSoldierLabels();
     int squareToID(CustomRectItem* square);
@@ -85,19 +92,25 @@ private:
     static Field* field;
     Game* game;
     int life = 20;
+    int money = 20;
     bool pathAlgorithm = true;
     QGraphicsScene* scene;
     QGraphicsScene* soldier_scene;
     QGraphicsView* soldier_view;
     int startingx;
     int startingy;
+    QTimer* freezeTimer;
     QGraphicsView* view;
     Ui::Field *ui;
 
     void initializeField();
 
 private slots:
+    void freeze_aux();
+    void on_dracarysButton_clicked();
     void on_fastForwardButton_clicked();
+    void on_flyButton_clicked();
+    void on_frozenButton_clicked();
     void on_nextButton_clicked();
     void on_nightKingButton_clicked();
     void on_pauseButton_clicked();

@@ -18,7 +18,7 @@ DraggableRectItem::DraggableRectItem(QGraphicsRectItem* parent, QString tower):
     towerPix = tPix.scaled(40,40);
     iconPix = iPix.scaled(70, 70);
     this->setBrush(iconPix);
-    build->setMedia(QUrl("qrc:/main/build.mp3"));
+    build->setMedia(QUrl("qrc:/audio/audio/build.mp3"));
     blockingSquare = new CustomRectItem();
 }
 
@@ -127,23 +127,48 @@ void DraggableRectItem::mouseReleaseEvent(QGraphicsSceneMouseEvent *event){
     // assign it to field damage matrix, add tower to pathfinding
     // data, and paint tower on UI
     if (!safeReturn) {
-        int areaID = field->squareToID(closestSquare);
-        field->allSquares[areaID]->damageIndex = TowersList::getInstance()->getTowersByPosition(field->towerIndex) / 50;
-        field->towerIndex++;
-        field->assignDamageMatrix(areaID);
-        closestSquare->setBrush(towerPix);
-        closestSquare->setAcceptDrops(true);
-        closestSquare->initializeArea();
-        closestSquare->towerType = towerType;
+        int money = field->getMoney();
+        if (towerType == "gatling" and money < 5) {
 
-        // Multiplies damage if tower is special
-        if (towerType == "fire") {
-            closestSquare->damageIndex *= 2;
-        } else if (towerType == "electric") {
-            closestSquare->damageIndex *= 3;
+        } else if (towerType == "fire" and money < 10) {
+
+        } else if (towerType == "electric" and money < 15) {
+
+        } else {
+            int areaID = field->squareToID(closestSquare);
+            closestSquare->towerType = towerType;
+            int damageIndex = TowersList::getInstance()->getTowersByPosition(field->towerIndex);
+            field->allSquares[areaID]->damageIndex = damageIndex;
+            field->towerIndex++;
+            field->assignDamageMatrix(areaID);
+            closestSquare->setAcceptDrops(true);
+            closestSquare->initializeArea();
+
+            // Assigns tower level depending on evolution level.
+            if (damageIndex > 20) {
+                closestSquare->towerLevel = 2;
+            } else if (damageIndex > 50) {
+                closestSquare->towerLevel = 3;
+            }
+            QString towerLevel = QString::number(closestSquare->towerLevel);
+            QString towerdir = ":/towers/towers/" + towerType + towerLevel + ".png";
+            QPixmap tPix = QPixmap(towerdir);
+            QPixmap newTowerPix = tPix.scaled(40,40);
+            closestSquare->setBrush(newTowerPix);
+
+            // Multiplies damage if tower is special
+            if (towerType == "fire") {
+                closestSquare->damageIndex *= 2;
+                field->setMoney(field->getMoney() - 10);
+            } else if (towerType == "electric") {
+                closestSquare->damageIndex *= 4;
+                field->setMoney(field->getMoney() - 15);
+            } else {
+                field->setMoney(field->getMoney() - 5);
+            }
+            field->addTower(areaID);
+            build->play();
         }
-        field->addTower(areaID);
-        build->play();
 
         // Update soldier path in real time
         Game* game = Game::getInstance();
@@ -158,6 +183,7 @@ void DraggableRectItem::mouseReleaseEvent(QGraphicsSceneMouseEvent *event){
             pathList->createPath8x17(6, 0);
         }
         game->setPath(pathList->toQList());
+
     }
 }
 

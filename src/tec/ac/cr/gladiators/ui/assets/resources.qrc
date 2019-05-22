@@ -1,7 +1,6 @@
 <RCC>
     <qresource prefix="/main">
         <file>mainLogo.png</file>
-        <file>mainTheme.mp3</file>
         <file>spear2.png</file>
         <file>shield.png</file>
         <file>mat.png</file>
@@ -26,15 +25,9 @@
         <file>resetButtonIcon.png</file>
         <file>resistanceIcon.png</file>
         <file>survivalIcon.png</file>
-        <file>build.mp3</file>
-        <file>oof.mp3</file>
-        <file>trumpet.mp3</file>
-        <file>ding.mp3</file>
         <file>nextButtonIcon_pressed.png</file>
         <file>playButtonIcon_pressed.png</file>
         <file>resetButtonIcon_pressed.png</file>
-        <file>rewind.mp3</file>
-        <file>roll.mp3</file>
         <file>skipButtonIcon.png</file>
         <file>skipButtonIcon_pressed.png</file>
         <file>pauseToggleIcon.png</file>
@@ -43,10 +36,11 @@
         <file>thanosIcon.png</file>
         <file>fastForwardIcon.png</file>
         <file>fastForwardIcon_pressed.png</file>
-        <file>snap.mp3</file>
         <file>nightKingButtonIcon.png</file>
-        <file>growl.mp3</file>
-        <file>roar.mp3</file>
+        <file>dracarysButtonIcon.png</file>
+        <file>fieldStage_frozen.png</file>
+        <file>flyButtonIcon.png</file>
+        <file>freezeButtonIcon.png</file>
     </qresource>
     <qresource prefix="/font">
         <file>Papyrus.ttc</file>
@@ -83,6 +77,53 @@
         <file>towers/fire1e.png</file>
         <file>towers/fire1f.png</file>
         <file>towers/fire1g.png</file>
+        <file>towers/electric2.png</file>
+        <file>towers/electric2a.png</file>
+        <file>towers/electric2b.png</file>
+        <file>towers/electric2c.png</file>
+        <file>towers/electric2d.png</file>
+        <file>towers/electric2e.png</file>
+        <file>towers/electric2f.png</file>
+        <file>towers/electric2g.png</file>
+        <file>towers/electric3.png</file>
+        <file>towers/electric3a.png</file>
+        <file>towers/electric3b.png</file>
+        <file>towers/electric3c.png</file>
+        <file>towers/electric3d.png</file>
+        <file>towers/electric3e.png</file>
+        <file>towers/electric3f.png</file>
+        <file>towers/electric3g.png</file>
+        <file>towers/fire2.png</file>
+        <file>towers/fire2a.png</file>
+        <file>towers/fire2b.png</file>
+        <file>towers/fire2c.png</file>
+        <file>towers/fire2d.png</file>
+        <file>towers/fire2e.png</file>
+        <file>towers/fire2f.png</file>
+        <file>towers/fire2g.png</file>
+        <file>towers/fire3.png</file>
+        <file>towers/fire3a.png</file>
+        <file>towers/fire3b.png</file>
+        <file>towers/fire3c.png</file>
+        <file>towers/fire3d.png</file>
+        <file>towers/fire3e.png</file>
+        <file>towers/fire3f.png</file>
+        <file>towers/fire3g.png</file>
+        <file>towers/gatling2a.png</file>
+        <file>towers/gatling2b.png</file>
+        <file>towers/gatling2c.png</file>
+        <file>towers/gatling2d.png</file>
+        <file>towers/gatling2e.png</file>
+        <file>towers/gatling2f.png</file>
+        <file>towers/gatling2g.png</file>
+        <file>towers/gatling3.png</file>
+        <file>towers/gatling3a.png</file>
+        <file>towers/gatling3b.png</file>
+        <file>towers/gatling3c.png</file>
+        <file>towers/gatling3d.png</file>
+        <file>towers/gatling3e.png</file>
+        <file>towers/gatling3f.png</file>
+        <file>towers/gatling3g.png</file>
     </qresource>
     <qresource prefix="/soldiers">
         <file>soldiers/soldierFlashDown.png</file>
@@ -97,5 +138,20 @@
         <file>soldiers/walkerLeft.png</file>
         <file>soldiers/walkerRight.png</file>
         <file>soldiers/walkerUp.png</file>
+    </qresource>
+    <qresource prefix="/audio">
+        <file>audio/build.mp3</file>
+        <file>audio/ding.mp3</file>
+        <file>audio/freeze.mp3</file>
+        <file>audio/growl.mp3</file>
+        <file>audio/mainTheme.mp3</file>
+        <file>audio/oof.mp3</file>
+        <file>audio/rewind.mp3</file>
+        <file>audio/roar.mp3</file>
+        <file>audio/roll.mp3</file>
+        <file>audio/snap.mp3</file>
+        <file>audio/trumpet.mp3</file>
+        <file>audio/dracarys.mp3</file>
+        <file>audio/fly.mp3</file>
     </qresource>
 </RCC>
