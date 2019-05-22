@@ -1,5 +1,4 @@
 #include "draggablerectitem.h"
-#include <iostream>
 
 #include "../field.h"
 
@@ -22,7 +21,8 @@ DraggableRectItem::DraggableRectItem(QGraphicsRectItem* parent, QString tower):
     blockingSquare = new CustomRectItem();
 }
 
-/// Adds tower to pathfinding matrix
+//! Adds tower to pathfinding matrix
+//! \param tower ID
 void DraggableRectItem::addTempTower(int id) {
     Field* field = Field::getInstance();
     QList<int>* IDCoords = field->idToCoords(id);
@@ -36,13 +36,14 @@ void DraggableRectItem::addTempTower(int id) {
 }
 
 
-/// Sets point where item will return if dropped elsewhere
-void DraggableRectItem::setAnchorPoint(const QPointF &anchorPoint) {
+//! Sets point where item will return if dropped elsewhere
+//! \param QPointF& Qt point to anchor
+void DraggableRectItem::setAnchorPoint(const QPointF& anchorPoint) {
     this->anchorPoint = anchorPoint;
 }
 
-/// Executes while item is being dragged
-void DraggableRectItem::mouseMoveEvent(QGraphicsSceneMouseEvent *event) {
+//! Activates while item is being dragged
+void DraggableRectItem::mouseMoveEvent(QGraphicsSceneMouseEvent* event) {
     // While being moved, show default tower picture
     QGraphicsRectItem::mouseMoveEvent(event);
     m_dragged = true;
@@ -52,6 +53,7 @@ void DraggableRectItem::mouseMoveEvent(QGraphicsSceneMouseEvent *event) {
 
     // Calculates closest square to paint it in real time
     QList<QGraphicsItem*> colItems = collidingItems();
+
     // If there are no colliding items while drag, don't show grid in checker pattern
     if(colItems.isEmpty()) {
         field->deOpaqueGrid();
@@ -68,7 +70,6 @@ void DraggableRectItem::mouseMoveEvent(QGraphicsSceneMouseEvent *event) {
                 closestItem = item;
             }
         }
-
         int dimensions = field->rows * field->columns;
         QPointF closestPos = closestItem->pos();
 
@@ -84,7 +85,7 @@ void DraggableRectItem::mouseMoveEvent(QGraphicsSceneMouseEvent *event) {
             }
         }
 
-        // Gets updated path and paints it
+        // Gets temporary path
         PathList* pathList = PathList::getInstance();
         Pathfinding* pathfinding = Pathfinding::getInstance();
         bool isPath = false;
@@ -108,13 +109,15 @@ void DraggableRectItem::mouseMoveEvent(QGraphicsSceneMouseEvent *event) {
             isPath = pathfinding->backTrack8x17(6, 0, tempCityMatrix);
             pathList->createPath8x17(6, 0);
         }
+
+        // Paint temporary path
         field->paintPath(pathList->toQList());
         safeReturn = false;
     }
 }
 
-/// Executes if item is dropped on square
-void DraggableRectItem::mouseReleaseEvent(QGraphicsSceneMouseEvent *event){
+//! Activates if item is dropped on square
+void DraggableRectItem::mouseReleaseEvent(QGraphicsSceneMouseEvent* event){
     // Moves draggable tower to original position in dock
     QGraphicsRectItem::mouseReleaseEvent(event);
     Field* field = Field::getInstance();
@@ -128,29 +131,29 @@ void DraggableRectItem::mouseReleaseEvent(QGraphicsSceneMouseEvent *event){
     // data, and paint tower on UI
     if (!safeReturn) {
         int money = field->getMoney();
-        if (towerType == "gatling" and money < 5) {
-
-        } else if (towerType == "fire" and money < 10) {
-
-        } else if (towerType == "electric" and money < 15) {
-
-        } else {
+        if (towerType == "gatling" and money < 5) {}
+        else if (towerType == "fire" and money < 10) {}
+        else if (towerType == "electric" and money < 15) {}
+        // There's not enough money to buy tower
+        else {
+            // Get square info to assign data
             int areaID = field->squareToID(closestSquare);
             closestSquare->towerType = towerType;
             int damageIndex = TowersList::getInstance()->getTowersByPosition(field->towerIndex);
-            cout << damageIndex << endl;
             field->allSquares[areaID]->damageIndex = damageIndex;
             field->towerIndex++;
             field->assignDamageMatrix(areaID);
             closestSquare->setAcceptDrops(true);
             closestSquare->initializeArea();
 
-            // Assigns tower level depending on evolution level.
+            // Assigns tower level according to evolution level.
             if (damageIndex > 200) {
                 closestSquare->towerLevel = 2;
             } else if (damageIndex > 500) {
                 closestSquare->towerLevel = 3;
             }
+
+            // Get correct tower picture
             QString towerLevel = QString::number(closestSquare->towerLevel);
             QString towerdir = ":/towers/towers/" + towerType + towerLevel + ".png";
             QPixmap tPix = QPixmap(towerdir);
@@ -171,7 +174,7 @@ void DraggableRectItem::mouseReleaseEvent(QGraphicsSceneMouseEvent *event){
             build->play();
         }
 
-        // Update soldier path in real time
+        // Update soldier path in real time when tower is placed
         Game* game = Game::getInstance();
         Pathfinding* pathfinding = Pathfinding::getInstance();
         PathList* pathList = PathList::getInstance();
@@ -183,6 +186,8 @@ void DraggableRectItem::mouseReleaseEvent(QGraphicsSceneMouseEvent *event){
             pathfinding->backTrack8x17(6, 0, field->cityMatrix);
             pathList->createPath8x17(6, 0);
         }
+
+        // Modify game path for all soldiers
         game->setPath(pathList->toQList());
 
     }

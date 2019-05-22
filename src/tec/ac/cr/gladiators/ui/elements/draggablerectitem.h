@@ -3,7 +3,6 @@
 
 #include <QGraphicsRectItem>
 #include <QGraphicsSceneMouseEvent>
-#include <QDateTime>
 #include <QMediaPlayer>
 #include <QBrush>
 
@@ -24,8 +23,8 @@ public:
     void setAnchorPoint(const QPointF& anchorPoint);
 
 protected:
-    void mouseMoveEvent(QGraphicsSceneMouseEvent *event);
-    void mouseReleaseEvent(QGraphicsSceneMouseEvent *event);
+    void mouseMoveEvent(QGraphicsSceneMouseEvent* event);
+    void mouseReleaseEvent(QGraphicsSceneMouseEvent* event);
 
 private:
     QMediaPlayer* build = new QMediaPlayer();
@@ -56,7 +55,7 @@ private:
     QRectF largeRect = QRectF(0,0,70,70);
     bool m_dragged;
     QPixmap towerPix;
-    bool safeReturn;
+    bool safeReturn = true;
     QRectF smallRect = QRectF(0,0,40,40);
 
 };

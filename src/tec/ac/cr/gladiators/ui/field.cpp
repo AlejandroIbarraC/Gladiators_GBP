@@ -1,29 +1,22 @@
 #include "field.h"
 #include "ui_field.h"
-#include "iostream"
-#include "../logic/GladiatorsList.h"
-#include "../client/Client.h"
-#include "../logic/pathfinding/Pathfinding.h"
-#include "../logic/pathfinding/PathList.h"
-#include "../logic/pathfinding/AStar.cpp"
-#include <QString>
 
-using namespace std;
+#include "../logic/pathfinding/AStar.cpp"
 
 Field* Field::field = nullptr;
 
-//! A method that creates the field window
-//! \param parent
-//! \param stage
+//! Initializes field
+//! \param int stage ID (field or city)
 Field::Field(QWidget *parent, int stage) :
     QMainWindow(parent),
     ui(new Ui::Field)
 {
     ui->setupUi(this);
 
+    // Get initial tower data from server
     Client::retrieveTowers();
 
-    // Width and height of window.
+    // Width, height of window. Set internal stage variable
     int width = 1000;
     int height = 800;
     currentStage = stage;
@@ -40,7 +33,7 @@ Field::Field(QWidget *parent, int stage) :
     soldier_view->setScene(soldier_scene);
     soldier_view->setFixedSize(width, height);
 
-    // Initialize background stage
+    // Initialize background stage data for grid creation
     if (stage == 1) {
         columns = 19;
         rows = 11;
@@ -62,7 +55,7 @@ Field::Field(QWidget *parent, int stage) :
     background_music->setMedia(playlist);
     background_music->play();
 
-    // Initialiaze Field with default grid and starts game.
+    // Initialiaze Field with default grid and starts game loop
     initializeField();
     game = Game::getInstance();
     game->run();
@@ -75,18 +68,23 @@ Field::Field(QWidget *parent, int stage) :
     }
 
     // Blocks placement in area limit
+    blockedIDs = new QList<int>();
     if (currentStage == 1) {
-        allSquares[95]->setAcceptDrops(true);
-        allSquares[114]->setAcceptDrops(true);
-        allSquares[133]->setAcceptDrops(true);
-        allSquares[113]->setAcceptDrops(true);
-        allSquares[132]->setAcceptDrops(true);
-        allSquares[151]->setAcceptDrops(true);
+        blockedIDs->append(95);
+        blockedIDs->append(114);
+        blockedIDs->append(133);
+        blockedIDs->append(113);
+        blockedIDs->append(132);
+        blockedIDs->append(151);
     } else {
-        allSquares[51]->setAcceptDrops(true);
-        allSquares[68]->setAcceptDrops(true);
-        allSquares[67]->setAcceptDrops(true);
-        allSquares[84]->setAcceptDrops(true);
+        blockedIDs->append(51);
+        blockedIDs->append(68);
+        blockedIDs->append(67);
+        blockedIDs->append(84);
+    }
+    for(int i = 0; i < blockedIDs->length(); i++) {
+        int id = blockedIDs->at(i);
+        allSquares[id]->setAcceptDrops(true);
     }
 
     // Creates button hover watchers for UI Buttons.
@@ -122,13 +120,14 @@ Field::Field(QWidget *parent, int stage) :
     ui->moneyLabel->setText(QString::number(money));
 }
 
-/// Adds 1 to money count
+//! Adds 1 to money count and displays it
 void Field::addMoney() {
     money++;
     ui->moneyLabel->setText(QString::number(money));
 }
 
-/// Adds tower to pathfinding matrix
+//! Adds tower to pathfinding matrix
+//! \param int tower ID
 void Field::addTower(int id) {
     QList<int>* IDCoords = idToCoords(id);
     int x = IDCoords->at(0);
@@ -143,8 +142,8 @@ void Field::addTower(int id) {
     towerList->append(id);
 }
 
-/// Algorithmically assign damage to square in damage matrix when adding a tower
-/// @param int id position in grid
+//! Algorithmically assign damage to square in damage matrix when adding a tower
+//! \param int id position in grid
 void Field::assignDamageMatrix(int id) {
     QList<int>* numbers = findCoverage(id);
     int damageIndex = allSquares[id]->damageIndex;
@@ -156,8 +155,7 @@ void Field::assignDamageMatrix(int id) {
     }
 }
 
-//! A method that undulls grid
-/// Deopaques grid
+//! Deopaques all grid
 void Field::deOpaqueGrid() {
     int dimensions = rows * columns;
     for (int i = 0; i < dimensions; i++) {
@@ -168,7 +166,8 @@ void Field::deOpaqueGrid() {
     }
 }
 
-/// Deopaques specific ID
+//! Deopaques specific ID
+//! \param int square ID
 void Field::deOpaqueID(int id) {
     if (id != -1) {
         allSquares[id]->setBrush(QBrush(QColor(0, 0, 0, 0)));
@@ -176,8 +175,8 @@ void Field::deOpaqueID(int id) {
     }
 }
 
-/// Deletes tower in pathfinding matrix
-/// @param int id tower to delete
+//! Deletes tower in pathfinding matrix
+//! \param int id tower to delete
 void Field::deleteTower(int id) {
     QList<int>* IDCoords = idToCoords(id);
     int x = IDCoords->at(0);
@@ -187,18 +186,20 @@ void Field::deleteTower(int id) {
     } else {
         cityMatrix[x][y] = 1;
     }
+
+    // Returns money if tower is deleted
     CustomRectItem* currentSquare = allSquares.at(id);
     QString towerType = currentSquare->towerType;
     if (towerType == "gatling") {
-        setMoney(getMoney() + 5);
+        setMoney(getMoney() + 3);
     } else if (towerType == "fire") {
-        setMoney(getMoney() + 10);
+        setMoney(getMoney() + 6);
     } else {
-        setMoney(getMoney() + 15);
+        setMoney(getMoney() + 10);
     }
 }
 
-/// Ends game.
+//! Ends game and moves to end game window.
 void Field::endGame() {
     Game* game = Game::getInstance();
     game->pause();
@@ -207,7 +208,8 @@ void Field::endGame() {
     hide();
 }
 
-/// Finds tower area coverage by ID
+//! Finds tower area coverage by ID
+//! \param int tower ID
 QList<int>* Field::findCoverage(int id) {
     QList<int>* numbers = new QList<int>();
     int up = id - columns;
@@ -253,7 +255,7 @@ QList<int>* Field::findCoverage(int id) {
     numbers->append(downRight);
     numbers->append(down);
 
-    // Remove fake ones
+    // Remove negative values.
     QList<int>* result = new QList<int>();
     for (int i = 0; i < numbers->length(); i++) {
         int currentNumber = numbers->at(i);
@@ -265,7 +267,7 @@ QList<int>* Field::findCoverage(int id) {
     return result;
 }
 
-/// Controls freeze powerup with timer
+//! Controls freeze powerup with timer
 void Field::freeze_aux() {
     Game* game = Game::getInstance();
     game->toggleFreeze();
@@ -273,23 +275,9 @@ void Field::freeze_aux() {
     ui->background->setPixmap(QPixmap("://main/fieldStage.png"));
 }
 
-/// Gets list with blocked IDs.
+//! Gets list with blocked IDs.
 QList<int>* Field::getBlockedIDList() {
-    QList<int>* result = new QList<int>();
-    if (currentStage == 1) {
-        result->append(95);
-        result->append(114);
-        result->append(133);
-        result->append(113);
-        result->append(132);
-        result->append(151);
-    } else {
-        result->append(51);
-        result->append(68);
-        result->append(67);
-        result->append(84);
-    }
-    return result;
+    return blockedIDs;
 }
 
 Field* Field::getInstance() {
@@ -300,7 +288,7 @@ int Field::getMoney() {
     return money;
 }
 
-/// Gets Qlist with square ID in path
+//! Gets QList with path of IDs
 QList<int>* Field::getPath() {
     PathList* pathList = PathList::getInstance();
     if (currentStage == 1) {
@@ -320,8 +308,8 @@ QGraphicsScene* Field::getSoldierScene() {
     return this->soldier_scene;
 }
 
-/// Converts ID to x, y coordinates
-/// @param int id to find coordinates
+//! Converts ID to x, y coordinates
+//! \param int id to find coordinates of
 QList<int>* Field::idToCoords(int id) {
     QList<int>* result = new QList<int>();
     int x = 0;
@@ -349,7 +337,7 @@ QList<int>* Field::idToCoords(int id) {
     return result;
 }
 
-//! A method that Initializes field with default attributes.
+//! Initializes field with default attributes.
 void Field::initializeField() {
     // Grid icons.
     QRectF rect(0,0,40,40);
@@ -357,6 +345,7 @@ void Field::initializeField() {
     double ypos = startingy;
     bool isOpaque = false;
 
+    // Create grid
     for(int i = 0; i < rows; i++) {
         for (int i = 0; i < columns; i++) {
             CustomRectItem* item = new CustomRectItem();
@@ -399,7 +388,7 @@ void Field::initializeField() {
     }
 }
 
-/// Lowers player life
+//! Lowers player life
 void Field::lowerLife() {
     life--;
     if (life == 0) {
@@ -425,6 +414,7 @@ void Field::on_dracarysButton_clicked() {
         int dimensions = rows * columns;
         QList<int>* blockedIDs = getBlockedIDList();
 
+        // Set all field on fire and delete everything
         QString fireDir = ":/soldiers/soldiers/fire.png";
         QPixmap fPix = QPixmap(fireDir);
         QPixmap firePix = fPix.scaled(40,40);
@@ -476,10 +466,14 @@ void Field::on_fullresetButton_clicked() {
 
 void Field::on_nextButton_clicked() {
     trumpet->play();
+
+    // Get data from server
     Client::retrieveGladiators();
     Pathfinding* pathfinding = Pathfinding::getInstance();
     pathfinding->reset();
     PathList* pathList = PathList::getInstance();
+
+    // Swap between Backtracking and A* for pathfinding
     if (currentStage == 1) {
         if (pathAlgorithm) {
             pathfinding->backTrack11x19(6, 0, fieldMatrix);
@@ -507,6 +501,7 @@ void Field::on_nextButton_clicked() {
     }
     game->setPath(pathList->toQList());
 
+    // Check wave count for boss
     if (game->waveCount % 5 == 0) {
         game->createBoss();
     } else {
@@ -520,6 +515,8 @@ void Field::on_nightKingButton_clicked() {
     Game* game = Game::getInstance();
     QList<Soldier*>* deadArmy = game->getDeadArmy();
     QList<Soldier*>* army = game->getArmy();
+
+    // Revive all army
     for(int i = 0; i < deadArmy->length(); i++) {
         Soldier* currentSoldier = deadArmy->at(i);
         currentSoldier->setLife(currentSoldier->fullLife * 2);
@@ -543,10 +540,12 @@ void Field::on_pauseButton_clicked() {
 void Field::on_playButton_clicked() {
     trumpet->play();
 
-    // ONLINE DATA
+    // Get data from server
     Client::retrieveGladiators();
     Pathfinding* pathfinding = Pathfinding::getInstance();
     PathList* pathList = PathList::getInstance();
+
+    // Calculate initial path with backtracking and set it
     if (currentStage == 1) {
         pathfinding->backTrack11x19(6, 0, fieldMatrix);
         pathList->createPath11x19(6, 0);
@@ -555,7 +554,7 @@ void Field::on_playButton_clicked() {
         pathList->createPath8x17(6, 0);
     }
     game->setPath(pathList->toQList());
-    game->createArmy(3);
+    game->createArmy(0);
 }
 
 void Field::on_resetButton_clicked() {
@@ -577,6 +576,7 @@ void Field::on_thanosButton_clicked() {
         Game* game = Game::getInstance();
         QList<Soldier*>* army = game->getArmy();
 
+        // Calculates 50% chance of soldier dying
         for (int i = 0; i < army->length(); i++) {
             int chance = randInt(0, 1);
             if (chance == 0) {
@@ -587,7 +587,7 @@ void Field::on_thanosButton_clicked() {
     }
 }
 
-//! A method that dulls grid
+//! Opaques whole grid
 void Field::opaqueGrid() {
     bool opaque = true;
     int dimensions = rows * columns;
@@ -614,8 +614,8 @@ void Field::opaqueGrid() {
     }
 }
 
-/// Paints designed path in UI.
-/// @param QList<int> path to paint
+//! Paints designed path in UI.
+//! \param QList<int> path to paint
 void Field::paintPath(QList<int>* path) {
     for (int i = 0; i < path->length(); i++) {
         CustomRectItem* currentSquare = allSquares[path->at(i)];
@@ -628,13 +628,13 @@ void Field::paintPath(QList<int>* path) {
     delete path;
 }
 
-/// Calculates random integer from two limits
+//! Calculates random integer from two limits
 int Field::randInt(int low, int high) {
     return qrand() % ((high + 1) - low) + low;
 }
 
 
-/// Resets all field and its matrixes
+//! Resets all field and its matrixes
 void Field::resetField() {
     Client::sendTowersData();
     Client::retrieveTowers();
@@ -710,9 +710,8 @@ Field::~Field()
     delete ui;
 }
 
-//! A method that shows in labels the attributes from the selected soldier
+//! Modifies UI labels for selected soldier
 void Field::setSoldierLabels() {
-
     GladiatorsList* gladiatorsList = GladiatorsList::getInstance();
 
     int age = gladiatorsList->soldierToShow->getAge();
@@ -740,8 +739,8 @@ void Field::setSoldierLabels() {
     ui->SoldierResistence->setText(Resistence);
 }
 
-/// Gets ID of custom rect item square
-/// @param CustomRectItem square
+//! Gets ID of custom rect item square
+//! \param CustomRectItem* square
 int Field::squareToID(CustomRectItem* square) {
     int id = 0;
     for (int i = 0; i < allSquares.length(); i++) {
@@ -752,13 +751,13 @@ int Field::squareToID(CustomRectItem* square) {
     return id;
 }
 
-/// Algorithmically unassign damage to square in damage matrix when removing a tower
-/// @param int id position in grid
+//! Algorithmically unassign damage to square in damage matrix when removing a tower
+//! \param int id position in grid
 void Field::unassignDamageMatrix(int id) {
     QList<int>* numbers = findCoverage(id);
     int damageIndex = allSquares[id]->damageIndex;
 
-    // Assigns damage
+    // Unassigns damage
     for (int i = 0; i < numbers->length(); i++) {
         int currentNumber = numbers->at(i);
         damageMatrix->insert(currentNumber, damageMatrix->at(currentNumber) - damageIndex);

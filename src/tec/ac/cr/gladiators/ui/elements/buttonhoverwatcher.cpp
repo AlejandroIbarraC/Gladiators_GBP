@@ -12,18 +12,15 @@ bool ButtonHoverWatcher::eventFilter(QObject * watched, QEvent * event) {
     if (!button) {
         return false;
     }
-
     if (event->type() == QEvent::Enter) {
         // The push button is hovered by mouse
         button->setIcon(QIcon(on_hover));
         return true;
     }
-
     if (event->type() == QEvent::Leave){
         // The push button is not hovered by mouse
         button->setIcon(QIcon(on_not_hovered));
         return true;
     }
-
     return false;
 }

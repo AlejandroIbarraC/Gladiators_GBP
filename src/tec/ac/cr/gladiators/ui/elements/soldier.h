@@ -1,15 +1,15 @@
 #ifndef SOLDIER_H
 #define SOLDIER_H
 
-#include <QDebug>
+#include <QBrush>
 #include <QObject>
 #include <QGraphicsRectItem>
-#include <QPainter>
-#include <QBrush>
 #include <QGraphicsScene>
 #include <QGraphicsSceneMouseEvent>
-#include <QPushButton>
 #include <QMediaPlayer>
+
+#include "customrectitem.h"
+#include "../../logic/GladiatorsList.h"
 
 
 class Soldier : public QGraphicsRectItem {
@@ -37,8 +37,9 @@ protected:
 
 private:
     QMediaPlayer* growl = new QMediaPlayer();
-    QMediaPlayer* oof = new QMediaPlayer();
     int life = 200;
+    QMediaPlayer* oof = new QMediaPlayer();
+
 };
 
 #endif // SOLDIER_H

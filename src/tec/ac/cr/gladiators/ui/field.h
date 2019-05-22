@@ -1,11 +1,10 @@
 #ifndef FIELD_H
 #define FIELD_H
 
+#include <QGraphicsView>
 #include <QMainWindow>
 #include <QMediaPlaylist>
 #include <QMediaPlayer>
-#include <QGraphicsView>
-#include <iostream>
 #include <QTimer>
 #include <QPropertyAnimation>
 
@@ -15,6 +14,11 @@
 #include "elements/game.h"
 #include "elements/buttonhoverwatcher.h"
 #include "endgame.h"
+#include "../client/Client.h"
+#include "../logic/GladiatorsList.h"
+#include "../logic/pathfinding/Pathfinding.h"
+#include "../logic/pathfinding/PathList.h"
+
 
 namespace Ui {
 class Field;
@@ -94,8 +98,10 @@ public:
     void unassignDamageMatrix(int id);
 
 private:
+    QList<int>* blockedIDs;
     EndGame* endGame_window;
     static Field* field;
+    QTimer* freezeTimer;
     Game* game;
     int life = 20;
     int money = 20;
@@ -105,7 +111,6 @@ private:
     QGraphicsView* soldier_view;
     int startingx;
     int startingy;
-    QTimer* freezeTimer;
     QGraphicsView* view;
     Ui::Field *ui;
 
@@ -123,8 +128,8 @@ private slots:
     void on_pauseButton_clicked();
     void on_playButton_clicked();
     void on_resetButton_clicked();
-    void on_thanosButton_clicked();
     void on_skipButton_clicked();
+    void on_thanosButton_clicked();
 
 };
 
