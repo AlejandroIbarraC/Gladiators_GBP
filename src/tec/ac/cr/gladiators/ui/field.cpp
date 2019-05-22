@@ -21,6 +21,8 @@ Field::Field(QWidget *parent, int stage) :
 {
     ui->setupUi(this);
 
+    Client::retrieveTowers();
+
     // Width and height of window.
     int width = 1000;
     int height = 800;
@@ -40,13 +42,11 @@ Field::Field(QWidget *parent, int stage) :
 
     // Initialize background stage
     if (stage == 1) {
-        ui->background->setPixmap(QPixmap("://main/fieldStage.png"));
         columns = 19;
         rows = 11;
         startingx = 125;
         startingy = 75;
     } else {
-        ui->background->setPixmap(QPixmap("://main/cityStage.jpg"));
         columns = 17;
         rows = 8;
         startingx = 175;
@@ -98,13 +98,34 @@ Field::Field(QWidget *parent, int stage) :
     ui->resetButton->installEventFilter(watcher3);
     ButtonHoverWatcher* watcher4 = new ButtonHoverWatcher(this,":/main/skipButtonIcon.png",":/main/skipButtonIcon_pressed.png");
     ui->skipButton->installEventFilter(watcher4);
+    ButtonHoverWatcher* watcher5 = new ButtonHoverWatcher(this,":/main/fullresetIcon.png",":/main/fullresetIcon_pressed.png");
+    ui->fullresetButton->installEventFilter(watcher5);
 
     // Assigns sound effect data
-    trumpet->setMedia(QUrl("qrc:/main/trumpet.mp3"));
-    ding->setMedia(QUrl("qrc:/main/ding.mp3"));
-    rewind->setMedia(QUrl("qrc:/main/rewind.mp3"));
-    roll->setMedia(QUrl("qrc:/main/roll.mp3"));
-    snap->setMedia(QUrl("qrc:/main/snap.mp3"));
+    trumpet->setMedia(QUrl("qrc:/audio/audio/trumpet.mp3"));
+    ding->setMedia(QUrl("qrc:/audio/audio/ding.mp3"));
+    rewind->setMedia(QUrl("qrc:/audio/audio/rewind.mp3"));
+    roll->setMedia(QUrl("qrc:/audio/audio/roll.mp3"));
+    snap->setMedia(QUrl("qrc:/audio/audio/snap.mp3"));
+    roar->setMedia(QUrl("qrc:/audio/audio/roar.mp3"));
+    dracarys->setMedia(QUrl("qrc:/audio/audio/dracarys.mp3"));
+    fly->setMedia(QUrl("qrc:/audio/audio/fly.mp3"));
+    freeze->setMedia(QUrl("qrc:/audio/audio/freeze.mp3"));
+    startup->setMedia(QUrl("qrc:/audio/audio/startup.mp3"));
+
+    // Sets freeze timer
+    freezeTimer = new QTimer(this);
+    freezeTimer->setInterval(5000);
+    connect(freezeTimer, SIGNAL(timeout()), this, SLOT(freeze_aux()));
+
+    // Set money
+    ui->moneyLabel->setText(QString::number(money));
+}
+
+/// Adds 1 to money count
+void Field::addMoney() {
+    money++;
+    ui->moneyLabel->setText(QString::number(money));
 }
 
 /// Adds tower to pathfinding matrix
@@ -147,6 +168,14 @@ void Field::deOpaqueGrid() {
     }
 }
 
+/// Deopaques specific ID
+void Field::deOpaqueID(int id) {
+    if (id != -1) {
+        allSquares[id]->setBrush(QBrush(QColor(0, 0, 0, 0)));
+    } else {
+    }
+}
+
 /// Deletes tower in pathfinding matrix
 /// @param int id tower to delete
 void Field::deleteTower(int id) {
@@ -158,6 +187,24 @@ void Field::deleteTower(int id) {
     } else {
         cityMatrix[x][y] = 1;
     }
+    CustomRectItem* currentSquare = allSquares.at(id);
+    QString towerType = currentSquare->towerType;
+    if (towerType == "gatling") {
+        setMoney(getMoney() + 5);
+    } else if (towerType == "fire") {
+        setMoney(getMoney() + 10);
+    } else {
+        setMoney(getMoney() + 15);
+    }
+}
+
+/// Ends game.
+void Field::endGame() {
+    Game* game = Game::getInstance();
+    game->pause();
+    endGame_window = new EndGame(this);
+    endGame_window->show();
+    hide();
 }
 
 /// Finds tower area coverage by ID
@@ -185,10 +232,15 @@ QList<int>* Field::findCoverage(int id) {
         up = -1;
         upLeft = -1;
         upRight = -1;
-    } if (down > rows * columns) {
+    }
+    if (down >= rows * columns) {
         down = -1;
         downLeft = -1;
         downRight = -1;
+    }
+
+    if (id == 0) {
+        downLeft = -1;
     }
 
     // Adds to iterated list
@@ -202,18 +254,50 @@ QList<int>* Field::findCoverage(int id) {
     numbers->append(down);
 
     // Remove fake ones
+    QList<int>* result = new QList<int>();
     for (int i = 0; i < numbers->length(); i++) {
         int currentNumber = numbers->at(i);
         if (currentNumber != -1) {
-            numbers->removeOne(i);
+            result->append(currentNumber);
         }
     }
 
-    return numbers;
+    return result;
+}
+
+/// Controls freeze powerup with timer
+void Field::freeze_aux() {
+    Game* game = Game::getInstance();
+    game->toggleFreeze();
+    freezeTimer->stop();
+    ui->background->setPixmap(QPixmap("://main/fieldStage.png"));
+}
+
+/// Gets list with blocked IDs.
+QList<int>* Field::getBlockedIDList() {
+    QList<int>* result = new QList<int>();
+    if (currentStage == 1) {
+        result->append(95);
+        result->append(114);
+        result->append(133);
+        result->append(113);
+        result->append(132);
+        result->append(151);
+    } else {
+        result->append(51);
+        result->append(68);
+        result->append(67);
+        result->append(84);
+    }
+    return result;
 }
 
 Field* Field::getInstance() {
     return field;
+}
+
+int Field::getMoney() {
+    return money;
 }
 
 /// Gets Qlist with square ID in path
@@ -279,7 +363,7 @@ void Field::initializeField() {
             item->setRect(rect);
             item->setPen(Qt::NoPen);
             allSquares.append(item);
-            item->setID(allSquares.length());
+            item->setID(allSquares.length() - 1);
             scene->addItem(item);
             item->setPos(xpos, ypos);
             xpos += 42;
@@ -318,16 +402,81 @@ void Field::initializeField() {
 /// Lowers player life
 void Field::lowerLife() {
     life--;
+    if (life == 0) {
+        endGame();
+    }
     ui->lifeLabel->setText(QString::number(life));
+}
+
+void Field::on_dracarysButton_clicked() {
+    if (money >= 10) {
+        dracarys->play();
+
+        // Animated dragon flyover
+        QLabel* dragon = ui->dragon;
+        QPropertyAnimation *animation = new QPropertyAnimation(dragon, "geometry");
+        animation->setDuration(1000);
+        animation->setStartValue(QRect(1250, 20, 601, 551));
+        animation->setEndValue(QRect(-550, 20, 601, 551));
+        animation->start();
+
+        Game* game = Game::getInstance();
+        resetField();
+        int dimensions = rows * columns;
+        QList<int>* blockedIDs = getBlockedIDList();
+
+        QString fireDir = ":/soldiers/soldiers/fire.png";
+        QPixmap fPix = QPixmap(fireDir);
+        QPixmap firePix = fPix.scaled(40,40);
+
+        for (int i = 0; i < dimensions; i++) {
+            if (!blockedIDs->contains(i)) {
+                QGraphicsRectItem* currentSquare = allSquares[i];
+                currentSquare->setBrush(firePix);
+            }
+        }
+        game->deleteArmy();
+        setMoney(money - 10);
+    }
+}
+
+void Field::on_fastForwardButton_clicked() {
+    bool state = ui->fastForwardButton->isChecked();
+    Game* game = Game::getInstance();
+    if (state) {
+        game->setUpdateTime(5);
+    } else {
+        game->setUpdateTime(15);
+    }
+}
+
+void Field::on_flyButton_clicked() {
+    if (money >= 20) {
+        fly->play();
+        Game* game = Game::getInstance();
+        game->floatAllToggle();
+        setMoney(money - 20);
+    }
+}
+
+void Field::on_frozenButton_clicked() {
+    if (money >= 5) {
+        freeze->play();
+        ui->background->setPixmap(QPixmap("://main/fieldStage_frozen.png"));
+        Game* game = Game::getInstance();
+        game->toggleFreeze();
+        freezeTimer->start();
+        setMoney(money - 5);
+    }
+}
+
+void Field::on_fullresetButton_clicked() {
+    startup->play();
 }
 
 void Field::on_nextButton_clicked() {
     trumpet->play();
-    //resetField();
-    Client::sendGladiatorsData();
     Client::retrieveGladiators();
-    Client::sendTowersData();
-    Client::retrieveTowers();
     Pathfinding* pathfinding = Pathfinding::getInstance();
     pathfinding->reset();
     PathList* pathList = PathList::getInstance();
@@ -357,7 +506,27 @@ void Field::on_nextButton_clicked() {
         }
     }
     game->setPath(pathList->toQList());
-    game->createArmy(0);
+
+    if (game->waveCount % 5 == 0) {
+        game->createBoss();
+    } else {
+        game->createArmy(0);
+    }
+    game->waveCount++;
+}
+
+void Field::on_nightKingButton_clicked() {
+    roar->play();
+    Game* game = Game::getInstance();
+    QList<Soldier*>* deadArmy = game->getDeadArmy();
+    QList<Soldier*>* army = game->getArmy();
+    for(int i = 0; i < deadArmy->length(); i++) {
+        Soldier* currentSoldier = deadArmy->at(i);
+        currentSoldier->setLife(currentSoldier->fullLife * 2);
+        currentSoldier->isUndead = true;
+        army->append(currentSoldier);
+    }
+    deadArmy->clear();
 }
 
 void Field::on_pauseButton_clicked() {
@@ -375,39 +544,18 @@ void Field::on_playButton_clicked() {
     trumpet->play();
 
     // ONLINE DATA
-    GladiatorsList::getInstance();
-    TowersList::getInstance();
     Client::retrieveGladiators();
-    Client::retrieveTowers();
     Pathfinding* pathfinding = Pathfinding::getInstance();
-    pathfinding->backTrack11x19(6, 0, fieldMatrix);
     PathList* pathList = PathList::getInstance();
-    pathList->createPath11x19(6, 0);
+    if (currentStage == 1) {
+        pathfinding->backTrack11x19(6, 0, fieldMatrix);
+        pathList->createPath11x19(6, 0);
+    } else {
+        pathfinding->backTrack8x17(6, 0, cityMatrix);
+        pathList->createPath8x17(6, 0);
+    }
     game->setPath(pathList->toQList());
     game->createArmy(3);
-
-    // OFFLINE TEST DATA. COMMENT IT IF RUNNING ONLINE
-    /*
-    QList<int>* path = new QList<int>;
-    path->append(95);
-    path->append(96);
-    path->append(97);
-    path->append(98);
-    path->append(99);
-    path->append(100);
-    path->append(81);
-    path->append(62);
-    path->append(43);
-    path->append(44);
-    path->append(45);
-    path->append(46);
-    path->append(47);
-    path->append(66);
-    path->append(85);
-    path->append(123);
-    path->append(142);
-    game->setPath(path);
-    */
 }
 
 void Field::on_resetButton_clicked() {
@@ -417,22 +565,25 @@ void Field::on_resetButton_clicked() {
 
 void Field::on_skipButton_clicked() {
     QString text = ui->genEntry->text();
+    ui->genEntry->clear();
     rewind->play();
     Client::skipNumber = text.toInt();
     Client::skip();
 }
 
 void Field::on_thanosButton_clicked() {
-    snap->play();
-    Game* game = Game::getInstance();
-    QList<Soldier*>* army = game->getArmy();
-    DraggableRectItem* randomizer = new DraggableRectItem();
+    if (money >= 10) {
+        snap->play();
+        Game* game = Game::getInstance();
+        QList<Soldier*>* army = game->getArmy();
 
-    for (int i = 0; i < army->length(); i++) {
-        int chance = randomizer->randInt(0, 1);
-        if (chance == 0) {
-            game->deleteSoldier(army->at(i));
+        for (int i = 0; i < army->length(); i++) {
+            int chance = randInt(0, 1);
+            if (chance == 0) {
+                game->deleteSoldier(army->at(i));
+            }
         }
+        setMoney(money - 10);
     }
 }
 
@@ -474,10 +625,20 @@ void Field::paintPath(QList<int>* path) {
             currentSquare->setBrush(QColor(100, 0, 0, 120));
         }
     }
+    delete path;
 }
+
+/// Calculates random integer from two limits
+int Field::randInt(int low, int high) {
+    return qrand() % ((high + 1) - low) + low;
+}
+
 
 /// Resets all field and its matrixes
 void Field::resetField() {
+    Client::sendTowersData();
+    Client::retrieveTowers();
+    Client::sendGladiatorsData();
     int dimensions = rows * columns;
     // Resets pathfinding matrix
     if (currentStage == 1) {
@@ -522,10 +683,22 @@ void Field::resetField() {
         allSquares[84]->setAcceptDrops(true);
     }
     towerIndex = 0;
+
+    // Deletes dead army.
+    QList<Soldier*>* deadArmy = game->getDeadArmy();
+    for (int i = 0; i < deadArmy->length(); i++) {
+        Soldier* currentWalker = deadArmy->at(i);
+        game->deleteSoldier(currentWalker);
+    }
 }
 
 void Field::setInstance(Field* nfield) {
     field = nfield;
+}
+
+void Field::setMoney(int nmoney) {
+    money = nmoney;
+    ui->moneyLabel->setText(QString::number(money));
 }
 
 void Field::setSoldierScene(QGraphicsScene* newScene) {
@@ -541,7 +714,6 @@ Field::~Field()
 void Field::setSoldierLabels() {
 
     GladiatorsList* gladiatorsList = GladiatorsList::getInstance();
-
 
     int age = gladiatorsList->soldierToShow->getAge();
     QString Age = QString::number(age);
@@ -586,7 +758,7 @@ void Field::unassignDamageMatrix(int id) {
     QList<int>* numbers = findCoverage(id);
     int damageIndex = allSquares[id]->damageIndex;
 
-    // Unassigns damage
+    // Assigns damage
     for (int i = 0; i < numbers->length(); i++) {
         int currentNumber = numbers->at(i);
         damageMatrix->insert(currentNumber, damageMatrix->at(currentNumber) - damageIndex);

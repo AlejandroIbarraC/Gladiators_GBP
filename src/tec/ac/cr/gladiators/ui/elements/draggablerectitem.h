@@ -22,7 +22,6 @@ public:
 
     void addTempTower(int id);
     void setAnchorPoint(const QPointF& anchorPoint);
-    int randInt(int low, int high);
 
 protected:
     void mouseMoveEvent(QGraphicsSceneMouseEvent *event);
@@ -30,6 +29,7 @@ protected:
 
 private:
     QMediaPlayer* build = new QMediaPlayer();
+    CustomRectItem* blockingSquare;
     int tempCityMatrix[8][17] =  {{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
                                   {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
                                   {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
@@ -52,6 +52,7 @@ private:
                                      {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
                                      {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}};
     QPixmap iconPix;
+    int isGlobalPath = 0;
     QRectF largeRect = QRectF(0,0,70,70);
     bool m_dragged;
     QPixmap towerPix;

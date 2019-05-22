@@ -9,7 +9,7 @@ Game *Game::instance = new Game();
 
 Game::Game() {
     army = new QList<Soldier*>();
-    updateTime = 10;
+    deadArmy = new QList<Soldier*>();
 }
 
 void Game::addArea(QGraphicsItem *area) {
@@ -18,6 +18,10 @@ void Game::addArea(QGraphicsItem *area) {
 
 void Game::addSoldier(Soldier *soldier) {
     army->append(soldier);
+}
+
+void Game::addWalker(Soldier *soldier) {
+    deadArmy->append(soldier);
 }
 
 /// Creates army of soldiers with distance between them
@@ -35,7 +39,9 @@ void Game::createArmy(int size) {
         Soldier* soldier = new Soldier();
         soldier->id = i;
         soldier->setPen(Qt::NoPen);
-        soldier->setLife(GladiatorsList::getInstance()->getGladiatorLifeByID(i) * 100);
+        int life = GladiatorsList::getInstance()->getGladiatorLifeByID(i) * 100;
+        soldier->setLife(life);
+        soldier->fullLife = life;
 
         QString soldierdir = ":/soldiers/soldiers/soldierFlashRight.png";
         QPixmap sPix = QPixmap(soldierdir);
@@ -46,10 +52,50 @@ void Game::createArmy(int size) {
         addSoldier(soldier);
         soldier->setX(distanceX);
         distanceX = distanceX - 20;
-        soldier->setY(350);
+        soldier->setY(340);
         scene->addItem(soldier);
-
     }
+}
+
+/// Creates boss
+void Game::createBoss() {
+    Field* field = Field::getInstance();
+    QGraphicsScene* scene = field->getScene();
+    distanceX = -20;
+
+    QRect rect = QRect(0, 0, 40, 40);
+    Soldier* boss = new Soldier();
+    boss->isBoss = true;
+    boss->setPen(Qt::NoPen);
+    int life = 50000;
+    boss->setLife(life);
+    boss->fullLife = life;
+
+    QString bossDir = ":/soldiers/soldiers/BossRight.png";
+    QPixmap bPix = QPixmap(bossDir);
+    boss->soldierPix = bPix.scaled(40,40);
+    boss->setBrush(boss->soldierPix);
+
+    boss->setRect(rect);
+    addSoldier(boss);
+    boss->setX(distanceX);
+    distanceX = distanceX - 20;
+    boss->setY(340);
+    scene->addItem(boss);
+}
+
+/// Deletes whole army.
+void Game::deleteArmy() {
+    GladiatorsList* gladiatorsList = GladiatorsList::getInstance();
+    Field* field = Field::getInstance();
+    QGraphicsScene* scene = field->getScene();
+    for (int i = 0; i < gladiatorsList->getLenght(); i++) {
+        gladiatorsList->deleteGladiatorByID(i);
+    }
+    for (int i = 0; i < army->length(); i++){
+        scene->removeItem(army->at(i));
+    }
+    army->clear();
 }
 
 /// Deletes soldier in army.
@@ -61,7 +107,6 @@ void Game::deleteSoldier(Soldier *soldier) {
     Field* field = Field::getInstance();
     QGraphicsScene* scene = field->getScene();
     scene->removeItem(soldier);
-    delete soldier;
 }
 
 /// Updates soldier position. Loop it for animated results.
@@ -69,70 +114,153 @@ void Game::deleteSoldier(Soldier *soldier) {
 void Game::followPath(Soldier* soldier) {
     // Gets specific current square objective for soldier.
     int squareObjective = soldier->currentSquare;
-    int IDObjetive = path->at(squareObjective);
-    soldier->graphicalSquare = IDObjetive;
+    int IDObjective = path->at(squareObjective);
+    soldier->graphicalSquare = IDObjective;
+
+    // Define x and y values
+    int XObjective = 0;
+    int currentX = 0;
+    int absXDifference = 0;
+    int YObjective = 0;
+    int currentY = 0;
+    int absYDifference = 0;
+    int endSquareX = 0;
+    int endSquareY = 0;
+
+    if (IDObjective > 0) {
+        XObjective = static_cast<int>(allSquares[IDObjective]->x()) + 15;
+        YObjective = static_cast<int>(allSquares[IDObjective]->y()) + 15;
+    } else {
+        if (IDObjective == -1) {
+            XObjective = 100;
+        } else {
+            XObjective = 1000;
+        }
+        YObjective = 340;
+    }
 
     // X axis values
-    int XObjective = static_cast<int>(allSquares[IDObjetive]->x()) + 15;
-    int currentX = static_cast<int>(soldier->x());
-    int absXDifference = abs(abs(XObjective) - abs(currentX));
+    currentX = static_cast<int>(soldier->x());
+    absXDifference = abs(currentX - XObjective);
 
-    // Y Axis values
-    int YObjective = static_cast<int>(allSquares[IDObjetive]->y()) + 15;
-    int currentY = static_cast<int>(soldier->y());
-    int absYDifference = abs(abs(YObjective) - abs(currentY));
+    // Y axis values
+    currentY = static_cast<int>(soldier->y());
+    absYDifference = abs(currentY - YObjective);
+
 
     if (absXDifference > 1) {
         // Move right or left.
         if (XObjective > currentX) {
             soldier->setX(soldier->x() + 1);
-            QString soldierdir = ":/soldiers/soldiers/soldierFlashRight.png";
+            QString soldierdir;
+            if (!soldier->isUndead) {
+                soldierdir = ":/soldiers/soldiers/soldierFlashRight.png";
+            } else {
+                soldierdir = ":/soldiers/soldiers/walkerRight.png";
+            }
+            if (soldier->isBoss){
+                soldierdir = ":/soldiers/soldiers/bossRight.png";
+            }
             QPixmap sPix = QPixmap(soldierdir);
             soldier->soldierPix = sPix.scaled(15,15);
+            if (soldier->isBoss) {
+                soldier->soldierPix = sPix.scaled(40, 40);
+            }
             soldier->setBrush(soldier->soldierPix);
-
         } else {
             soldier->setX(soldier->x() - 1);
-            QString soldierdir = ":/soldiers/soldiers/soldierFlashLeft.png";
+            QString soldierdir;
+            if (!soldier->isUndead) {
+                soldierdir = ":/soldiers/soldiers/soldierFlashLeft.png";
+            } else {
+                soldierdir = ":/soldiers/soldiers/walkerLeft.png";
+            }
+            if (soldier->isBoss){
+                soldierdir = ":/soldiers/soldiers/bossLeft.png";
+            }
             QPixmap sPix = QPixmap(soldierdir);
             soldier->soldierPix = sPix.scaled(15,15);
+            if (soldier->isBoss) {
+                soldier->soldierPix = sPix.scaled(40, 40);
+            }
             soldier->setBrush(soldier->soldierPix);
         }
     } else if (absYDifference > 1) {
         // Move up or down.
         if (YObjective > currentY) {
-
             soldier->setY(soldier->y() + 1);
-            QString soldierdir = ":/soldiers/soldiers/soldierFlashDown.png";
+            QString soldierdir;
+            if (!soldier->isUndead) {
+                soldierdir = ":/soldiers/soldiers/soldierFlashDown.png";
+            } else {
+                soldierdir = ":/soldiers/soldiers/walkerDown.png";
+            }
+            if (soldier->isBoss){
+                soldierdir = ":/soldiers/soldiers/bossDown.png";
+            }
             QPixmap sPix = QPixmap(soldierdir);
             soldier->soldierPix = sPix.scaled(15,15);
+            if (soldier->isBoss) {
+                soldier->soldierPix = sPix.scaled(40, 40);
+            }
             soldier->setBrush(soldier->soldierPix);
-
         } else {
             soldier->setY(soldier->y() - 1);
-            QString soldierdir = ":/soldiers/soldiers/soldierFlashUp.png";
+            QString soldierdir;
+            if (!soldier->isUndead) {
+                soldierdir = ":/soldiers/soldiers/soldierFlashUp.png";
+            } else {
+                soldierdir = ":/soldiers/soldiers/walkerUp.png";
+            }
+            if (soldier->isBoss){
+                soldierdir = ":/soldiers/soldiers/bossUp.png";
+            }
             QPixmap sPix = QPixmap(soldierdir);
             soldier->soldierPix = sPix.scaled(15,15);
+            if (soldier->isBoss) {
+                soldier->soldierPix = sPix.scaled(40, 40);
+            }
             soldier->setBrush(soldier->soldierPix);
         }
     } else {
         // Checks if end is reached.
-        int endSquareX = static_cast<int>(allSquares[lastID]->x()) + 15;
-        int endSquareY = static_cast<int>(allSquares[lastID]->y()) + 15;
+        endSquareX = 1000;
+        endSquareY = 350;
         int xEndDifference = abs(abs(currentX) - abs(endSquareX));
         int yEndDifference = abs(abs(currentY) - abs(endSquareY));
 
         if (xEndDifference > 1 or yEndDifference > 1) {
-            soldier->advanceSquare();
-        } else {
-            soldier->done = true;
+            if (IDObjective == -2) {
+                soldier->done = true;
+            } else {
+                soldier->advanceSquare();
+            }
         }
     }
     soldier->update();
 }
 
+void Game::floatAllToggle() {
+    for (int i = 0; i < army->length(); i++) {
+        Soldier* currentSoldier = army->at(i);
+        currentSoldier->isFloating = true;
+    }
+}
+
+void Game::floatSoldier(Soldier *soldier) {
+    if (soldier->y() < -10) {
+        deleteSoldier(soldier);
+    } else {
+        soldier->setY(soldier->y() -1);
+    }
+}
+
 QList<QGraphicsItem*> Game::getAreas() {
     return allAreas;
+}
+
+QList<Soldier*>* Game::getDeadArmy() const {
+    return deadArmy;
 }
 
 QList<Soldier*>* Game::getArmy() const {
@@ -144,12 +272,20 @@ Game* Game::getInstance() {
 }
 
 void Game::setArmy(QList<Soldier*> *nArmy) {
+    delete army;
     army = nArmy;
 }
 
 void Game::setPath(QList<int> *nPath) {
+    nPath->prepend(-1);
+    nPath->append(-2);
     path = nPath;
     lastID = path->constLast();
+}
+
+void Game::setUpdateTime(int nTime) {
+    updateTime = nTime;
+    timer->setInterval(nTime);
 }
 
 //! A method use to remove Areas
@@ -173,6 +309,14 @@ void Game::run() {
     timer->start(updateTime);
 }
 
+void Game::toggleFreeze() {
+    if (frozenArmy) {
+        frozenArmy = false;
+    } else {
+        frozenArmy = true;
+    }
+}
+
 //! A method that upadates the game constantly
 /// Main game loop.
 void Game::updateGame() {
@@ -183,11 +327,27 @@ void Game::updateGame() {
         if (currentSoldier->done) {
             Field* field = Field::getInstance();
             field->lowerLife();
+            if (currentSoldier->isBoss) {
+                field->lowerLife();
+                field->lowerLife();
+                field->lowerLife();
+                field->lowerLife();
+            }
             deleteSoldier(currentSoldier);
-        } else {            
-            followPath(currentSoldier);
-            currentSoldier->damage();
-            currentSoldier->checkRotation();
+        } else {
+            bool isFloating = currentSoldier->isFloating;
+            if (!frozenArmy) {
+                if (!isFloating) {
+                    followPath(currentSoldier);
+                    currentSoldier->damage();
+                    currentSoldier->checkRotation();
+                } else {
+                    floatSoldier(currentSoldier);
+                }
+            } else {
+                currentSoldier->damage();
+                currentSoldier->checkRotation();
+            }
         }
     }
 }

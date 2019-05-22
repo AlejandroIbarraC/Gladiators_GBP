@@ -18,8 +18,13 @@ public:
     Soldier(QGraphicsRectItem* parent = nullptr);
     int currentSquare = 0;
     int done = false;
+    int fullLife = 10000;
     int graphicalSquare;
     int id;
+    bool isBoss = false;
+    bool isFloating = false;
+    bool isUndead = false;
+    int lastAD = -1;
     QPixmap soldierPix;
 
     void advanceSquare();
@@ -31,6 +36,7 @@ protected:
     void mousePressEvent(QGraphicsSceneMouseEvent *event);
 
 private:
+    QMediaPlayer* growl = new QMediaPlayer();
     QMediaPlayer* oof = new QMediaPlayer();
     int life = 200;
 };

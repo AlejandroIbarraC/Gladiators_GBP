@@ -6,6 +6,7 @@
 
 #include "field.h"
 #include "elements/buttonhoverwatcher.h"
+#include "../client/Client.h"
 
 namespace Ui {
 class StageSelect;
