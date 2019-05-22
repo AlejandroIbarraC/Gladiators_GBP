@@ -94,6 +94,14 @@ public class TowersManager {
         }
     }
 
+    public void updateId(){
+        int length = population.getIndividuals().length;
+        int i = 0;
+        while (i < length){
+            population.getIndividuals()[i].setIdentification(i);
+            i++;
+        }
+    }
 
     public PopulationT getPopulation() {
         return population;
