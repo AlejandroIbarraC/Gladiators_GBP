@@ -680,9 +680,6 @@ void Field::resetField() {
         Soldier* currentWalker = deadArmy->at(i);
         game->deleteSoldier(currentWalker);
     }
-
-    // Resets money.
-    setMoney(20);
 }
 
 void Field::setInstance(Field* nfield) {

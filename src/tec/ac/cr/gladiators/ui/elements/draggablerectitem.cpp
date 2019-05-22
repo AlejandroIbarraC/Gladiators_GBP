@@ -138,6 +138,7 @@ void DraggableRectItem::mouseReleaseEvent(QGraphicsSceneMouseEvent *event){
             int areaID = field->squareToID(closestSquare);
             closestSquare->towerType = towerType;
             int damageIndex = TowersList::getInstance()->getTowersByPosition(field->towerIndex);
+            cout << damageIndex << endl;
             field->allSquares[areaID]->damageIndex = damageIndex;
             field->towerIndex++;
             field->assignDamageMatrix(areaID);
@@ -145,9 +146,9 @@ void DraggableRectItem::mouseReleaseEvent(QGraphicsSceneMouseEvent *event){
             closestSquare->initializeArea();
 
             // Assigns tower level depending on evolution level.
-            if (damageIndex > 20) {
+            if (damageIndex > 200) {
                 closestSquare->towerLevel = 2;
-            } else if (damageIndex > 50) {
+            } else if (damageIndex > 500) {
                 closestSquare->towerLevel = 3;
             }
             QString towerLevel = QString::number(closestSquare->towerLevel);
