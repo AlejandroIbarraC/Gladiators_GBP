@@ -18,6 +18,8 @@ public class Populations {
         System.out.println(5);
         Holder.gladiatorsArrayList = null;
         Holder.towersArrayList = null;
+        GladiatorsFacade.initPopulation();
+        TowersFacade.initPopulation();
     }
 
     @POST

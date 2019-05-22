@@ -25,17 +25,28 @@ public class TowersManager {
      */
     public void crossover() {
         Random rn = new Random();
-
+        int[] genes = new int[3];
         //Select a random crossover point
         int crossOverPoint = rn.nextInt(population.getIndividuals()[0].getGenes().length);
 
         //Swap values among parents
         for (int i = 0; i < crossOverPoint; i++) {
             int temp = fittest.getGenes()[i];
-            fittest.getGenes()[i] = secondFittest.getGenes()[i];
-            secondFittest.getGenes()[i] = temp;
-
+            genes[i] = temp;
         }
+        for(int i = crossOverPoint; i<3; i++){
+            int temp = secondFittest.getGenes()[i];
+            genes[i] = temp;
+        }
+
+        Towers child = new Towers.Builder().typeOfAmmo(genes[0])
+                .damageOutput(genes[1])
+                .range(genes[2]).build();
+        child.fillGenes();
+        child.calcFitness();
+        child.calcDamage();
+        int index = population.getLeastFittestIndex();
+        population.getIndividuals()[index] = child;
     }
 
     /**

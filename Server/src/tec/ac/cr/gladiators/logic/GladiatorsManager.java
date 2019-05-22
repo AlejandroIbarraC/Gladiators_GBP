@@ -25,17 +25,32 @@ public class GladiatorsManager {
      */
     public void crossover() {
         Random rn = new Random();
-
+        int[] genes = new int[8];
         //Select a random crossover point
         int crossOverPoint = rn.nextInt(population.getIndividuals()[0].getGenes().length);
 
         //Swap values among parents
         for (int i = 0; i < crossOverPoint; i++) {
             int temp = fittest.getGenes()[i];
-            fittest.getGenes()[i] = secondFittest.getGenes()[i];
-            secondFittest.getGenes()[i] = temp;
-
+            genes[i] = temp;
         }
+        for(int i = crossOverPoint; i<8; i++){
+            int temp = secondFittest.getGenes()[i];
+            genes[i] = temp;
+        }
+        Gladiators child = new Gladiators.Builder().setAge(genes[0]).
+                setEmotionalInteligence(genes[1]).
+                setHowManyGensWillSurvive(genes[2]).
+                setHowManyGensWillSurvive(genes[3]).
+                setPhysicalCondition(genes[3]).
+                setStrenghtInLowerTrunk(genes[4]).
+                setStrenghtInUpperTrunk(genes[5]).
+                setSurvivalProbability(genes[7]).build();
+        child.fillGenes();
+        child.calcFitness();
+        child.calcResistance();
+        int index = population.getLeastFittestIndex();
+        population.getIndividuals()[index] = child;
     }
 
     /**
@@ -61,7 +76,19 @@ public class GladiatorsManager {
 
         //Get index of least fit individual
         int leastFittestIndex = population.getLeastFittestIndex();
-        Gladiators replace = getFittestOffspring();
+        Gladiators best = getFittestOffspring();
+        Gladiators replace = new Gladiators.Builder().setAge(best.getAge()).
+                setEmotionalInteligence(best.getEmotionalInteligence()).
+                setHowManyGensWillSurvive(best.getHowManyGensWillSurvive()).
+                setHowManyGensWillSurvive(best.getHowManyGensWillSurvive()).
+                setPhysicalCondition(best.getPhysicalCondition()).
+                setStrenghtInLowerTrunk(best.getStrenghtInLowerTrunk()).
+                setStrenghtInUpperTrunk(best.getStrenghtInUpperTrunk()).
+                setSurvivalProbability(best.getSurvivalProbability()).build();
+                replace.calcResistance();
+                replace.fillGenes();
+                replace.calcFitness();
+
         //Replace least fittest individual from most fittest offspring
         population.getIndividuals()[leastFittestIndex] = replace;
     }
@@ -100,20 +127,19 @@ public class GladiatorsManager {
         int life;
         while (i < length){
             life = population.getIndividuals()[i].getResistence();
-            if(life>100){
-                life = 100;
+            if(life>150){
+                life = 150;
             }
-            population.getIndividuals()[i].setResistence(life + 2);
+            population.getIndividuals()[i].setResistence(life + 5);
             i++;
         }
     }
 
     public void updateId(){
         int length = population.getIndividuals().length;
-        int i = 0;
-        while (i < length){
+        //int i = 0;
+        for (int i = 0; i < length; i++){
             population.getIndividuals()[i].setId(i);
-            i++;
         }
     }
     public Population getPopulation() {

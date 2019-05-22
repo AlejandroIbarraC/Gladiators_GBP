@@ -1,7 +1,9 @@
 package tec.ac.cr.gladiators.logic.facade;
 import tec.ac.cr.gladiators.logic.Gladiators;
 import tec.ac.cr.gladiators.logic.GladiatorsManager;
+
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class GladiatorsFacade {
     private static GladiatorsManager gladiatorsManager = new GladiatorsManager();
@@ -27,9 +29,7 @@ public class GladiatorsFacade {
         gladiatorsManager.selection();
         gladiatorsManager.crossover();
         gladiatorsManager.mutation();
-        gladiatorsManager.addFittestOffspring();
         gladiatorsManager.getPopulation().calculateFitness();
-        gladiatorsManager.buffLife();
         gladiatorsManager.updateId();
         gladiatorsList = ArrayToArrayList(gladiatorsManager.getPopulation().getIndividuals());
         return gladiatorsList;
@@ -37,7 +37,7 @@ public class GladiatorsFacade {
 
     public static ArrayList<Gladiators> skipGenerations(int i){
         int y = 0;
-        while (y < i-1){
+        while (y < i - 1){
             updatePopulation();
             y++;
         }
@@ -50,10 +50,7 @@ public class GladiatorsFacade {
      */
     private static ArrayList<Gladiators> ArrayToArrayList(Gladiators[] list){
         ArrayList<Gladiators> gladiatorsList = new ArrayList<>();
-        int length = list.length;
-        for (int i=0;i<length;i+=1){
-            gladiatorsList.add(list[i]);
-        }
+        gladiatorsList.addAll(Arrays.asList(list));
         return gladiatorsList;
     }
 

@@ -22,7 +22,7 @@ public class Towers {
         return tower;
     }
 
-    private void fillGenes() {
+    public void fillGenes() {
         int[] genes = new int[3];
         genes[0] = this.getTypeOfAmmo();
         genes[1] = this.getDamageOutput();
@@ -36,6 +36,22 @@ public class Towers {
             fit += genes[i];
         }
         this.setFitness(fit);
+    }
+
+    public void calcDamage(){
+        int[] gens = this.genes;
+        int total = 0;
+        int i = 0;
+        while (i<3){
+            total += gens[i];
+            i++;
+        }
+        total = (total * 100)/300;
+        if(total==0){
+            total++;
+        }
+        this.genes[2] = total;
+        this.setDamageOutput(total);
     }
 
     private int identification;
