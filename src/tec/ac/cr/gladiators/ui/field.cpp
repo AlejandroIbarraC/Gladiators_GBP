@@ -462,6 +462,7 @@ void Field::on_frozenButton_clicked() {
 
 void Field::on_fullresetButton_clicked() {
     startup->play();
+    Client::reset();
 }
 
 void Field::on_nextButton_clicked() {

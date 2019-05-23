@@ -147,9 +147,9 @@ void DraggableRectItem::mouseReleaseEvent(QGraphicsSceneMouseEvent* event){
             closestSquare->initializeArea();
 
             // Assigns tower level according to evolution level.
-            if (damageIndex > 200) {
+            if (damageIndex > 70) {
                 closestSquare->towerLevel = 2;
-            } else if (damageIndex > 500) {
+            } else if (damageIndex > 90) {
                 closestSquare->towerLevel = 3;
             }
 

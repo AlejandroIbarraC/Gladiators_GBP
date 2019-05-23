@@ -13,7 +13,7 @@
 using namespace std;
 
 int Client::skipNumber = 0;
-string Client::ip = "25.0.156.35";
+string Client::ip = "192.168.43.10";
 
 void Client::retrieveGladiators() {
 
