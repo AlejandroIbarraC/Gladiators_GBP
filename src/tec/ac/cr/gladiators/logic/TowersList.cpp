@@ -38,13 +38,10 @@ void TowersList::setLenght(int lenght) {
     TowersList::lenght = lenght;
 }
 
-//Temporal para pruebas, las torres se crean en el server
-void TowersList::createTowers(int num) {
-    for (int i = 1; i < (num + 1); i++){
-        addTower(i, i, i);
-    }
-}
-
+//! Adds a tower to the list
+//! \param typeOfAmmo number of the tower
+//! \param damageOutput number of the tower
+//! \param range number of the tower
 void TowersList::addTower(int typeOfAmmo, int damageOutput, int range) {
     if (this->head == nullptr){
         this->head = new Towers(typeOfAmmo, damageOutput, range);
@@ -59,6 +56,8 @@ void TowersList::addTower(int typeOfAmmo, int damageOutput, int range) {
     }
 }
 
+//! Adds a tower to the list that was previously created
+//! \param towers that will be added
 void TowersList::addCreatedTower(Towers* towers) {
     if (this->head == nullptr){
         this->head = towers;
@@ -73,6 +72,7 @@ void TowersList::addCreatedTower(Towers* towers) {
     }
 }
 
+//! Deletes all towers from the list
 void TowersList::deleteAll() {
     if (!towersList){
         towersList = new TowersList();
@@ -92,6 +92,8 @@ void TowersList::deleteAll() {
     }
 }
 
+//! Serializes the towerList
+//! \return json with the towers
 QJsonArray TowersList::serialize() {
     if (head == nullptr){
         cout << "Error, no hay lista para serializar" << endl;
@@ -106,6 +108,8 @@ QJsonArray TowersList::serialize() {
     }
 }
 
+//! Deserializes a received towerList
+//! \param jsonArray with the towers data
 void TowersList::deserialize(QJsonArray jsonArray) {
     towersList->deleteAll();
     if (!jsonArray.empty()) {
@@ -121,6 +125,9 @@ void TowersList::deserialize(QJsonArray jsonArray) {
     }
 }
 
+//! Returns the damageOutput of a tower
+//! \param pos where the tower is in the list
+//! \return the damageOutput of the tower
 int TowersList::getTowersByPosition(int pos) {
     if (this->head == nullptr){
         cout << "Error, nothing found" << endl;

@@ -19,7 +19,6 @@ public:
     void setHead(Towers *head);
     int getLenght() const;
     void setLenght(int lenght);
-    void createTowers(int num);
     void addTower(int typeOfAmmo, int damageOutput, int range);
     void addCreatedTower(Towers* towers);
     void deleteAll();

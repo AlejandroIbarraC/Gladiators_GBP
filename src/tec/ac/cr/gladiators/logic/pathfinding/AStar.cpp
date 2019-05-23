@@ -20,11 +20,12 @@ struct cell
     // f = g + h
     double f, g, h;
 };
+
 //! A Utility Function to check whether given cell (row, col) is a valid cell or not.
-//! \param row
-//! \param col
-//! \param ROW
-//! \param COL
+//! \param row current one
+//! \param col current one
+//! \param ROW final one
+//! \param COL final one
 //! \return True or False
 // A Utility Function to check whether given cell (row, col)
 // is a valid cell or not.
@@ -37,9 +38,9 @@ bool isValid(int row, int col, int ROW, int COL)
 }
 
 //! A Utility Function to check whether the given cell is blocked or not
-//! \param grid
-//! \param row
-//! \param col
+//! \param grid of the game
+//! \param row current one
+//! \param col current one
 //! \return True or False
 // A Utility Function to check whether the given cell is
 // blocked or not
@@ -53,9 +54,9 @@ bool isUnBlocked11x19(int grid[11][19], int row, int col)
 }
 
 //! A Utility Function to check whether destination cell has been reached or not
-//! \param row
-//! \param col
-//! \param dest
+//! \param row current one
+//! \param col current one
+//! \param dest final place
 //! \return True or False
 //A Utility Function to check whether destination cell has
 // been reached or not
@@ -67,9 +68,9 @@ bool isDestination(int row, int col, Pair dest)
         return (false);
 }
 //! A Utility Function to calculate the 'h' heuristics.
-//! \param row
-//! \param col
-//! \param dest
+//! \param row current one
+//! \param col current one
+//! \param dest final place
 //! \return double value
 // A Utility Function to calculate the 'h' heuristics.
 double calculateHValue(int row, int col, Pair dest)
@@ -80,8 +81,8 @@ double calculateHValue(int row, int col, Pair dest)
 }
 
 //! A Utility Function to trace the path from the source to destination
-//! \param cellDetails
-//! \param dest
+//! \param cellDetails map of the game
+//! \param dest final destination of the soldiers
 // A Utility Function to trace the path from the source
 // to destination
 bool tracePath11x19(cell cellDetails[][19], Pair dest)
@@ -116,9 +117,9 @@ bool tracePath11x19(cell cellDetails[][19], Pair dest)
 }
 
 //! A method that searchs the way from de initial cell to destination cell
-//! \param grid
-//! \param src
-//! \param dest
+//! \param grid map of the game
+//! \param src beginning of the path
+//! \param dest end of the path
 bool aStarSearch11x19(int grid[11][19], Pair src, Pair dest)
 {
     int ROW = 11;
@@ -348,9 +349,9 @@ bool aStarSearch11x19(int grid[11][19], Pair src, Pair dest)
 }
 
 //! A Utility Function to check whether the given cell is blocked or not
-//! \param grid
-//! \param row
-//! \param col
+//! \param grid map of the game
+//! \param row current one
+//! \param col current one
 //! \return True or False
 bool isUnBlocked8x17(int grid[8][17], int row, int col)
 {
@@ -362,8 +363,8 @@ bool isUnBlocked8x17(int grid[8][17], int row, int col)
 }
 
 //! A Utility Function to trace the path from the source to destination
-//! \param cellDetails
-//! \param dest
+//! \param cellDetails map of the game
+//! \param dest end of the path
 // A Utility Function to trace the path from the source
 // to destination
 bool tracePath8x17(cell cellDetails[][17], Pair dest)
@@ -398,9 +399,9 @@ bool tracePath8x17(cell cellDetails[][17], Pair dest)
 }
 
 //! A method that searchs the way from de initial cell to destination cell
-//! \param grid
-//! \param src
-//! \param dest
+//! \param grid of the game
+//! \param src beginning of the path
+//! \param dest end of the path
 bool aStarSearch8x17(int grid[8][17], Pair src, Pair dest)
 {
     int ROW = 8;

@@ -23,6 +23,11 @@ Pathfinding* Pathfinding::getInstance() {
     return pathfinding;
 }
 
+//! Main backtracking method of the class, searches the shortest route from one point to another
+//! \param sRow current one
+//! \param sColumn current one
+//! \param matrix map of the game
+//! \return true or false indicating if the path exists
 bool Pathfinding::backTrack11x19(int sRow, int sColumn, int matrix[11][19]){
     //Base Case 1: Attempted move is outside of grid
     if(sRow < 0 || sRow > 10 || sColumn < 0 || sColumn > 18){
@@ -99,6 +104,11 @@ bool Pathfinding::backTrack11x19(int sRow, int sColumn, int matrix[11][19]){
     }
 }
 
+//! Main backtracking method of the class, searches the shortest route from one point to another
+//! \param sRow current one
+//! \param sColumn current one
+//! \param matrix map of the game
+//! \return true or false indicating if the path exists
 bool Pathfinding::backTrack8x17(int sRow, int sColumn, int matrix[8][17]){
     //Base Case 1: Attempted move is outside of grid
     if(sRow < 0 || sRow > 7 || sColumn < 0 || sColumn > 16){
@@ -175,6 +185,8 @@ bool Pathfinding::backTrack8x17(int sRow, int sColumn, int matrix[8][17]){
     }
 }
 
+//! Prints the current map of the game
+//! \return the string of the map
 string Pathfinding::toString11x19(){
     string result = "Solution: \n";
     for(int row = 0; row < 11; row++){
@@ -186,6 +198,8 @@ string Pathfinding::toString11x19(){
     return result;
 }
 
+//! Prints the current map of the game
+//! \return the string of the map
 string Pathfinding::toString8x17() {
     string result = "Solution: \n";
     for(int row = 0; row < 8; row++){
@@ -197,6 +211,7 @@ string Pathfinding::toString8x17() {
     return result;
 }
 
+//! Initializes the matrix with the ids
 void Pathfinding::initializeIDS() {
     int id = 0;
     for(int i = 0; i < 11; i++){
@@ -214,6 +229,7 @@ void Pathfinding::initializeIDS() {
     }
 }
 
+//! Resets the solution and id matrix
 void Pathfinding::reset() {
     for(int i = 0; i < 11; i++){
         for (int j = 0; j < 19; j++){

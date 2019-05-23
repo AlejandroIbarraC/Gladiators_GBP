@@ -15,6 +15,7 @@ using namespace std;
 int Client::skipNumber = 0;
 string Client::ip = "192.168.43.10";
 
+//! Retrieves the gladiatorsList from the server
 void Client::retrieveGladiators() {
 
     future<QJsonArray> fn = async(launch::async, getGladiators);
@@ -23,6 +24,8 @@ void Client::retrieveGladiators() {
 
 }
 
+//! Works as a helper method for the retrieveGladiators method
+//! \return the gladiators array
 QJsonArray Client::getGladiators() {
 
     auto response = cpr::Get(cpr::Url{"http://" + ip + ":9080/Gladiators_GBP_war_exploded/genetics/populations/gladiators"});
@@ -32,6 +35,7 @@ QJsonArray Client::getGladiators() {
 
 }
 
+//! Retrieves the towersList from the server
 void Client::retrieveTowers() {
 
     future<QJsonArray> fn = async(launch::async, getTowers);
@@ -40,6 +44,8 @@ void Client::retrieveTowers() {
 
 }
 
+//! Works as a helper method for the retrieveTowers method
+//! \return the towers array
 QJsonArray Client::getTowers() {
 
     auto response = cpr::Get(cpr::Url{"http://" + ip + ":9080/Gladiators_GBP_war_exploded/genetics/populations/towers"});
@@ -49,6 +55,7 @@ QJsonArray Client::getTowers() {
 
 }
 
+//! Sends the current gladiatorsList to the server
 void Client::sendGladiatorsData() {
 
     future<void> fn = async(launch::async, postGladiators);
@@ -56,12 +63,14 @@ void Client::sendGladiatorsData() {
 
 }
 
+//! Works as a helper method for the sendGladiatorsData method
 void Client::postGladiators() {
 
     auto response = cpr::Post(cpr::Url{"http://" + ip + ":9080/Gladiators_GBP_war_exploded/genetics/populations/gladiators/stats"});
 
 }
 
+//! Sends the curren towersList to the server
 void Client::sendTowersData() {
 
     future<void> fn = async(launch::async, postTowers);
@@ -69,12 +78,14 @@ void Client::sendTowersData() {
 
 }
 
+//! Works as a helper method for the sendTowersData method
 void Client::postTowers() {
 
     auto response = cpr::Post(cpr::Url{"http://" + ip + ":9080/Gladiators_GBP_war_exploded/genetics/populations/towers/stats"});
 
 }
 
+//! Connects to the server and resets both populations
 void Client::reset() {
 
     future<void> fn = async(launch::async, postReset);
@@ -82,12 +93,15 @@ void Client::reset() {
 
 }
 
+
+//! Works as a helper method for the reset method
 void Client::postReset() {
 
     auto response = cpr::Post(cpr::Url{"http://" + ip + ":9080/Gladiators_GBP_war_exploded/genetics/populations"});
 
 }
 
+//! Connects to the server and skips a determined number of populations
 void Client::skip() {
 
     future<void> fn = async(launch::async, postSkip);
@@ -95,6 +109,7 @@ void Client::skip() {
 
 }
 
+//! Works as a helper method for the skip method
 void Client::postSkip() {
 
     Gladiators gladiators(1, skipNumber, 1, 1, 1, 1, 1, 1, 1);

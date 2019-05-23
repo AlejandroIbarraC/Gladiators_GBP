@@ -84,7 +84,8 @@ void Gladiators::setResistence(int resistence) {
     Gladiators::resistence = resistence;
 }
 
-
+//! Serializes a gladiator that will be sent
+//! \return json of the gladiator
 QJsonObject Gladiators::serialize() {
     QJsonObject jsonObject;
     jsonObject["id"] = id;
@@ -99,6 +100,8 @@ QJsonObject Gladiators::serialize() {
     return jsonObject;
 }
 
+//! Deserializes a gladiator that was received
+//! \param jsonObject with the gladiator data
 void Gladiators::deserialize(QJsonObject jsonObject) {
     id = jsonObject["id"].toInt();
     age = jsonObject["age"].toInt();

@@ -38,13 +38,16 @@ void GladiatorsList::setLenght(int lenght) {
     GladiatorsList::lenght = lenght;
 }
 
-//Temporal para pruebas, los gladiadores se crean en el server
-void GladiatorsList::createGladiators(int num) {
-    for (int i = 1; i < (num + 1); i++){
-        addGladiator(i, i, i, i, i, i, i, i, i);
-    }
-}
-
+//! Adds a gladiator to the list
+//! \param identification number of the gladiator
+//! \param ageNumber of the gladiator
+//! \param probability number of the gladiator
+//! \param gensToSurvive number of the gladiator
+//! \param emotionInteligence number of tne gladiator
+//! \param condition number of the gladiator
+//! \param strenghtUT number of the gladiator
+//! \param strenghtLT number of the gladiator
+//! \param calculatedResistence number of the gladiator
 void GladiatorsList::addGladiator(int identification, int ageNumber, int probability, int gensToSurvive, int emotionInteligence, int condition, int strenghtUT, int strenghtLT, int calculatedResistence) {
     if (this->head == nullptr){
         this->head = new Gladiators(identification, ageNumber, probability, gensToSurvive, emotionInteligence, condition, strenghtUT, strenghtLT, calculatedResistence);
@@ -59,6 +62,8 @@ void GladiatorsList::addGladiator(int identification, int ageNumber, int probabi
     }
 }
 
+//! Adds a gladiator to the list that was previously created
+//! \param gladiators that will be added
 void GladiatorsList::addCreatedGladiator(Gladiators* gladiators) {
     if (this->head == nullptr){
         this->head = gladiators;
@@ -73,6 +78,8 @@ void GladiatorsList::addCreatedGladiator(Gladiators* gladiators) {
     }
 }
 
+//! Deletes a gladiator from the list
+//! \param id of the gladiator to be deleted
 void GladiatorsList::deleteGladiatorByID(int id) {
     if (this->head == nullptr){
         cout << "Error, no gladiators in list" << endl;
@@ -96,6 +103,7 @@ void GladiatorsList::deleteGladiatorByID(int id) {
     }
 }
 
+//! Deletes all gladiators from the list
 void GladiatorsList::deleteAll() {
     if (!gladiatorsList){
         gladiatorsList = new GladiatorsList();
@@ -115,6 +123,8 @@ void GladiatorsList::deleteAll() {
     }
 }
 
+//! Serializes the gladiatosList
+//! \return json with the gladiators
 QJsonArray GladiatorsList::serialize() {
     if (head == nullptr){
         cout << "Error, no hay lista para serializar" << endl;
@@ -129,6 +139,8 @@ QJsonArray GladiatorsList::serialize() {
     }
 }
 
+//! Deserializes a received gladiatorList
+//! \param jsonArray with the gladiators data
 void GladiatorsList::deserialize(QJsonArray jsonArray) {
     gladiatorsList->deleteAll();
     if (!jsonArray.empty()){
@@ -143,6 +155,8 @@ void GladiatorsList::deserialize(QJsonArray jsonArray) {
     }
 }
 
+//! Sets a soldier that will be showed
+//! \param id the find the soldier that will be showned
 void GladiatorsList::setSoldierToShowByID(int id) {
     if (this->head == nullptr){
         cout << "Error, no gladiators in list" << endl;
@@ -160,6 +174,9 @@ void GladiatorsList::setSoldierToShowByID(int id) {
     }
 }
 
+//! Gets the resistance of a gladiator
+//! \param id to know which gladiator's life the user wants
+//! \return the life of the gladiator
 int GladiatorsList::getGladiatorLifeByID(int id) {
     if (this->head == nullptr) {
         cout << "Error, no gladiators in list" << endl;

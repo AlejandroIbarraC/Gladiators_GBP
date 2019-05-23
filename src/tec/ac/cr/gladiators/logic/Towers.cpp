@@ -36,6 +36,8 @@ void Towers::setRange(int range) {
     Towers::range = range;
 }
 
+//! Serializes a tower that will be sent
+//! \return json of the tower
 QJsonObject Towers::serialize() {
     QJsonObject jsonObject;
     jsonObject["typeOfAmmo"] = typeOfAmmo;
@@ -44,6 +46,8 @@ QJsonObject Towers::serialize() {
     return jsonObject;
 }
 
+//! Deserializes a tower that was received
+//! \param jsonObject with the tower data
 void Towers::deserialize(QJsonObject jsonObject) {
     typeOfAmmo = jsonObject["typeOfAmmo"].toInt();
     damageOutput = jsonObject["damageOutput"].toInt();

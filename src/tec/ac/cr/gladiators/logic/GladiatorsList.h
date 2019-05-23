@@ -23,7 +23,6 @@ public:
     void setHead(Gladiators *head);
     int getLenght() const;
     void setLenght(int lenght);
-    void createGladiators(int num);
     void addGladiator(int identification, int ageNumber, int probability, int gensToSurvive, int emotionInteligence, int condition, int strenghtUT, int strenghtLT, int calculatedResistence);
     void addCreatedGladiator(Gladiators* gladiators);
     void deleteGladiatorByID(int id);

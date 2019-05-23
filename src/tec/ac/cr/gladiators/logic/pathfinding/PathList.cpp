@@ -31,6 +31,8 @@ void PathList::setHead(PathNode *head) {
     PathList::head = head;
 }
 
+//! Adds an id to the pathList
+//! \param id that will be added
 void PathList::addPath(int id) {
     if (this->head == nullptr){
         this->head = new PathNode(id);
@@ -45,6 +47,9 @@ void PathList::addPath(int id) {
     }
 }
 
+//! Creates automatically a path from a matrix that has a path
+//! \param row beginning one
+//! \param column beginning one
 void PathList::createPath11x19(int row, int column) {
     Pathfinding* pathfinding = Pathfinding::getInstance();
     int currentPath[11][19];
@@ -86,6 +91,9 @@ void PathList::createPath11x19(int row, int column) {
     }
 }
 
+//! Creates automatically a path from a matrix that has a path
+//! \param row beginning one
+//! \param column beginning one
 void PathList::createPath8x17(int row, int column) {
     Pathfinding* pathfinding = Pathfinding::getInstance();
     int currentPath[8][17];
@@ -110,6 +118,7 @@ void PathList::createPath8x17(int row, int column) {
     }
 }
 
+//! Initializes the matrixx with the ids
 void PathList::initializeIDS() {
     int id = 0;
     for(int i = 0; i < 11; i++){
@@ -127,6 +136,7 @@ void PathList::initializeIDS() {
     }
 }
 
+//! Deletes a pathList
 void PathList::deletePath() {
     if (this->head->getNext() == nullptr){
         delete this->head;
@@ -143,6 +153,8 @@ void PathList::deletePath() {
     }
 }
 
+//! Transforms the linkedList path to a QList path
+//! \return the QList path
 QList<int>* PathList::toQList() {
     QList<int>* path = new QList<int>();
     PathNode* tmp = this->head;
@@ -151,24 +163,4 @@ QList<int>* PathList::toQList() {
         tmp = tmp->getNext();
     }
     return path;
-}
-
-QList<int> * PathList::recalculatePath(QList<int> oldPath) {
-    QList<int>* newPath = new QList<int>();
-    QList<int>* currentPath = toQList();
-    int i = 0;
-    while (true){
-        if (oldPath.at(i) == currentPath->at(0)){
-            break;
-        }else{
-            newPath->append(oldPath.at(i));
-            i++;
-        }
-    }
-    for (i = 0; i < currentPath->size(); i++){
-        newPath->append(currentPath->at(i));
-    }
-    delete currentPath;
-    delete &oldPath;
-    return newPath;
 }
