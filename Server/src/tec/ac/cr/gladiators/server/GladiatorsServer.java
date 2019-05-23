@@ -11,6 +11,10 @@ import java.util.ArrayList;
 @Path("populations/gladiators")
 public class GladiatorsServer {
 
+    /**
+     * Initializes the population of gladiators
+     * @return the arrayList of gladiators
+     */
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public ArrayList<Gladiators> generateGladiators(){
@@ -21,6 +25,9 @@ public class GladiatorsServer {
         return Holder.gladiatorsArrayList;
     }
 
+    /**
+     * Updates the gladiators population
+     */
     @POST
     @Path("stats")
     public void getGladiators(){

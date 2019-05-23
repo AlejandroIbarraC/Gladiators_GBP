@@ -9,7 +9,7 @@ public class TowersManager {
     private int generationCount = 0;
 
     /**
-     *Select the two best Gladiators of all the population
+     *Select the two best Towers of all the population
      */
     public void selection() {
 
@@ -21,7 +21,7 @@ public class TowersManager {
     }
 
     /**
-     * Make a children between the best Gladiators
+     * Make a children between the best Towers
      */
     public void crossover() {
         Random rn = new Random();
@@ -50,8 +50,8 @@ public class TowersManager {
     }
 
     /**
-     * Search the best gladiator of the population
-     * @return Gladiator
+     * Search the best tower of the population
+     * @return Tower
      */
     public Towers getFittestOffspring() {
         if (fittest.getFitness() > secondFittest.getFitness()) {
@@ -60,25 +60,8 @@ public class TowersManager {
         return secondFittest;
     }
 
-
     /**
-     * Replace least fittest individual from most fittest
-     */
-    public void addFittestOffspring() {
-
-        //Update fitness values of offspring
-        fittest.calcFitness();
-        secondFittest.calcFitness();
-
-        //Get index of least fit individual
-        int leastFittestIndex = population.getLeastFittestIndex();
-
-        //Replace least fittest individual from most fittest offspring
-        population.getIndividuals()[leastFittestIndex] = getFittestOffspring();
-    }
-
-    /**
-     * Try to mutate a random gladiator with a 20% of chance
+     * Try to mutate a random tower with a 20% of chance
      */
     public void mutation() {
         Random rn = new Random();
@@ -105,6 +88,9 @@ public class TowersManager {
         }
     }
 
+    /**
+     * Fixes the ids of the towers
+     */
     public void updateId(){
         int length = population.getIndividuals().length;
         int i = 0;

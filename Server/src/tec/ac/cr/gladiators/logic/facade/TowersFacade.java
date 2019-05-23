@@ -8,7 +8,7 @@ public class TowersFacade {
     private static ArrayList<Towers> towersList = new ArrayList<>();
 
     /**
-     * Gets the first population of gladiators
+     * Gets the first population of towers
      * @return Initial Population
      */
     public static ArrayList<Towers> initPopulation(){
@@ -19,8 +19,8 @@ public class TowersFacade {
     }
 
     /**
-     * Update Gladiators List with a new generation
-     * @return Gladiator List updated
+     * Update Towers List with a new generation
+     * @return Towers List updated
      */
     public static ArrayList<Towers> updatePopulation(){
         towersManager.getPopulation().calculateFitness();
@@ -33,6 +33,11 @@ public class TowersFacade {
         return towersList;
     }
 
+    /**
+     * Skips a determined number of towers generations.
+     * @param i the number of towers to be skipped.
+     * @return the new population of towers.
+     */
     public static ArrayList<Towers> skipGenerations(int i){
         int y = 0;
         while (y < i-1){
@@ -42,7 +47,7 @@ public class TowersFacade {
         return updatePopulation();
     }
     /**
-     * Receive the Gladiator Array and translate to an Array Lis
+     * Receive the Tower Array and translate to an Array List
      * @param list Array
      * @return ArrayList
      */

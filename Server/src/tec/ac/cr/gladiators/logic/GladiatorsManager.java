@@ -121,23 +121,11 @@ public class GladiatorsManager {
         }
     }
 
-    public void buffLife(){
-        int length = population.getIndividuals().length;
-        int i = 0;
-        int life;
-        while (i < length){
-            life = population.getIndividuals()[i].getResistence();
-            if(life>150){
-                life = 150;
-            }
-            population.getIndividuals()[i].setResistence(life + 5);
-            i++;
-        }
-    }
-
+    /**
+     * Fixes the ids of the gladiators
+     */
     public void updateId(){
         int length = population.getIndividuals().length;
-        //int i = 0;
         for (int i = 0; i < length; i++){
             population.getIndividuals()[i].setId(i);
         }

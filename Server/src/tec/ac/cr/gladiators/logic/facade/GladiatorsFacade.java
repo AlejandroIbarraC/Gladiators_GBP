@@ -35,6 +35,11 @@ public class GladiatorsFacade {
         return gladiatorsList;
     }
 
+    /**
+     * Skips a determined number of gladiators generations.
+     * @param i the number of gladiators to be skipped.
+     * @return the new population of gladiators.
+     */
     public static ArrayList<Gladiators> skipGenerations(int i){
         int y = 0;
         while (y < i - 1){
@@ -44,7 +49,7 @@ public class GladiatorsFacade {
         return updatePopulation();
     }
     /**
-     * Receive the Gladiator Array and translate to an Array Lis
+     * Receive the Gladiator Array and translate to an Array List
      * @param list Array
      * @return ArrayList
      */

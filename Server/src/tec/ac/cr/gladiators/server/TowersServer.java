@@ -11,6 +11,10 @@ import java.util.ArrayList;
 @Path("populations/towers")
 public class TowersServer {
 
+    /**
+     * Initializes the population of towers
+     * @return the arrayList of towers
+     */
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public ArrayList<Towers> generateTowers(){
@@ -21,6 +25,9 @@ public class TowersServer {
         return Holder.towersArrayList;
     }
 
+    /**
+     * Updates the towers population
+     */
     @POST
     @Path("stats")
     public void getTowers(){

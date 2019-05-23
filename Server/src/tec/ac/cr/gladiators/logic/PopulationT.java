@@ -11,7 +11,7 @@ public class PopulationT {
 
 
     /**
-     * Initialize population with size 40
+     * Initialize population with size 209
      */
     public void initializePopulation() {
         for (int i = 0; i < individuals.length; i++) {

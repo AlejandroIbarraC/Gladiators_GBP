@@ -12,6 +12,11 @@ public class Towers {
         this.deaths = deaths;
     }
 
+    /**
+     * Return new Tower with random parameters
+     * @param identification Position in the population
+     * @return tower
+     */
     public static Towers addTowers(int identification) {
         Random rn = new Random();
         Towers tower = new Builder().setIdentification(identification)
@@ -22,6 +27,9 @@ public class Towers {
         return tower;
     }
 
+    /**
+     * Fill the Chromosome of genetic information
+     */
     public void fillGenes() {
         int[] genes = new int[3];
         genes[0] = this.getTypeOfAmmo();
@@ -30,6 +38,9 @@ public class Towers {
         this.setGenes(genes);
     }
 
+    /**
+     * Calculate the fitness for each Tower
+     */
     public void calcFitness() {
         int fit = 0;
         for (int i = 0; i < this.getGenes().length; i++) {
@@ -38,6 +49,9 @@ public class Towers {
         this.setFitness(fit);
     }
 
+    /**
+     * Calculate the Damage for each tower in 0 to 100 scale
+     */
     public void calcDamage(){
         int[] gens = this.genes;
         int total = 0;
@@ -110,6 +124,9 @@ public class Towers {
         this.genes = genes;
     }
 
+    /**
+     * Builder of tower Class
+     */
     public static class Builder {
         private int identification;
         private int typeOfAmmo;
